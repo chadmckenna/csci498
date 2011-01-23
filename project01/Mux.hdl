@@ -31,4 +31,5 @@ CHIP Mux {
 	Or(a=w1, b=w2, out=t1);
 	Or(a=w3, b=w4, out=t2);
 	Or(a=t1, b=t2, out=out);
+	
 }
