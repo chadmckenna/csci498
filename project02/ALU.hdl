@@ -41,5 +41,32 @@ CHIP ALU {
         ng; // 1 if out<0, 0 otherwise
 
     PARTS:
-    // Implementation missing.
+	// Handles zx and nx
+	Not(in=zx, out=notzx);
+	UpConvert16(in=notzx, out=notzx16);
+    And16(a=x, b=notzx16, out=andx);
+	Not16(in=andx, out=notx);
+	Mux16(a=andx, b=notx, sel=nx, out=muxx);
+
+	// Handles zy and ny
+	Not(in=zy, out=notzy);
+	UpConvert16(in=notzy, out=notzy16);
+	And16(a=y, b=notzy16, out=andy);			
+	Not16(in=andy, out=noty);
+	Mux16(a=andy, b=noty, sel=ny, out=muxy);
+	
+	// Handles f
+	Add16(a=muxx, b=muxy, out=xplusy);
+	And16(a=muxx, b=muxy, out=xandy);
+	Mux16(a=xandy, b=xplusy, sel=f, out=muxxy);
+	
+	// Handles no
+	Not16(in=muxxy, out=notmuxxy);
+	Mux16(a=muxxy, b=notmuxxy, sel=no, out=out, out[0..7]=out1, out[8..15]=out2, out[15]=ng);
+	
+	// Handles zr and n
+	Or8Way(in=out1, out=bottomout);
+	Or8Way(in=out2, out=topout);
+	Or(a=bottomout, b=topout, out=orout);
+	Not(in=orout, out=zr);
 }
