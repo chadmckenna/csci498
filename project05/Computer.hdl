@@ -19,5 +19,4 @@ CHIP Computer {
     IN reset;
 
     PARTS:
-    // Implementation missing.
 }

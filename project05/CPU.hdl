@@ -38,27 +38,55 @@ CHIP CPU {
         addressM[15],    // Address in data memory (of M)
         pc[15];          // address of next instruction
 
-    PARTS:	
-	Mux16(a=instruction, b=true, sel=false, out=decodeOut, out[15]=type, out[12]=aBit, out[11]=c1, out[10]=c2, out[9]=c3, out[8]=c4, out[7]=c5, out[6]=c6, out[5]=d1, out[4]=d2, out[3]=d3, out[2]=j1, out[1]=j2, out[0]=j3); // Decoder
+    PARTS:
+/**	
+*	Mux16(a=instruction, b=true, sel=false, out=decodeOut, out[15]=type, out[12]=aBit, out[11]=c1, out[10]=c2, out[9]=c3, out[8]=c4, out[7]=c5, out[6]=c6, out[5]=d1, out[4]=d2, out[3]=d3, out[2]=j1, out[1]=j2, out[0]=j3); // Decoder
+*	
+*	Not(in=type, out=nType);
+*	Mux(a=nType, b=d1, sel=type, out=mType);
+*
+*	Mux(a=type, b=d3, sel=type, out=writeM);
+*	
+*	Mux16(a=decodeOut, b=outM2, sel=instruction[15], out=typeOut);	
+*	
+*	ARegister(in=typeOut, load=mType, out=aOut, out[0..14]=addressM);	// A
+*	DRegister(in=outM2, load=d2, out=dOut);								// D
+*	
+*	Mux16(a=aOut, b=inM, sel=aBit, out=amOut);							// maybe aBit?
+*	
+*	
+*	Or(a=j1, b=j2, out=j1Orj2);
+*	Or(a=j1Orj2, b=j3, out=j12Orj3);
+*	And(a=j12Orj3, b=instruction[15], out=jump);
+*	
+*	PC(in=aOut, load=jump, inc=true, reset=reset, out[0..14]=pc);
+*	ALU(x=dOut, y=amOut, zx=c1, nx=c2, zy=c3, ny=c4, f=c5, no=c6, out=outM, out=outM2);
+*/
+	// 2nd Implementation
+	Mux16(a=instruction, b=aluOut, sel=instruction[15], out=inA);
+	Not(in=instruction[15], out=nType);
+	Or(a=nType, b=instruction[5], out=loadA);
+	ARegister(in=inA, load=loadA, out=outA, out[0..14]=addressM);
 	
-	Not(in=type, out=nType);
-	Mux(a=nType, b=d1, sel=type, out=mType);
-
-	Mux(a=type, b=d3, sel=type, out=writeM);
+	And(a=instruction[15], b=instruction[4], out=loadD);
+	DRegister(in=aluOut, load=loadD, out=outD);
 	
-	Mux16(a=decodeOut, b=outM2, sel=instruction[15], out=typeOut);	
+	And(a=instruction[2], b=ng, out=j1);
+	And(a=instruction[1], b=zr, out=j2);
+	And(a=instruction[0], b=ps, out=j3);
 	
-	ARegister(in=typeOut, load=mType, out=aOut, out[0..14]=addressM);	// A
-	DRegister(in=outM2, load=d2, out=dOut);								// D
+	Or(a=ng, b=zr, out=notps);
+	Not(in=notps, out=ps);
+	Or(a=j1, b=j2, out=j12);
+	Or(a=j12, b=j3, out=jump);
+	And(a=jump, b=instruction[15], out=loadPC);
+	Not(in=loadPC, out=incPC);
+	PC(in=outA, inc=incPC, load=loadPC, reset=reset, out[0..14]=pc);
 	
-	Mux16(a=aOut, b=inM, sel=aBit, out=amOut);							// maybe aBit?
+	Mux16(a=outA, b=inM, sel=instruction[12], out=y);
+	ALU(x=outD, y=y, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=outM, out=aluOut, zr=zr, ng=ng);
 	
+	And(a=instruction[15], b=instruction[3], out=writeM);
 	
-	Or(a=j1, b=j2, out=j1Orj2);
-	Or(a=j1Orj2, b=j3, out=j12Orj3);
-	And(a=j12Orj3, b=instruction[15], out=jump);
-	
-	PC(in=aOut, load=jump, inc=true, reset=reset, out[0..14]=pc);
-	ALU(x=dOut, y=amOut, zx=c1, nx=c2, zy=c3, ny=c4, f=c5, no=c6, out=outM, out=outM2);
 }
 
