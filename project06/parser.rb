@@ -1,4 +1,5 @@
 require 'code.rb'
+require 'symbol_table.rb'
 
 class Parser
   # Reads a file into the parser
@@ -6,6 +7,14 @@ class Parser
     @read_file = Array.new
     file.each_line { |line| @read_file.push(line) }
     @current_line = 0
+    @skipped_line = 0
+    @symbol_table = SymbolTable.new
+  end
+  
+  # Resets the parser (for 2nd pass)
+  def reset
+    @current_line = 0
+    @skipped_line = 0
   end
   
   def get_current_line
@@ -24,8 +33,13 @@ class Parser
   def advance
     if has_more_commands?
       @current_line += 1
-      if @read_file.at(@current_line) =~ /\/\//
-        advance
+      if @read_file.at(@current_line).to_s.index('//') != nil
+        if @read_file.at(@current_line).to_s.index('//') == 0
+          @skipped_line += 1
+          advance
+        else
+          @read_file.at(@current_line)[@read_file.at(@current_line).to_s.index('//')..@read_file.at(@current_line).length] = ''
+        end
       end
     end
   end
@@ -33,13 +47,16 @@ class Parser
   # Returns teh type of the current command.
   # Return is either A_COMMAND, C_COMMAND, or L_COMMAND
   def command_type
-    if @read_file.at(@current_line) =~ /^@/
+    #puts get_current_line
+    if @read_file.at(@current_line).gsub(/\s/, '') =~ /^@/
       'A_COMMAND'
-    elsif @read_file.at(@current_line) =~ /\(|\)/
+    elsif @read_file.at(@current_line).gsub(/\s/, '') =~ /\(|\)/
+      @skipped_line += 1
       'L_COMMAND'
-    elsif @read_file.at(@current_line) =~ /(=|;)/
+    elsif @read_file.at(@current_line).gsub(/\s/, '') =~ /(=|;)/
       'C_COMMAND'
     else
+      @skipped_line += 1
       nil
     end
   end
@@ -49,10 +66,20 @@ class Parser
   # A_COMMAND or L_COMMAND
   def symbol
     if command_type.eql?('A_COMMAND')
-      @read_file.at(@current_line).gsub('@', '').strip
+      if @read_file.at(@current_line) =~ /[a-zA-Z]/
+        @symbol_table.add_a_command_symbol(@read_file.at(@current_line).gsub('@', '').strip)
+        @symbol_table.get_by_symbol(@read_file.at(@current_line).gsub('@', '').strip)
+      else  
+        '%015b' % @read_file.at(@current_line).gsub('@', '').strip
+      end
     elsif command_type.eql?('L_COMMAND')
-      @read_file.at(@current_line).gsub('(', '').gsub(')', '').strip
+      @symbol_table.get_by_symbol(@read_file.at(@current_line).gsub('(', '').gsub(')', '').strip)
     end
+  end
+  
+  # Delegate method that adds a symbol to our symbol_table
+  def add_symbol_to_symbol_table
+    @symbol_table.add_symbol(@read_file.at(@current_line).gsub('(', '').gsub(')', '').strip, @current_line - @skipped_line + 1)
   end
   
   # Returns the dest mnemonic in the current C-command (8 

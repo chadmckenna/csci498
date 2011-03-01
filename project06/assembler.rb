@@ -10,7 +10,7 @@ class Assembler
   def initialize(filename)
     @filename = filename
     @input = File.open(filename, "r")
-    @output = File.new(filename.sub(/.asm/, "") + ".mine" + ".hack", "w")
+    @output = File.new(filename.sub(/.asm/, "") + ".hack", "w")
   end
   
   def write_to_output
@@ -19,19 +19,29 @@ class Assembler
   
   def assemble
     # This is the 1st pass parser
-    
     parser = Parser.new(@input)
+    while(parser.has_more_commands?)
+      command_type = parser.command_type
+      if command_type.eql?('L_COMMAND')
+        parser.add_symbol_to_symbol_table
+      end
+      parser.advance
+    end
+    
+    # This is the 2nd pass parser
+    parser.reset
     while(parser.has_more_commands?)
       binary_command = nil.to_s
       command_type = parser.command_type
       if command_type.eql?('A_COMMAND')
         # A_COMMAND Logic
         binary_command += '0'
-        binary_command += '%015b' % parser.symbol.to_s
-      elsif command_type.eql?('L_COMMAND')
-        # L_COMMAND Logic
-        binary_command += '111'
         binary_command += parser.symbol.to_s
+      elsif command_type.eql?('L_COMMAND')
+        # L_COMMAND Logic - For First Pass ONLY
+        binary_command = nil
+        #binary_command += '111'
+        #binary_command += parser.symbol.to_s
       elsif command_type.eql?('C_COMMAND')
         # C_COMMAND Logic
         binary_command += '111'
