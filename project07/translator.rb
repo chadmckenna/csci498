@@ -1,10 +1,11 @@
 require 'parser.rb'
-require 'erb'
+require 'code_writer.rb'
 
 class Translator
   def initialize(file)
     @input = File.open(file, 'r')
-    @output = File.new(file.sub(/.vm/, "") + ".mine" + ".asm", "w")
+    @output = File.new(file.sub(/.vm/, "") + ".asm", "w")
+    parse
   end
   
   def write_input
@@ -14,6 +15,16 @@ class Translator
   def parse
     parser = Parser.new(@input)
     writer = CodeWriter.new(@output)
+    
+    while(parser.has_more_commands?)
+      command_type = parser.command_type
+      if command_type.eql?('C_ARITHMETIC')
+        writer.write_arithmetic(parser.get_command_arg)
+      else
+        writer.write_push_pop(command_type, parser.arg1, parser.arg2)
+      end
+      parser.advance
+    end
   end
 end
 

@@ -1,0 +1,17 @@
+@7
+D=A
+@push.0
+M=D
+@8
+D=A
+@push.1
+M=D
+@push.0
+D=M
+@push.1
+D=D+M
+@0
+A=M
+M=D
+@0
+M=M+1

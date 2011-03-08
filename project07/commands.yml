@@ -1,4 +1,4 @@
-Arithmetic:
+arithmetic:
     add:        templates/add.erb
     sub:        templates/sub.erb
     neg:        templates/neg.erb
@@ -8,7 +8,7 @@ Arithmetic:
     and:        templates/and.erb
     or:         templates/or.erb
     not:        templates/not.erb
-Push:
+push:
     local:      templates/push_local.erb
     argument:   templates/push_argument.erb
     this:       templates/push_this.erb
@@ -17,7 +17,7 @@ Push:
     temp:       templates/push_temp.erb
     constant:   templates/push_constant.erb
     static:     templates/push_static.erb
-Pop:
+pop:
     local:      templates/pop_local.erb
     argument:   templates/pop_argument.erb
     this:       templates/pop_this.erb
