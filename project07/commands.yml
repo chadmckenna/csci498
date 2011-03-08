@@ -1,0 +1,28 @@
+Arithmetic:
+    add:        templates/add.erb
+    sub:        templates/sub.erb
+    neg:        templates/neg.erb
+    eq:         templates/eq.erb
+    gt:         templates/gt.erb
+    lt:         templates/lt.erb
+    and:        templates/and.erb
+    or:         templates/or.erb
+    not:        templates/not.erb
+Push:
+    local:      templates/push_local.erb
+    argument:   templates/push_argument.erb
+    this:       templates/push_this.erb
+    that:       templates/push_that.erb
+    pointer:    templates/push_pointer.erb
+    temp:       templates/push_temp.erb
+    constant:   templates/push_constant.erb
+    static:     templates/push_static.erb
+Pop:
+    local:      templates/pop_local.erb
+    argument:   templates/pop_argument.erb
+    this:       templates/pop_this.erb
+    that:       templates/pop_that.erb
+    pointer:    templates/pop_pointer.erb
+    temp:       templates/pop_temp.erb
+    constant:   templates/pop_constant.erb
+    static:     templates/pop_static.erb
