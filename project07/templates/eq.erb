@@ -1,7 +1,28 @@
-@push.<%= (counter - 2) %>
+@0
+A=M
+A=A-1
 D=M
-@push.<%= (counter - 1) %>
-D=D+M
-
+A=A-1
+D=D-M
+@TEST.JEQ.<%= counter %>
+D;JEQ
+@0
+M=M-1
+M=M-1
+A=M
+M=0
 @0
 M=M+1
+@TEST.JEQ.EXIT.<%= counter %>
+0;JMP
+(TEST.JEQ.<%= counter %>)
+	@0
+	M=M-1
+	M=M-1
+	A=M
+	M=-1
+	@0
+	M=M+1
+	@TEST.JEQ.EXIT.<%= counter %>
+	0;JMP
+(TEST.JEQ.EXIT.<%= counter %>)

@@ -1,0 +1,223 @@
+@17
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+@17
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+@0
+A=M
+A=A-1
+D=M
+A=A-1
+D=D-M
+@TEST.JEQ.2
+D;JEQ
+@0
+M=M-1
+M=M-1
+A=M
+M=0
+@0
+M=M+1
+@TEST.JEQ.EXIT.2
+0;JMP
+(TEST.JEQ.2)
+	@0
+	M=M-1
+	M=M-1
+	A=M
+	M=-1
+	@0
+	M=M+1
+	@TEST.JEQ.EXIT.2
+	0;JMP
+(TEST.JEQ.EXIT.2)
+@892
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+@891
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+@0
+A=M
+A=A-1
+D=M
+A=A-1
+D=M-D
+@TEST.JLT.5
+D;JLT
+@0
+M=M-1
+M=M-1
+A=M
+M=0
+@0
+M=M+1
+@TEST.JLT.EXIT.5
+0;JMP
+(TEST.JLT.5)
+	@0
+	M=M-1
+	M=M-1
+	A=M
+	M=-1
+	@0
+	M=M+1
+	@TEST.JLT.EXIT.5
+	0;JMP
+(TEST.JLT.EXIT.5)
+@32767
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+@32766
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+@0
+A=M
+A=A-1
+D=M
+A=A-1
+D=M-D
+@TEST.JGT.8
+D;JGT
+@0
+M=M-1
+M=M-1
+A=M
+M=0
+@0
+M=M+1
+@TEST.JGT.EXIT.8
+0;JMP
+(TEST.JGT.8)
+	@0
+	M=M-1
+	M=M-1
+	A=M
+	M=-1
+	@0
+	M=M+1
+	@TEST.JGT.EXIT.8
+	0;JMP
+(TEST.JGT.EXIT.8)
+@56
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+@31
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+@53
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+@0
+A=M
+A=A-1
+D=M
+A=A-1
+D=D+M
+@0
+M=M-1
+M=M-1
+A=M
+M=D
+@0
+M=M+1
+@112
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+@0
+A=M
+A=A-1
+D=M
+A=A-1
+D=M-D
+@0
+M=M-1
+M=M-1
+A=M
+M=D
+@0
+M=M+1
+@0
+A=M
+A=A-1
+D=-M
+@0
+M=M-1
+A=M
+M=D
+@0
+M=M+1
+@0
+A=M
+A=A-1
+D=M
+A=A-1
+D=D&M
+@0
+M=M-1
+M=M-1
+A=M
+M=D
+@0
+M=M+1
+@82
+D=A
+@0
+A=M
+M=D
+@0
+M=M+1
+@0
+A=M
+A=A-1
+D=M
+A=A-1
+D=D|M
+@0
+M=M-1
+M=M-1
+A=M
+M=D
+@0
+M=M+1

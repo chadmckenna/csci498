@@ -1,0 +1,28 @@
+@0
+A=M
+A=A-1
+D=M
+A=A-1
+D=M-D
+@TEST.JLT.<%= counter %>
+D;JLT
+@0
+M=M-1
+M=M-1
+A=M
+M=0
+@0
+M=M+1
+@TEST.JLT.EXIT.<%= counter %>
+0;JMP
+(TEST.JLT.<%= counter %>)
+	@0
+	M=M-1
+	M=M-1
+	A=M
+	M=-1
+	@0
+	M=M+1
+	@TEST.JLT.EXIT.<%= counter %>
+	0;JMP
+(TEST.JLT.EXIT.<%= counter %>)
