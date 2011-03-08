@@ -1,12 +1,19 @@
+require 'parser.rb'
+require 'erb'
+
 class Translator
   def initialize(file)
     @input = File.open(file, 'r')
-    puts file
-    write_input
+    @output = File.new(file.sub(/.vm/, "") + ".mine" + ".asm", "w")
   end
   
   def write_input
     @input.each_line { |line| puts line }
+  end
+  
+  def parse
+    parser = Parser.new(@input)
+    writer = CodeWriter.new(@output)
   end
 end
 
