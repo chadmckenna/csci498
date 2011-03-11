@@ -26,3 +26,9 @@ pop:
     temp:       templates/pop_temp.erb
     constant:   templates/pop_constant.erb
     static:     templates/pop_static.erb
+label:
+    label:      templates/label.erb
+if:
+    if:         templates/if.erb
+goto:
+    goto:       templates/goto.erb

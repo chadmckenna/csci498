@@ -47,4 +47,53 @@ class CodeWriter
     
     inc_counter
   end
+  
+  def write_init
+    
+  end
+  
+  def write_label(label)
+    counter = @counter
+    filename = @templates['label']['label']
+    file = File.read(filename)
+    template = ERB.new(file)
+    completed_template = template.result(binding)
+    @output.write(completed_template)
+    
+    inc_counter
+  end
+  
+  def write_goto(label)
+    counter = @counter
+    filename = @templates['goto']['goto']
+    file = File.read(filename)
+    template = ERB.new(file)
+    completed_template = template.result(binding)
+    @output.write(completed_template)
+    
+    inc_counter
+  end
+  
+  def write_if(label)
+    counter = @counter
+    filename = @templates['if']['if']
+    file = File.read(filename)
+    template = ERB.new(file)
+    completed_template = template.result(binding)
+    @output.write(completed_template)
+    
+    inc_counter
+  end
+  
+  def write_call(name, num_args)
+    
+  end
+  
+  def write_return
+    
+  end
+  
+  def write_function(name, num_locals)
+    
+  end
 end

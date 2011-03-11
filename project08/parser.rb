@@ -49,6 +49,25 @@ class Parser
       @arg1 = @current_command[1]
       @arg2 = @current_command[2]
       return 'C_POP'
+    elsif @current_command[0].eql?('label')
+      @arg1 = @current_command[1]
+      return 'C_LABEL'
+    elsif @current_command[0].eql?('goto')
+      @arg1 = @current_command[1]
+      return 'C_GOTO'
+    elsif @current_command[0].eql?('if-goto')
+      @arg1 = @current_command[1]
+      return 'C_IF'
+    elsif @current_command[0].eql?('function')
+      @arg1 = @current_command[1]
+      @arg2 = @current_command[2]
+      return 'C_FUNCTION'
+    elsif @current_command[0].eql?('return')
+      return 'C_RETURN'
+    elsif @current_command[0].eql?('call')
+      @arg1 = @current_command[1]
+      @arg2 = @current_command[2]
+      return 'C_CALL'
     else
       return 'C_ARITHMETIC'
     end

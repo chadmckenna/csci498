@@ -20,8 +20,22 @@ class Translator
       command_type = parser.command_type
       if command_type.eql?('C_ARITHMETIC')
         writer.write_arithmetic(parser.get_command_arg)
-      else
+      elsif command_type.eql?('C_PUSH') or command_type.eql?('C_POP')
         writer.write_push_pop(command_type, parser.arg1, parser.arg2)
+      elsif command_type.eql?('C_LABEL')
+        writer.write_label(parser.arg1)
+      elsif command_type.eql?('C_GOTO')
+        writer.write_goto(parser.arg1)
+      elsif command_type.eql?('C_IF')
+        writer.write_if(parser.arg1)
+      elsif command_type.eql?('C_FUNCTION')
+        writer.write_function(parser.arg1, parser.arg2)
+      elsif command_type.eql?('C_RETURN')
+        writer.write_return
+      elsif command_type.eql?('C_CALL')
+        writer.write_call(parser.arg1, parser.arg2)
+      else
+        puts 'Invalid command call.'
       end
       parser.advance
     end
