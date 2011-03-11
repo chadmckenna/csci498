@@ -20,6 +20,7 @@ M=D
 @R0
 M=M-1
 // Label
+(LOOP_START)
 @0
 D=A
 @R2
@@ -122,6 +123,12 @@ M=D
 @R0
 M=M+1
 // if-goto
+@R0
+M=M-1
+A=M
+D=M
+@LOOP_START
+D;JNE
 @0
 D=A
 @R1
