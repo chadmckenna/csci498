@@ -90,10 +90,24 @@ class CodeWriter
   end
   
   def write_return
+    counter = @counter
+    filename = @templates['return']['return']
+    file = File.read(filename)
+    template = ERB.new(file)
+    completed_template = template.result(binding)
+    @output.write(completed_template)
     
+    inc_counter
   end
   
   def write_function(name, num_locals)
+    counter = @counter
+    filename = @templates['function']['function']
+    file = File.read(filename)
+    template = ERB.new(file)
+    completed_template = template.result(binding)
+    @output.write(completed_template)
     
+    inc_counter
   end
 end
