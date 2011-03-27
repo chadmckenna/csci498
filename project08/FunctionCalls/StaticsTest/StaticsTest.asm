@@ -22,7 +22,7 @@ M=M+1
 // POP-STATIC
 @0
 D=A
-@16
+@STATIC.VAR.1
 D=D+A
 @POP.STATIC.2
 M=D
@@ -47,7 +47,7 @@ M=M+1
 // POP-STATIC
 @1
 D=A
-@16
+@STATIC.VAR.1
 D=D+A
 @POP.STATIC.4
 M=D
@@ -139,8 +139,8 @@ A=M
 // PUSH-STATIC
 @0
 D=A
-@16
-D=D+A
+@STATIC.VAR.1
+D=D+A                                 
 A=D
 D=M
 @R0
@@ -151,8 +151,8 @@ M=M+1
 // PUSH-STATIC
 @1
 D=A
-@16
-D=D+A
+@STATIC.VAR.1
+D=D+A                                 
 A=D
 D=M
 @R0
@@ -258,7 +258,7 @@ M=M+1
 // POP-STATIC
 @0
 D=A
-@16
+@STATIC.VAR.2
 D=D+A
 @POP.STATIC.14
 M=D
@@ -283,7 +283,7 @@ M=M+1
 // POP-STATIC
 @1
 D=A
-@16
+@STATIC.VAR.2
 D=D+A
 @POP.STATIC.16
 M=D
@@ -375,8 +375,8 @@ A=M
 // PUSH-STATIC
 @0
 D=A
-@16
-D=D+A
+@STATIC.VAR.2
+D=D+A                                 
 A=D
 D=M
 @R0
@@ -387,8 +387,8 @@ M=M+1
 // PUSH-STATIC
 @1
 D=A
-@16
-D=D+A
+@STATIC.VAR.2
+D=D+A                                 
 A=D
 D=M
 @R0

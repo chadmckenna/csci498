@@ -23,6 +23,7 @@ class Translator
     writer.write_init
     
     @inputs.each do |input|
+      writer.increment_class_counter
       input_file = File.open(input, 'r')
       parser = Parser.new(input_file)
     

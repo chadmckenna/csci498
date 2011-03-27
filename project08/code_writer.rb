@@ -8,6 +8,7 @@ class CodeWriter
     @templates = YAML.load_file('commands.yml')
     @counter = 0
     @function_counter = 0
+    @class_counter = 0
   end
   
   # Probably won't be used, but we'll see
@@ -23,6 +24,10 @@ class CodeWriter
     @function_counter += 1
   end
   
+  def increment_class_counter
+    @class_counter += 1
+  end
+  
   def write_arithmetic(command)
     counter = @counter
     filename = @templates['arithmetic'][command]
@@ -36,6 +41,7 @@ class CodeWriter
   
   def write_push_pop(command, segment, index)
     counter = @counter
+    class_counter = @class_counter
     if command.eql?('C_PUSH')
       filename = @templates['push'][segment]
     elsif command.eql?('C_POP')
