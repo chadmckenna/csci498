@@ -1,9 +1,19 @@
-// Function call
+// Function SimpleFunction.test
 (SimpleFunction.test)
-@2
-D=A
-@R0
-M=M+D
+// Initialize all values to zero 
+@SP
+A=M
+M=0
+@SP
+M=M+1
+//
+@SP
+A=M
+M=0
+@SP
+M=M+1
+//
+// PUSH-LCL
 @0
 D=A
 @R1
@@ -14,6 +24,7 @@ A=M
 M=D
 @R0
 M=M+1
+// PUSH-LCL
 @1
 D=A
 @R1
@@ -24,6 +35,7 @@ A=M
 M=D
 @R0
 M=M+1
+// Add function
 @0
 A=M
 A=A-1
@@ -37,6 +49,7 @@ A=M
 M=D
 @0
 M=M+1
+// NOT function
 @0
 A=M
 A=A-1
@@ -47,6 +60,7 @@ A=M
 M=D
 @0
 M=M+1
+// PUSH-ARG
 @0
 D=A
 @R2
@@ -57,6 +71,7 @@ A=M
 M=D
 @R0
 M=M+1
+// Add function
 @0
 A=M
 A=A-1
@@ -70,6 +85,7 @@ A=M
 M=D
 @0
 M=M+1
+// PUSH-ARG
 @1
 D=A
 @R2
@@ -80,6 +96,7 @@ A=M
 M=D
 @R0
 M=M+1
+// SUB function
 @0
 A=M
 A=A-1
@@ -94,54 +111,67 @@ M=D
 @0
 M=M+1
 // Return from function
-@R0
-A=M-1
+// Store LCL in temp (R13)
+@LCL
 D=M
-@R2
-A=M
-M=D
-@R2
-D=M
-@R0
-M=D+1
-
-@R1
-A=M
-D=A
 @R13
 M=D
-@5
-D=A
-@R1
-A=M-D
+// Store the return address in temp (R14)
+@R13
 D=M
+@5
+D=D-A
 @R14
 M=D
+// Pop return value and place at ARG location
+@SP
+D=M-1
+A=D
+D=M
+@ARG
+A=M
+M=D
+@ARG
+D=M+1
+@SP
+M=D
+// Restore THAT of caller
+@R13
+D=M
 @1
-D=A
-@R1
-A=M-D
+D=D-A
+A=D
 D=M
-@R4
+@THAT
 M=D
+// Restore THIS of caller
+@R13
+D=M
 @2
-D=A
-@R1
-A=M-D
+D=D-A
+A=D
 D=M
-@R3
+@THIS
 M=D
+// Restore ARG of caller
+@R13
+D=M
 @3
-D=A
-@R1
-A=M-D
+D=D-A
+A=D
 D=M
-@R2
+@ARG
 M=D
+// Restore LCL of caller
+@R13
+D=M
 @4
-D=A
-@R1
-A=M-D
+D=D-A
+A=D
 D=M
-@R1
+@LCL
 M=D
+// Goto return-address
+@R14
+A=M
+0;JMP

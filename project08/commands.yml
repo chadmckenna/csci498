@@ -36,3 +36,7 @@ function:
     function:   templates/function.erb
 return:
     return:     templates/return.erb
+call:
+    call:       templates/call.erb
+init:
+    init:       templates/init.erb

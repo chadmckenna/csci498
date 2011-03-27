@@ -7,6 +7,7 @@ class CodeWriter
     @output = file
     @templates = YAML.load_file('commands.yml')
     @counter = 0
+    @function_counter = 0
   end
   
   # Probably won't be used, but we'll see
@@ -16,6 +17,10 @@ class CodeWriter
   
   def inc_counter
     @counter += 1
+  end
+  
+  def increment_function_counter
+    @function_counter += 1
   end
   
   def write_arithmetic(command)
@@ -49,7 +54,11 @@ class CodeWriter
   end
   
   def write_init
-    
+    filename = @templates['init']['init']
+    file = File.read(filename)
+    template = ERB.new(file)
+    completed_template = template.result(binding)
+    @output.write(completed_template)
   end
   
   def write_label(label)
@@ -86,7 +95,16 @@ class CodeWriter
   end
   
   def write_call(name, num_args)
+    counter = @counter
+    f_counter = @function_counter
+    filename = @templates['call']['call']
+    file = File.read(filename)
+    template = ERB.new(file)
+    completed_template = template.result(binding)
+    @output.write(completed_template)
     
+    inc_counter
+    increment_function_counter
   end
   
   def write_return

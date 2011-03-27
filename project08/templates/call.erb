@@ -1,0 +1,63 @@
+// Call Function
+// push return-address
+@return_address_<%= f_counter %>
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push LCL
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push ARG
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push THIS
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// push THAT
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// Reposition ARG
+@SP
+D=M
+@ARG
+M=D
+@<%= num_args %>
+D=A
+@ARG
+M=M-D
+@5
+D=A
+@ARG
+M=M-D
+// Reposition LCL
+@SP
+D=M
+@LCL
+M=D
+// Goto <%= name %>
+@<%= name %>
+0;JMP
+(return_address_<%= f_counter %>)

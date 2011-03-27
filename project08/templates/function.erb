@@ -1,6 +1,9 @@
-// Function call
+// Function <%= name %>
 (<%= name %>)
-@<%= num_locals %>
-D=A
-@R0
-M=M+D
+// Initialize all values to zero <% num_locals.to_i.times do |i| %>
+@SP
+A=M
+M=0
+@SP
+M=M+1
+//<% end %>
