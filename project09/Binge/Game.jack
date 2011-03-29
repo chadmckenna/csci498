@@ -3,11 +3,12 @@ class Game{
 
 	field int score;
 	field int level;
+	field String name;
 	
 	constructor Game new() {
 		let score = 0;
 		let level = 0;
-		
+		let name = "";
 		return this;
     }
 	
@@ -15,8 +16,24 @@ class Game{
 		do Memory.deAlloc(this);
 		return;
 	}
-
+	
+	method void setName(){
+		let name = Keyboard.readLine("Please enter your name: ");
+		return;
+	}
+	
+	//Used to check class values
+	method void printValues(){
+		do Output.println();
+		do Output.printInt(score);
+		do Output.printInt(level);
+		do Output.printString(name);
+		do Output.println();
+		return;
+	}
+	
 	method void displayIntro(){
+			//var String enterName = Please enter your name;
 			do Output.printString("Welcome To Drink Up Ya A**holes");
 			do Output.println();
 			do Output.printString("For this game you'll need some cans of beer, whiskey, and a     liqour of your choice");
@@ -26,7 +43,7 @@ class Game{
 			do Output.printString("You are a wizard embarking on a journey to become the wisest wizard of all. You will progess through levels");
 			do Output.printString(" in which you choose an option and preform what ever consequence that option has. After 3 levels you must defeat a 'boss'.");
 			do Output.printString(" The boss levels will consist of a question and set of answers given to you and you must select the correct answer.");
-			
+			do Output.println();
 			return;
 	}
 	

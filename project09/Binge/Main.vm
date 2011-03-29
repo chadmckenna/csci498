@@ -5,6 +5,12 @@ push local 0
 call Game.displayIntro 1
 pop temp 0
 push local 0
+call Game.setName 1
+pop temp 0
+push local 0
+call Game.printValues 1
+pop temp 0
+push local 0
 call Game.dispose 1
 pop temp 0
 push constant 0
