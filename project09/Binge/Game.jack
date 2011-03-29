@@ -17,6 +17,13 @@ class Game{
 		return;
 	}
 	
+	method void run(){
+		do displayIntro();
+		do setName();
+		do printValues();
+		return;
+	
+	}
 	method void setName(){
 		let name = Keyboard.readLine("Please enter your name: ");
 		return;
@@ -36,7 +43,8 @@ class Game{
 			//var String enterName = Please enter your name;
 			do Output.printString("Welcome To Drink Up Ya A**holes");
 			do Output.println();
-			do Output.printString("For this game you'll need some cans of beer, whiskey, and a     liqour of your choice");
+			do Output.println();
+			do Output.printString("For this game you'll need some cans of beer, whiskey, and a     liquor of your choice");
 			do Output.println();
 			do Output.printString("Rules:");
 			do Output.println();

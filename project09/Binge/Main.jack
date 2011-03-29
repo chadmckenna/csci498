@@ -9,9 +9,7 @@ class Main {
 	function void main() {
 		var Game game;
 		let game = Game.new();
-		do game.displayIntro();
-		do game.setName();
-		do game.printValues();
+		do game.run();
 		do game.dispose();
 		
 		return;
