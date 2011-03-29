@@ -1,7 +1,17 @@
+/**
+ *Main file for Drink Up Ya A**holes, a drinking game written in .jack
+ *By Thomas Mesquita and Chad McKenna
+ *CSCI 498 Spring 2011
+**/
+
 class Main {
-	/** This will do hello world */
+
 	function void main() {
-		do Output.printString("Hello World");
+		var Game game;
+		let game = Game.new();
+		do game.displayIntro();
+		do game.dispose();
+		
 		return;
 	}
 }
