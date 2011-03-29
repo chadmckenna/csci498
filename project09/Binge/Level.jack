@@ -1,0 +1,111 @@
+class Level{
+	
+	field int levelNum;
+	
+	constructor Level new(int number){
+		let levelNum = number;
+			
+		return this;	
+	}
+
+	method void dispose(){
+		do Memory.deAlloc(this);
+		return;
+	}
+	
+	method void startLevel(){
+		var int choice;
+		
+		do drawCards();
+		do drawWizard();
+		do Output.moveCursor(20,1);
+		
+		let choice = Keyboard.readInt("Please Enter the number of your choice");
+				
+		return;
+	}
+
+	method void drawCards(){
+		//Draw top row of cards
+		do Screen.drawRectangle(0,0,70,100);
+		do Screen.drawRectangle(80,0,150,100);
+		do Screen.drawRectangle(160,0,230,100);
+		do Screen.drawRectangle(240,0,310,100);
+		
+		do Screen.setColor(false);
+		do Screen.drawRectangle(20,30,50,70);
+		do Screen.drawRectangle(100,30,130,70);
+		do Screen.drawRectangle(180,30,210,70);
+		do Screen.drawRectangle(260,30,290,70);
+		do Screen.setColor(true);
+		
+		//Number the top row of cards
+		do Output.moveCursor(4,4);
+		do Output.printInt(1);
+		do Output.moveCursor(4,14);
+		do Output.printInt(2);
+		do Output.moveCursor(4,24);
+		do Output.printInt(3);
+		do Output.moveCursor(4,34);
+		do Output.printInt(4);
+		
+		//Draw bottom row of cards
+		do Screen.drawRectangle(0,110,70,210);
+		do Screen.drawRectangle(80,110,150,210);
+		do Screen.drawRectangle(160,110,230,210);
+		do Screen.drawRectangle(240,110,310,210);
+		
+		do Screen.setColor(false);
+		do Screen.drawRectangle(20,140,50,180);
+		do Screen.drawRectangle(100,140,130,180);
+		do Screen.drawRectangle(180,140,210,180);
+		do Screen.drawRectangle(260,140,290,180);
+		do Screen.setColor(true);
+		
+		//Number the bottom row of cards
+		do Output.moveCursor(14,4);
+		do Output.printInt(5);
+		do Output.moveCursor(14,14);
+		do Output.printInt(6);
+		do Output.moveCursor(14,24);
+		do Output.printInt(7);
+		do Output.moveCursor(14,34);
+		do Output.printInt(8);
+		
+		return;
+	}
+
+	method void drawWizard(){
+		//Draw Head
+		do Screen.drawCircle(410,50,30);
+		do Screen.setColor(false);
+		do Screen.drawCircle(410,50,25);
+		do Screen.setColor(true);
+		
+		//Draw Body
+		do Screen.drawRectangle(409,80,411,190);
+		
+		//Left Leg
+		do Screen.drawLine(409, 190, 380, 230);
+		do Screen.drawLine(410, 190, 381, 230);
+		do Screen.drawLine(411, 190, 382, 230);
+		
+		//Right Leg
+		do Screen.drawLine(409, 190, 440, 230);
+		do Screen.drawLine(410, 190, 441, 230);
+		do Screen.drawLine(411, 190, 442, 230);
+		
+		//Left Arm
+		do Screen.drawLine(409, 130, 370, 100);
+		do Screen.drawLine(410, 130, 371, 100);
+		do Screen.drawLine(411, 130, 372, 100);
+		
+		//Right Arm
+		do Screen.drawLine(409, 130, 450, 100);
+		do Screen.drawLine(410, 130, 451, 100);
+		do Screen.drawLine(411, 130, 452, 100);
+		
+		return;
+	}
+
+}
