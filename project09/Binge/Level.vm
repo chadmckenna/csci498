@@ -18,7 +18,8 @@ function Level.startLevel 1
 push argument 0
 pop pointer 0
 push pointer 0
-call Level.drawCards 1
+push constant 8
+call Level.drawCards 2
 pop temp 0
 push pointer 0
 call Level.drawWizard 1
@@ -109,92 +110,103 @@ call Keyboard.readInt 1
 pop local 0
 push constant 0
 return
-function Level.drawCards 0
+function Level.drawCards 8
 push argument 0
 pop pointer 0
 push constant 0
+pop local 0
 push constant 0
-push constant 70
-push constant 100
-call Screen.drawRectangle 4
-pop temp 0
+pop local 1
+push argument 1
+push constant 4
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 4
+pop local 1
+goto IF_END0
+label IF_FALSE0
+push argument 1
+pop local 1
+label IF_END0
+label WHILE_EXP0
+push local 0
+push constant 4
+lt
+not
+if-goto WHILE_END0
+push local 0
 push constant 80
+call Math.multiply 2
+pop local 2
+push local 0
+push constant 80
+call Math.multiply 2
+push constant 10
+sub
+pop local 3
 push constant 0
-push constant 150
+pop local 4
 push constant 100
-call Screen.drawRectangle 4
+pop local 5
+push local 0
+call Output.println 1
 pop temp 0
-push constant 160
-push constant 0
-push constant 230
-push constant 100
-call Screen.drawRectangle 4
-pop temp 0
-push constant 240
-push constant 0
-push constant 310
-push constant 100
+push local 2
+push local 4
+push local 3
+push local 5
 call Screen.drawRectangle 4
 pop temp 0
 push constant 0
 call Screen.setColor 1
 pop temp 0
+push local 2
 push constant 20
+add
+pop local 2
+push local 3
+push constant 20
+sub
+pop local 3
 push constant 30
-push constant 50
+pop local 4
 push constant 70
-call Screen.drawRectangle 4
-pop temp 0
-push constant 100
-push constant 30
-push constant 130
-push constant 70
-call Screen.drawRectangle 4
-pop temp 0
-push constant 180
-push constant 30
-push constant 210
-push constant 70
-call Screen.drawRectangle 4
-pop temp 0
-push constant 260
-push constant 30
-push constant 290
-push constant 70
+pop local 5
+push local 2
+push local 4
+push local 3
+push local 5
 call Screen.drawRectangle 4
 pop temp 0
 push constant 0
 not
 call Screen.setColor 1
 pop temp 0
+push local 0
+push constant 10
+call Math.multiply 2
 push constant 4
-push constant 4
-call Output.moveCursor 2
-pop temp 0
+add
+pop local 6
+push local 0
 push constant 1
-call Output.printInt 1
-pop temp 0
+add
+pop local 7
 push constant 4
-push constant 14
+push local 6
 call Output.moveCursor 2
 pop temp 0
-push constant 2
+push local 7
 call Output.printInt 1
 pop temp 0
-push constant 4
-push constant 24
-call Output.moveCursor 2
-pop temp 0
-push constant 3
-call Output.printInt 1
-pop temp 0
-push constant 4
-push constant 34
-call Output.moveCursor 2
-pop temp 0
-push constant 4
-call Output.printInt 1
-pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
 push constant 0
 push constant 110
 push constant 70
