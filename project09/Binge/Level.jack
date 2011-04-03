@@ -1,30 +1,70 @@
 class Level{
 	
 	field int levelNum;
+	field Array consequences;
 	
 	constructor Level new(int number){
 		let levelNum = number;
-			
+		do initArray();	
 		return this;	
 	}
-
+	
+	method void initArray(){
+		let consequences = Array.new(20);
+		let consequences[0] = "Take an extra shot";
+		let consequences[1] = "Do 10 push-ups and shotgun a beer";
+		let consequences[2] = "Shotgun a beer while doing a handstand";
+		let consequences[3] = "Develop a beer n sammich machine";
+		let consequences[4] = "Test4";
+		let consequences[5] = "Test5";
+		let consequences[6] = "Test6";
+		let consequences[7] = "Test7";
+		let consequences[8] = "Test8";
+		let consequences[9] = "Test9";
+		let consequences[10] = "Test11";
+		let consequences[11] = "Test12";
+		let consequences[12] = "Test13";
+		let consequences[13] = "Test14";
+		let consequences[14] = "Test15";
+		let consequences[15] = "Test16";
+		let consequences[16] = "Test17";
+		let consequences[17] = "Test81";
+		let consequences[18] = "Test19";
+		let consequences[19] = "Test20";
+		
+		return;
+	}
 	method void dispose(){
+		do consequences.dispose();
 		do Memory.deAlloc(this);
 		return;
 	}
 	
 	method void startLevel(){
 		var int choice;
+		var int i;
 		
 		do drawCards();
 		do drawWizard();
 		do Output.moveCursor(20,1);
 		
-		let choice = Keyboard.readInt("Please Enter the number of your choice");
-				
+		let choice = Keyboard.readInt("Please Enter the number of your choice: ");
+		while(Keyboard.keyPressed() = true){
+			let i = i+1;
+		}
+		while(i>20){
+			let i = Math.divide(i,20);
+		}
+		do Screen.clearScreen();
+		do Output.moveCursor(0,0);
+		do Output.printString(getConsequence(i));
 		return;
 	}
 
+	method string getConsequence(int num){
+		return consequences[num];
+	}
+		
 	method void drawCards(){
 		//Draw top row of cards
 		do Screen.drawRectangle(0,0,70,100);
