@@ -9,8 +9,13 @@ class Level{
 		return this;	
 	}
 	
+	method void incrementLevel(){
+		let levelNum = levelNum + 1;
+		do Output.printInt(levelNum);
+		return;
+	}
 	method void initArray(){
-		let consequences = Array.new(20);
+		let consequences = Array.new(21);
 		let consequences[0] = "Take an extra shot";
 		let consequences[1] = "Do 10 push-ups and shotgun a beer";
 		let consequences[2] = "Shotgun a beer while doing a handstand";
@@ -31,7 +36,7 @@ class Level{
 		let consequences[17] = "Test81";
 		let consequences[18] = "Test19";
 		let consequences[19] = "Test20";
-		
+		let consequences[20] = "";
 		return;
 	}
 	method void dispose(){
@@ -43,22 +48,38 @@ class Level{
 	method void startLevel(){
 		var int choice;
 		var int i;
+		var int numCards;
+		var int j;
 		
+		let numCards = 8;
+		//let numCards = levelNum * 2;
 
-		do drawCards(8);
+		
+		do drawCards(numCards);
 		do drawWizard();
 		do Output.moveCursor(20,1);
 		
-		let choice = Keyboard.readInt("Please Enter the number of your choice: ");
-		while(Keyboard.keyPressed() = true){
+		do Keyboard.keyPressed();
+		
+		do Output.printString("Please select the number of your choice.");
+		//let choice = Keyboard.readInt("Please Enter the number of your choice: ");
+		
+		while(Keyboard.keyPressed() = 0){
 			let i = i+1;
 		}
-		while(i>20){
+		while(Math.abs(i)>20){
 			let i = Math.divide(i,20);
 		}
+		
+		
 		do Screen.clearScreen();
 		do Output.moveCursor(0,0);
-		do Output.printString(getConsequence(i));
+		do Output.printString(getConsequence(Math.abs(i)));
+		do Output.println();
+		
+		do Keyboard.readInt("Press Enter to continue.");
+		do Screen.clearScreen();
+		
 		return;
 	}
 
