@@ -63,13 +63,29 @@ class Level{
 				do Output.println();
 				do Output.printString("You chose correctly, you get 5 points");
 				let score = score + 5;
-			} else {
+				do Output.println();
+				do Keyboard.readInt("Press Enter to continue.");
+				return;
+			} 
+			if (choice = 2){
 				do Output.println();
 				do Output.printString("FALSE! Take 2 shots!");
+				do Output.println();
+				do Keyboard.readInt("Press Enter to continue.");
+				return;
+			}
+			else {
+				do Output.println();
+				do Output.printString("That wasn't even an option dumbass!! Take 3 shots! That'll learn ya");
+				let score = score - 5;
+				do Output.println();
+				do Keyboard.readInt("Press Enter to continue.");
+				return;
 			}
 			
 			do Output.println();
 			do Keyboard.readInt("Press Enter to continue.");
+			
 		}
 		if (levelNum = 7) {
 			do Screen.clearScreen();
@@ -92,9 +108,24 @@ class Level{
 				do Output.println();
 				do Output.printString("You chose correctly, you get 5 points");
 				let score = score + 5;
-			} else {
 				do Output.println();
-				do Output.printString("You're such a n00b! Chug a beer, take a shot, and do 10 jumping jacks.");
+				do Keyboard.readInt("Press Enter to continue.");
+				return;
+			}
+			if (choice = 2){
+				do Output.println();
+				do Output.printString("FALSE! Take 2 shots!");
+				do Output.println();
+				do Keyboard.readInt("Press Enter to continue.");
+				return;
+			}
+			else {
+				do Output.println();
+				do Output.printString("That wasn't even an option dumbass!! Take 3 shots! That'll learn ya");
+				let score = score - 5;
+				do Output.println();
+				do Keyboard.readInt("Press Enter to continue.");
+				return;
 			}
 			
 			do Output.println();
@@ -121,11 +152,25 @@ class Level{
 				do Output.println();
 				do Output.printString("You chose correctly, you get 5 points");
 				let score = score + 5;
-			} else {
 				do Output.println();
-				do Output.printString("OMG, WHAT AN IDIOT! Line up 3 shots and get after it.");
+				do Keyboard.readInt("Press Enter to continue.");
+				return;
 			}
-			
+			if (choice = 2){
+				do Output.println();
+				do Output.printString("FALSE! Take 2 shots!");
+				do Output.println();
+				do Keyboard.readInt("Press Enter to continue.");
+				return;
+			}
+			else {
+				do Output.println();
+				do Output.printString("That wasn't even an option dumbass!! Take 3 shots! That'll learn ya");
+				let score = score - 5;
+				do Output.println();
+				do Keyboard.readInt("Press Enter to continue.");
+				return;
+			}
 			do Output.println();
 			do Keyboard.readInt("Press Enter to continue.");
 		}
