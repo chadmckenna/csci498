@@ -64,7 +64,7 @@ class Game{
 			do Output.printString("Welcome To Drink Up Ya A**holes");
 			do Output.println();
 			do Output.println();
-			do Output.printString("For this game you'll need some cans of beer, whiskey, and a     liquor of your choice");
+			do Output.printString("For this game you'll need some cans of beer and some whiskey and any other liquor you enjoy consuming.");
 			do Output.println();
 			do Output.printString("Rules:");
 			do Output.println();
