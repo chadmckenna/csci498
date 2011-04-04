@@ -16,7 +16,7 @@ class Level{
 	method void startLevel(){
 		var int choice;
 		
-		do drawCards(8);
+		do drawCards(2);
 		do drawWizard();
 		do Output.moveCursor(20,1);
 		
@@ -32,84 +32,57 @@ class Level{
 		let i = 0;
 		let iter = 0;
 		
-		if (numCards > 4) {
-			let iter = 4;
-		} else {
-			let iter = numCards;
-		}
-		
-		while (i < 4) {
+		while (i < numCards) {
 			//Draw top row of cards	
 			let x1 = i * 80;
-			let x2 = (i * 80) - 10;
-			let y1 = 0;
-			let y2 = 100;
-			//do Output.println(i);
-			do Screen.drawRectangle(x1, y1, x2, y2);
+			let x2 = ((i + 1) * 80) - 10;
 			
-			//do Screen.drawRectangle(0,0,70,100);
-			//do Screen.drawRectangle(80,0,150,100);
-			//do Screen.drawRectangle(160,0,230,100);
-			//do Screen.drawRectangle(240,0,310,100);
+			if (i > 3) {
+				let x1 = (i - 4) * 80;
+				let x2 = (((i - 4) + 1) * 80) - 10;
+				let y1 = 110;
+				let y2 = 210;
+			} else {
+				let x1 = i * 80;
+				let x2 = ((i + 1) * 80) - 10;
+				let y1 = 0;
+				let y2 = 100;
+			}
+	
+			do Screen.drawRectangle(x1, y1, x2, y2);
 		
 			do Screen.setColor(false);
 			
 			let x1 = x1 + 20;
 			let x2 = x2 - 20;
-			let y1 = 30;
-			let y2 = 70;
+			
+			if (i > 3) {
+				let y1 = 140; 
+				let y2 = 180;
+			} else {
+				let y1 = 30;
+				let y2 = 70;
+			}
 		
 			do Screen.drawRectangle(x1, y1, x2, y2);
-			
-			//do Screen.drawRectangle(20,30,50,70);
-			//do Screen.drawRectangle(100,30,130,70);
-			//do Screen.drawRectangle(180,30,210,70);
-			//do Screen.drawRectangle(260,30,290,70);
 			
 			do Screen.setColor(true);
 		
 			//var int cursePos, j;
-			let cursePos = (i * 10) + 4;
 			let j = i + 1;
 			
 			//Number the top row of cards
-			do Output.moveCursor(4, cursePos);
+			if (i > 3) {
+				let cursePos = ((i - 4) * 10) + 4;
+				do Output.moveCursor(14, cursePos);
+			} else {
+				let cursePos = (i * 10) + 4;
+				do Output.moveCursor(4, cursePos);
+			}
 			do Output.printInt(j);
-			
-			//do Output.moveCursor(4,4);
-			//do Output.printInt(1);
-			//do Output.moveCursor(4,14);
-			//do Output.printInt(2);
-			//do Output.moveCursor(4,24);
-			//do Output.printInt(3);
-			//do Output.moveCursor(4,34);
-			//do Output.printInt(4);
 			
 			let i = i + 1;
 		}
-		
-		//Draw bottom row of cards
-		do Screen.drawRectangle(0,110,70,210);
-		do Screen.drawRectangle(80,110,150,210);
-		do Screen.drawRectangle(160,110,230,210);
-		do Screen.drawRectangle(240,110,310,210);
-		
-		do Screen.setColor(false);
-		do Screen.drawRectangle(20,140,50,180);
-		do Screen.drawRectangle(100,140,130,180);
-		do Screen.drawRectangle(180,140,210,180);
-		do Screen.drawRectangle(260,140,290,180);
-		do Screen.setColor(true);
-		
-		//Number the bottom row of cards
-		do Output.moveCursor(14,4);
-		do Output.printInt(5);
-		do Output.moveCursor(14,14);
-		do Output.printInt(6);
-		do Output.moveCursor(14,24);
-		do Output.printInt(7);
-		do Output.moveCursor(14,34);
-		do Output.printInt(8);
 		
 		return;
 	}
