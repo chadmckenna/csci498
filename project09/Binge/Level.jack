@@ -41,6 +41,28 @@ class Level{
 	}
 	
 	method void bossLevel() {
+		if (levelNum = 3) {
+			do Screen.clearScreen();
+			do Output.moveCursor(0, 0);
+			do Output.printString("Question: ");
+			do Output.println();
+			do Output.printString("Does a bear shit in the woods?");
+			do Output.println();
+			do Output.println();
+			do Output.printString("a. Yes");
+			do Output.println();
+			do Output.printString("a. No");
+			do Output.println();
+		
+			do Keyboard.readInt("Press Enter to continue.");
+		}
+		if (levelNum = 7) {
+		
+		}
+		if (levelNum = 11) {
+		
+		}
+		
 		return;
 	}
 	
@@ -81,18 +103,17 @@ class Level{
 		var int bossLevel;
 		var int i;
 		var int j;
+		
+		do Screen.clearScreen();
 
 		let bossLevel = isBossLevel();
 		
 		if (bossLevel) {
-			do Screen.clearScreen();
-			do Output.printString("BOSS LEVEL!");
-			do Keyboard.readInt("Press Enter to continue.");
-			do Screen.clearScreen();
+			do bossLevel();
 		} else {		
 			do drawCards(numCards);
 			do drawWizard();
-			do Output.moveCursor(20,1);
+			do Output.moveCursor(20, 0);
 		
 			do Keyboard.keyPressed();
 		
@@ -200,11 +221,11 @@ class Level{
 		do Screen.clearScreen();
 		do Output.moveCursor(0, 0);
 		do Output.printString("You have reached the end, my wise wizard.");
-		do Output.printString("Many great things have you accomplished and have earned a score of :");
+		do Output.printString("Many great things have you accomplished and have earned a score of : ");
 		do Output.printInt(score);
 		do Output.println();
 		do Output.println();
-		do Output.printString(". How neat is that? Now quit being such a drunk and do something productive with your life.");
+		do Output.printString("How neat is that? Now quit being such a drunk and do something productive with your life.");
 		
 		return;
 	}
