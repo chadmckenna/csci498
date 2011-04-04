@@ -41,6 +41,7 @@ class Level{
 	}
 	
 	method void bossLevel() {
+		var int choice;
 		if (levelNum = 3) {
 			do Screen.clearScreen();
 			do Output.moveCursor(0, 0);
@@ -49,18 +50,84 @@ class Level{
 			do Output.printString("Does a bear shit in the woods?");
 			do Output.println();
 			do Output.println();
-			do Output.printString("a. Yes");
+			do Output.printString("(1) Yes");
 			do Output.println();
-			do Output.printString("a. No");
+			do Output.printString("(2) No");
 			do Output.println();
-		
+			let choice = Keyboard.readInt("Make your selection: ");
+			do Output.println();
+			do Output.printString("You chose choice ");
+			do Output.printInt(choice);
+			
+			if (choice = 1) {
+				do Output.println();
+				do Output.printString("You chose correctly, you get 5 points");
+				let score = score + 5;
+			} else {
+				do Output.println();
+				do Output.printString("FALSE! Take 2 shots!");
+			}
+			
+			do Output.println();
 			do Keyboard.readInt("Press Enter to continue.");
 		}
 		if (levelNum = 7) {
-		
+			do Screen.clearScreen();
+			do Output.moveCursor(0, 0);
+			do Output.printString("Question: ");
+			do Output.println();
+			do Output.printString("Does a bear shit in the woods?");
+			do Output.println();
+			do Output.println();
+			do Output.printString("(1) Yes");
+			do Output.println();
+			do Output.printString("(2) No");
+			do Output.println();
+			let choice = Keyboard.readInt("Make your selection: ");
+			do Output.println();
+			do Output.printString("You chose choice ");
+			do Output.printInt(choice);
+			
+			if (choice = 1) {
+				do Output.println();
+				do Output.printString("You chose correctly, you get 5 points");
+				let score = score + 5;
+			} else {
+				do Output.println();
+				do Output.printString("FALSE! Take 2 shots!");
+			}
+			
+			do Output.println();
+			do Keyboard.readInt("Press Enter to continue.");
 		}
 		if (levelNum = 11) {
-		
+			do Screen.clearScreen();
+			do Output.moveCursor(0, 0);
+			do Output.printString("Question: ");
+			do Output.println();
+			do Output.printString("Does a bear shit in the woods?");
+			do Output.println();
+			do Output.println();
+			do Output.printString("(1) Yes");
+			do Output.println();
+			do Output.printString("(2) No");
+			do Output.println();
+			let choice = Keyboard.readInt("Make your selection: ");
+			do Output.println();
+			do Output.printString("You chose choice ");
+			do Output.printInt(choice);
+			
+			if (choice = 1) {
+				do Output.println();
+				do Output.printString("You chose correctly, you get 5 points");
+				let score = score + 5;
+			} else {
+				do Output.println();
+				do Output.printString("FALSE! Take 2 shots!");
+			}
+			
+			do Output.println();
+			do Keyboard.readInt("Press Enter to continue.");
 		}
 		
 		return;
