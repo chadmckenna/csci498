@@ -38,7 +38,7 @@ class Game{
 		
 		}
 		
-		do level.gameOver();
+		do level.gameOver(name);
 		return;
 	
 	}

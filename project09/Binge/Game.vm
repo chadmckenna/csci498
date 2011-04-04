@@ -112,7 +112,8 @@ pop local 1
 goto WHILE_EXP0
 label WHILE_END0
 push local 0
-call Level.gameOver 1
+push this 2
+call Level.gameOver 2
 pop temp 0
 push constant 0
 return

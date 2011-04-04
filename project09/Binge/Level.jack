@@ -284,15 +284,21 @@ class Level{
 		}
 	}
 
-	method void gameOver() {
+	method void gameOver(String name) {
 		do Screen.clearScreen();
 		do Output.moveCursor(0, 0);
-		do Output.printString("You have reached the end, my wise wizard.");
-		do Output.printString("Many great things have you accomplished and have earned a score of : ");
+		do Output.printString(name);
+		do Output.printString(", you have reached the end, my wise wizard.");
+		do Output.printString("Many great things have you accomplished and you have earned a score of : ");
 		do Output.printInt(score);
 		do Output.println();
 		do Output.println();
 		do Output.printString("How neat is that? Now quit being such a drunk and do something productive with your life.");
+		
+		do Output.println();
+	
+		do Keyboard.readInt("Press Enter to continue.");
+		do Screen.clearScreen();
 		
 		return;
 	}
