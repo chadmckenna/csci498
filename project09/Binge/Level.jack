@@ -51,16 +51,41 @@ class Level{
 			do Output.println();
 			do Output.printString("a. Yes");
 			do Output.println();
-			do Output.printString("a. No");
+			do Output.printString("b. No");
 			do Output.println();
 		
 			do Keyboard.readInt("Press Enter to continue.");
 		}
 		if (levelNum = 7) {
-		
+			do Screen.clearScreen();
+			do Output.moveCursor(0, 0);
+			do Output.printString("Question: ");
+			do Output.println();
+			do Output.printString("What unladden swallow has a higher terminal air speed velocity?");
+			do Output.println();
+			do Output.println();
+			do Output.printString("a. African");
+			do Output.println();
+			do Output.printString("b. European");
+			do Output.println();
+			
+			
+			do Keyboard.readInt("Press Enter to continue.");
 		}
 		if (levelNum = 11) {
-		
+			do Screen.clearScreen();
+			do Output.moveCursor(0, 0);
+			do Output.printString("Question: ");
+			do Output.println();
+			do Output.printString("What's the best way to scam your way onto welfare?");
+			do Output.println();
+			do Output.println();
+			do Output.printString("a. Act like a recovering drug attic taking care of your 'retarded' sister");
+			do Output.println();
+			do Output.printString("a. Become a recovering drug attic");
+			do Output.println();
+						
+			do Keyboard.readInt("Press Enter to continue.");
 		}
 		
 		return;
