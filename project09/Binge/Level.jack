@@ -120,6 +120,9 @@ class Level{
 			
 			let i = i + 1;
 		}
+		
+		return;
+	}
 
 	method string getConsequence(int num){
 		return consequences[num];
