@@ -83,9 +83,6 @@ class Level{
 				return;
 			}
 			
-			do Output.println();
-			do Keyboard.readInt("Press Enter to continue.");
-			
 		}
 		if (levelNum = 7) {
 			do Screen.clearScreen();
@@ -128,8 +125,6 @@ class Level{
 				return;
 			}
 			
-			do Output.println();
-			do Keyboard.readInt("Press Enter to continue.");
 		}
 		if (levelNum = 11) {
 			do Screen.clearScreen();
@@ -171,8 +166,7 @@ class Level{
 				do Keyboard.readInt("Press Enter to continue.");
 				return;
 			}
-			do Output.println();
-			do Keyboard.readInt("Press Enter to continue.");
+
 		}
 		
 		return;
