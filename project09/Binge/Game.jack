@@ -34,13 +34,11 @@ class Game{
 			do level.incrementLevel();
 			do level.startLevel();
 			let gameOver = level.isGameOver();
-		
-		
 		}
 		
 		do level.gameOver(name);
+		do level.dispose();
 		return;
-	
 	}
 	
 	//Get users name from input
