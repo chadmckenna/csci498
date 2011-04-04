@@ -94,7 +94,7 @@ class Level{
 				let score = score + 5;
 			} else {
 				do Output.println();
-				do Output.printString("FALSE! Take 2 shots!");
+				do Output.printString("You're such a n00b! Chug a beer, take a shot, and do 10 jumping jacks.");
 			}
 			
 			do Output.println();
@@ -123,7 +123,7 @@ class Level{
 				let score = score + 5;
 			} else {
 				do Output.println();
-				do Output.printString("FALSE! Take 2 shots!");
+				do Output.printString("OMG, WHAT AN IDIOT! Line up 3 shots and get after it.");
 			}
 			
 			do Output.println();
