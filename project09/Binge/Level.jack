@@ -1,19 +1,49 @@
 class Level{
 	
 	field int levelNum;
+	field int numCards;
+	field int score;
 	field Array consequences;
 	
 	constructor Level new(int number){
 		let levelNum = number;
+		let numCards = 9;
 		do initArray();	
 		return this;	
 	}
 	
 	method void incrementLevel(){
+		var boolean bossLevel;
+		let bossLevel = isBossLevel();
+		
+		if (~(bossLevel)) {
+			let numCards = numCards - 1;
+		}
+		
 		let levelNum = levelNum + 1;
+		let score = score + 1;
 		do Output.printInt(levelNum);
+		
 		return;
 	}
+	
+	method boolean isBossLevel() {
+		if (levelNum = 3) {
+			return true;
+		}
+		if (levelNum = 7) {
+			return true;
+		}
+		if (levelNum = 11) {
+			return true;
+		}
+		return false;
+	}
+	
+	method void bossLevel() {
+		return;
+	}
+	
 	method void initArray(){
 		let consequences = Array.new(21);
 		let consequences[0] = "Take an extra shot";
@@ -39,6 +69,7 @@ class Level{
 		let consequences[20] = "Take a shot (of anything).";
 		return;
 	}
+	
 	method void dispose(){
 		do consequences.dispose();
 		do Memory.deAlloc(this);
@@ -47,38 +78,46 @@ class Level{
 	
 	method void startLevel(){
 		var int choice;
+		var int bossLevel;
 		var int i;
-		var int numCards;
 		var int j;
-		
-		let numCards = 8;
-		//let numCards = levelNum * 2;
 
+		let bossLevel = isBossLevel();
 		
-		do drawCards(numCards);
-		do drawWizard();
-		do Output.moveCursor(20,1);
+		if (bossLevel) {
+			do Screen.clearScreen();
+			do Output.printString("BOSS LEVEL!");
+			do Keyboard.readInt("Press Enter to continue.");
+			do Screen.clearScreen();
+		} else {		
+			do drawCards(numCards);
+			do drawWizard();
+			do Output.moveCursor(20,1);
 		
-		do Keyboard.keyPressed();
+			do Keyboard.keyPressed();
 		
-		do Output.printString("Please select the number of your choice.");
-		//let choice = Keyboard.readInt("Please Enter the number of your choice: ");
+			do Output.printString("Current level: ");
+			do Output.printInt(levelNum);
+			do Output.println();
+			do Output.printString("Please select the number of your choice.");
+			//let choice = Keyboard.readInt("Please Enter the number of your choice: ");
 		
-		while(Keyboard.keyPressed() = 0){
-			let i = i+1;
+			while(Keyboard.keyPressed() = 0){
+				let i = i+1;
+			}
+			while(Math.abs(i)>20){
+				let i = Math.divide(i,20);
+			}
+		
+		
+			do Screen.clearScreen();
+			do Output.moveCursor(0,0);
+			do Output.printString(getConsequence(Math.abs(i)));
+			do Output.println();
+		
+			do Keyboard.readInt("Press Enter to continue.");
+			do Screen.clearScreen();
 		}
-		while(Math.abs(i)>20){
-			let i = Math.divide(i,20);
-		}
-		
-		
-		do Screen.clearScreen();
-		do Output.moveCursor(0,0);
-		do Output.printString(getConsequence(Math.abs(i)));
-		do Output.println();
-		
-		do Keyboard.readInt("Press Enter to continue.");
-		do Screen.clearScreen();
 		
 		return;
 	}
@@ -148,7 +187,28 @@ class Level{
 	method string getConsequence(int num){
 		return consequences[num];
 	}
+	
+	method boolean isGameOver() {
+		if (levelNum = 11) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
+	method void gameOver() {
+		do Screen.clearScreen();
+		do Output.moveCursor(0, 0);
+		do Output.printString("You have reached the end, my wise wizard.");
+		do Output.printString("Many great things have you accomplished and have earned a score of :");
+		do Output.printInt(score);
+		do Output.println();
+		do Output.println();
+		do Output.printString(". How neat is that? Now quit being such a drunk and do something productive with your life.");
+		
+		return;
+	}
+	
 	method void drawWizard(){
 		//Draw Head
 		do Screen.drawCircle(410,50,30);

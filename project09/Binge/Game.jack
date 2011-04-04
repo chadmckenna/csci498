@@ -33,11 +33,12 @@ class Game{
 		while(~gameOver){
 			do level.incrementLevel();
 			do level.startLevel();
-		
+			let gameOver = level.isGameOver();
 		
 		
 		}
 		
+		do level.gameOver();
 		return;
 	
 	}
