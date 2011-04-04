@@ -28,11 +28,15 @@ class Game{
 		do Screen.clearScreen();
 		
 		let level = Level.new(levelNum);
-		do level.startLevel();
+		//do level.startLevel();
 		
-		//while(~gameOver){
-		//	if
-		//}
+		while(~gameOver){
+			do level.incrementLevel();
+			do level.startLevel();
+		
+		
+		
+		}
 		
 		return;
 	
