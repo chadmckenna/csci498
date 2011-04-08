@@ -172,6 +172,7 @@ class Level{
 		return;
 	}
 	
+	//Create the pool of consequences for the game to chose from
 	method void initArray(){
 		let consequences = Array.new(21);
 		let consequences[0] = "Take an extra shot";
@@ -221,22 +222,22 @@ class Level{
 			do drawWizard();
 			do Output.moveCursor(20, 0);
 		
-			do Keyboard.keyPressed();
-		
+	
 			do Output.printString("Current level: ");
 			do Output.printInt(levelNum);
 			do Output.println();
 			do Output.printString("Please select the number of your choice.");
-			//let choice = Keyboard.readInt("Please Enter the number of your choice: ");
-		
+			
+			//Generate a psuedo random number based on the amount of time between a keystroke
 			while(Keyboard.keyPressed() = 0){
 				let i = i+1;
 			}
+			//Keep the number within the bounds of the array of consequences
 			while(Math.abs(i)>20){
 				let i = Math.divide(i,20);
 			}
 		
-		
+			//Display the consequence and continue the game on keypress
 			do Screen.clearScreen();
 			do Output.moveCursor(0,0);
 			do Output.printString(getConsequence(Math.abs(i)));
@@ -248,7 +249,7 @@ class Level{
 		
 		return;
 	}
-
+	
 	method void drawCards(int numCards){
 		var int i, iter;
 		var int x1, x2, y1, y2;
@@ -322,7 +323,8 @@ class Level{
 			return false;
 		}
 	}
-
+	
+	//Displays the conclusion screen
 	method void gameOver(String name) {
 		do Screen.clearScreen();
 		do Output.moveCursor(0, 0);
