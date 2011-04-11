@@ -7,13 +7,14 @@ class JackTokenizer
   def initialize(file)
   	@readFile = Array.new
     file.each_line do |line| 
-      unless line.to_s.index(/(\/\*[^*]*\*+(?:[^*\/][^*]*\*+)*\/)|(\/\/.*$)/).eql? nil
-        line[line.to_s.index(/(\/\*[^*]*\*+(?:[^*\/][^*]*\*+)*\/)|(\/\/.*$)/).to_i..line.to_s.length()] = ''
+      unless line.to_s.index(/((\/\*[^*]*\*\s*\S*)|(\s*[*]+\s*\S*))|(\s*\/\/.*$)/).eql? nil
+	#puts line
+	line[line.to_s.index(/(\/\*[^*]*\*+(?:[^*\/][^*]*\*+)*\/)|(\s*\/\/.*$)/).to_i..line.to_s.length()-1] = ''
       end
       @readFile.push(line.lstrip)
     end
     @readFile.delete('')
-    #puts @readFile
+    puts @readFile
     @currentLine = 0
     @currentToken = ""
     @charPosition = 0
@@ -27,10 +28,16 @@ class JackTokenizer
    	@currentToken = ""
   	@hasMore = true
    	while @hasMore
-  		@currentToken += @readFile[@currentLine][@charPosition].chr
-   		if(SYMBOLS.include?(@currentToken))
+  		@currentToken += @readFile[@currentLine][@charPosition].chr		
+		if(SYMBOLS.include?(@currentToken))
    			@hasMore = false
    		end
+		if(@charPosition == @readFile[@currentLine].length-1)
+			@hasMore = false
+			@currentLine += 1
+			@charPosition = 0
+			break
+		end
   		if(@currentToken.eql?("\""))
    			until (@readFile[@currentLine][@charPosition+1].chr.eql?("\""))
    				@charPosition += 1
