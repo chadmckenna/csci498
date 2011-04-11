@@ -88,8 +88,8 @@ class JackAnalyzer
         # Do something in CompEngine
       elsif token_type.eql?('STRING_CONST')
         string_val = tokenizer.string_val
-        string_val.gsub("\"", "&quot;")
-        string_val.gsub("&", "&amp;")
+        string_val.gsub!(/&/, "&amp;")
+        string_val.gsub!(/\"/, "")
         @output.write("<stringConstant> " + string_val + " </stringConstant>\n")
         # Do something in CompEngine
       else

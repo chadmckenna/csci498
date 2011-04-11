@@ -13,7 +13,7 @@ class JackTokenizer
       @readFile.push(line.lstrip)
     end
     @readFile.delete('')
-    puts @readFile
+    #puts @readFile
     @currentLine = 0
     @currentToken = ""
     @charPosition = 0
