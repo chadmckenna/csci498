@@ -1,6 +1,6 @@
 class JackTokenizer
 
-  KEYWORDS = ["CLASS", "CONSTURCTOR", "FUNCTION", "METHOD", "FIELD", "STATIC", "VAR", "INT", "CHAR", "BOOLEAN", "VOID", "TRUE", "FALSE", "NULL", "THIS",
+  KEYWORDS = ["CLASS", "CONSTRUCTOR", "FUNCTION", "METHOD", "FIELD", "STATIC", "VAR", "INT", "CHAR", "BOOLEAN", "VOID", "TRUE", "FALSE", "NULL", "THIS",
     "LET", "DO", "IF", "ELSE", "WHILE", "RETURN"]
   SYMBOLS = ["{", "}", "(", ")", "[", "]", ".", ",", ";", "+", "-", "*", "/", "&", "|", "<", ">", "=", "~"]
 	
@@ -13,7 +13,7 @@ class JackTokenizer
       @readFile.push(line.lstrip)
     end
     @readFile.delete('')
-    puts @readFile
+    #puts @readFile
     @currentLine = 0
     @currentToken = ""
     @charPosition = 0
@@ -61,17 +61,17 @@ class JackTokenizer
   end
   
   def token_type
- 	if KEYWORDS.include?(@currentToken.upcase)
- 		return "KEYWORD"
- 	elsif SYMBOLS.include?(@currentToken)
- 		return "SYMBOL"
- 	elsif @currentToken.is_a?(Integer)
- 		return "INT_CONST"	
- 	elsif @currentToken=~ (/"(\S*\s*)"/)
- 		return "STRING_CONST"
- 	else
- 		return "IDENTIFIER"
- 	end
+   	if KEYWORDS.include?(@currentToken.upcase)
+   		return "KEYWORD"
+   	elsif SYMBOLS.include?(@currentToken)
+   		return "SYMBOL"
+   	elsif @currentToken.is_a?(Integer)
+   		return "INT_CONST"	
+   	elsif @currentToken=~ (/"(\S*\s*)"/)
+   		return "STRING_CONST"
+   	else
+   		return "IDENTIFIER"
+   	end
   end
   
   def key_word

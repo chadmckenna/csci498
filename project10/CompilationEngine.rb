@@ -1,10 +1,16 @@
 class CompilationEngine
   def initialize(output)
     @output = output
+    @output.write("<tokens>\n")
+  end
+  
+  def close
+    @output.write("</tokens>\n")
+    @output.close
   end
   
   def compile_class
-    @output.write('Class')
+    @output.write('<keyword> class </keyword>\n')
   end
   
   def compile_class_var_dec
