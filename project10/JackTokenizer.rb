@@ -101,7 +101,7 @@ class JackTokenizer
   
   def string_val
   	if token_type.eql?("STRING_CONST")
-  		return @currentToken#[1..(@currentToken.length-2)]
+  		return @currentToken[1..(@currentToken.length-2)]
   	end
   end
 end
