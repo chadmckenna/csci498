@@ -1,5 +1,4 @@
 <tokens>
-<identifier>  </identifier>
 <keyword> class </keyword>
 <identifier> Main </identifier>
 <symbol> { </symbol>
@@ -39,7 +38,8 @@
 <identifier> Array </identifier>
 <symbol> . </symbol>
 <identifier> new </identifier>
-<identifier> (length </identifier>
+<symbol> ( </symbol>
+<identifier> length </identifier>
 <symbol> ) </symbol>
 <symbol> ; </symbol>
 <keyword> let </keyword>
@@ -48,14 +48,16 @@
 <identifier> 0 </identifier>
 <symbol> ; </symbol>
 <keyword> while </keyword>
-<identifier> (i </identifier>
+<symbol> ( </symbol>
+<identifier> i </identifier>
 <symbol> &lt; </symbol>
 <identifier> length </identifier>
 <symbol> ) </symbol>
 <symbol> { </symbol>
 <keyword> let </keyword>
 <identifier> a </identifier>
-<identifier> [i </identifier>
+<symbol> [ </symbol>
+<identifier> i </identifier>
 <symbol> ] </symbol>
 <symbol> = </symbol>
 <identifier> Keyboard </identifier>
@@ -84,7 +86,8 @@
 <identifier> 0 </identifier>
 <symbol> ; </symbol>
 <keyword> while </keyword>
-<identifier> (i </identifier>
+<symbol> ( </symbol>
+<identifier> i </identifier>
 <symbol> &lt; </symbol>
 <identifier> length </identifier>
 <symbol> ) </symbol>
@@ -95,7 +98,8 @@
 <identifier> sum </identifier>
 <symbol> + </symbol>
 <identifier> a </identifier>
-<identifier> [i </identifier>
+<symbol> [ </symbol>
+<identifier> i </identifier>
 <symbol> ] </symbol>
 <symbol> ; </symbol>
 <keyword> let </keyword>
@@ -118,7 +122,8 @@
 <identifier> Output </identifier>
 <symbol> . </symbol>
 <identifier> printInt </identifier>
-<identifier> (sum </identifier>
+<symbol> ( </symbol>
+<identifier> sum </identifier>
 <symbol> / </symbol>
 <identifier> length </identifier>
 <symbol> ) </symbol>
@@ -132,5 +137,6 @@
 <symbol> ; </symbol>
 <keyword> return </keyword>
 <symbol> ; </symbol>
+<symbol> } </symbol>
 <symbol> } </symbol>
 </tokens>

@@ -20,7 +20,7 @@ class JackTokenizer
   end
   
   def has_more_tokens?
-  	@currentLine != @readFile.length
+  	@currentLine < @readFile.length
   end
   
   def advance

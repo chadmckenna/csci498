@@ -19,6 +19,7 @@ class JackAnalyzer
     #compiler = CompilationEngine.new(@output)
     @output.write("<tokens>\n")
     while (tokenizer.has_more_tokens?)
+      tokenizer.advance
       token_type = tokenizer.token_type
       if token_type.eql?('KEYWORD')
         key_word = tokenizer.key_word
@@ -94,7 +95,7 @@ class JackAnalyzer
       else
         puts 'Invalid token call.'
       end
-      tokenizer.advance
+      #tokenizer.advance
     end
     #compiler.close
     @output.write("</tokens>\n")
