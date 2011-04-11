@@ -66,7 +66,7 @@ class JackTokenizer
    		return "KEYWORD"
    	elsif SYMBOLS.include?(@currentToken)
    		return "SYMBOL"
-   	elsif @currentToken.is_a?(Integer)
+   	elsif @currentToken=~(/^[\d]+(\.[\d]+){0,1}$/)
    		return "INT_CONST"	
    	elsif @currentToken=~ (/"(\S*\s*)"/)
    		return "STRING_CONST"
