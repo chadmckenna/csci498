@@ -76,22 +76,32 @@ class JackTokenizer
   end
   
   def key_word
-    
+    if token_type.eql?("KEYWORD")
+    	return @currentToken
+    end
   end
   
   def symbol
-  	
+  	if token_type.eql?("SYMBOL")
+  		return @currentToken
+  	end
   end
   
   def identifier
-  	
+  	 if token_type.eql?("IDENTIFIER")
+  		return @currentToken
+  	end
   end
   
   def int_val
-  	
+  	if token_type.eql?("INT_CONST")
+  		return @currentToken
+  	end
   end
   
   def string_val
-  
+  	if token_type.eql?("STRING_CONST")
+  		return @currentToken[1..(@currentToken-2)]
+  	end
   end
 end
