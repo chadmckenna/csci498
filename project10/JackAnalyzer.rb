@@ -16,7 +16,7 @@ class JackAnalyzer
   def tokenize
     # Tokenize code goes here
     tokenizer = JackTokenizer.new(@input)
-    compiler = CompilationEngine(@output)
+    compiler = CompilationEngine.new(@output)
     while (tokenizer.has_more_tokens?)
       token_type = tokenizer.token_type
       if token_type.eql?('KEYWORD')

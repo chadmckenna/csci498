@@ -1,6 +1,7 @@
 class JackTokenizer
 
-  KEYWORDS = ["CLASS", "CONSTURCTOR", "FUNCTION", "METHOD", "FIELD", "STATIC", "VAR", "INT", "CHAR", "BOOLEAN", "VOID", "TRUE", "FALSE", "NULL", "THIS",               "LET", "DO", "IF", "ELSE", "WHILE", "RETURN"]
+  KEYWORDS = ["CLASS", "CONSTURCTOR", "FUNCTION", "METHOD", "FIELD", "STATIC", "VAR", "INT", "CHAR", "BOOLEAN", "VOID", "TRUE", "FALSE", "NULL", "THIS",
+    "LET", "DO", "IF", "ELSE", "WHILE", "RETURN"]
   SYMBOLS = ["{", "}", "(", ")", "[", "]", ".", ",", ";", "+", "-", "*", "/", "&", "|", "<", ">", "=", "~"]
 	
   def initialize(file)
@@ -35,6 +36,8 @@ class JackTokenizer
    				@charPosition += 1
    				@currentToken += @readFile[@currentLine][@charPosition].chr
    			end
+   			@charPosition += 1
+   			@currentToken += @readFile[@currentLine][@charPosition].chr
 			@hasMore = false 
   		elsif(@readFile[@currentLine][@charPosition+1].chr.eql?(" ")) then
    			until(!@readFile[@currentLine][@charPosition+1].chr.eql?(" "))

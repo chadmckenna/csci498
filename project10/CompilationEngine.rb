@@ -1,5 +1,5 @@
-def CompilationEngine
-  initialize(output)
+class CompilationEngine
+  def initialize(output)
     @output = output
   end
   
