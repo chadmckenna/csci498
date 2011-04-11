@@ -68,7 +68,7 @@ class JackTokenizer
    		return "SYMBOL"
    	elsif @currentToken=~(/^[\d]+(\.[\d]+){0,1}$/)
    		return "INT_CONST"	
-   	elsif @currentToken=~ (/"(\S*\s*)"/)
+   	elsif @currentToken=~(/\"(\S*\s*)*\"/)
    		return "STRING_CONST"
    	else
    		return "IDENTIFIER"
@@ -101,7 +101,7 @@ class JackTokenizer
   
   def string_val
   	if token_type.eql?("STRING_CONST")
-  		return @currentToken[1..(@currentToken.length-2)]
+  		return @currentToken#[1..(@currentToken.length-2)]
   	end
   end
 end
