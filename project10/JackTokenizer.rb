@@ -38,7 +38,7 @@ class JackTokenizer
    			end
    			@charPosition += 1
    			@currentToken += @readFile[@currentLine][@charPosition].chr
-			@hasMore = false 
+			  @hasMore = false 
   		elsif(@readFile[@currentLine][@charPosition+1].chr.eql?(" ")) then
    			until(!@readFile[@currentLine][@charPosition+1].chr.eql?(" "))
    				@charPosition += 1
