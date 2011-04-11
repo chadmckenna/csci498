@@ -1,6 +1,6 @@
 class JackTokenizer
 
-  KEYWORDS = ["CLASS", "CONSTRUCTOR", "FUNCTION", "METHOD", "FIELD", "STATIC", "VAR", "INT", "CHAR", "BOOLEAN", "VOID", "TRUE", "FALSE", "NULL", "THIS",
+  KEYWORDS = ["CLASS", "CONSTURCTOR", "FUNCTION", "METHOD", "FIELD", "STATIC", "VAR", "INT", "CHAR", "BOOLEAN", "VOID", "TRUE", "FALSE", "NULL", "THIS",
     "LET", "DO", "IF", "ELSE", "WHILE", "RETURN"]
   SYMBOLS = ["{", "}", "(", ")", "[", "]", ".", ",", ";", "+", "-", "*", "/", "&", "|", "<", ">", "=", "~"]
 	
@@ -13,7 +13,7 @@ class JackTokenizer
       @readFile.push(line.lstrip)
     end
     @readFile.delete('')
-    #puts @readFile
+    puts @readFile
     @currentLine = 0
     @currentToken = ""
     @charPosition = 0
@@ -28,7 +28,7 @@ class JackTokenizer
   	@hasMore = true
    	while @hasMore
   		@currentToken += @readFile[@currentLine][@charPosition].chr
-   		if(@currentToken.eql?("."))
+   		if(SYMBOLS.include?(@currentToken))
    			@hasMore = false
    		end
   		if(@currentToken.eql?("\""))
@@ -38,7 +38,7 @@ class JackTokenizer
    			end
    			@charPosition += 1
    			@currentToken += @readFile[@currentLine][@charPosition].chr
-			  @hasMore = false 
+			@hasMore = false 
   		elsif(@readFile[@currentLine][@charPosition+1].chr.eql?(" ")) then
    			until(!@readFile[@currentLine][@charPosition+1].chr.eql?(" "))
    				@charPosition += 1
@@ -46,6 +46,7 @@ class JackTokenizer
   			@hasMore = false
    		elsif(SYMBOLS.include?(@readFile[@currentLine][@charPosition+1].chr))
    			@hasMore = false
+   			#puts @readFile[@currentLine][@charPosition+1].chr
    		elsif(@readFile[@currentLine][@charPosition+1].chr.eql?("\""))
    			@hasMore = false
   		elsif(@readFile[@currentLine][@charPosition+1].chr.eql?("\n")) then
@@ -67,10 +68,9 @@ class JackTokenizer
    		return "SYMBOL"
    	elsif @currentToken.is_a?(Integer)
    		return "INT_CONST"	
-   	elsif @currentToken =~ /"(\S*\s*)"/
+   	elsif @currentToken=~ (/"(\S*\s*)"/)
    		return "STRING_CONST"
    	else
-   	  puts @currentToken
    		return "IDENTIFIER"
    	end
   end
