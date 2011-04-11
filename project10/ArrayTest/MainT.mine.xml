@@ -1,132 +1,132 @@
 <tokens>
-<identifier> </identifier>
+<identifier>  </identifier>
 <keyword> class </keyword>
-<identifier> Main</identifier>
+<identifier> Main </identifier>
 <symbol> { </symbol>
 <keyword> function </keyword>
 <keyword> void </keyword>
-<identifier> main</identifier>
+<identifier> main </identifier>
 <symbol> ( </symbol>
 <symbol> ) </symbol>
 <symbol> { </symbol>
 <keyword> var </keyword>
-<identifier> Array</identifier>
-<identifier> a</identifier>
+<identifier> Array </identifier>
+<identifier> a </identifier>
 <symbol> ; </symbol>
 <keyword> var </keyword>
 <keyword> int </keyword>
-<identifier> length</identifier>
+<identifier> length </identifier>
 <symbol> ; </symbol>
 <keyword> var </keyword>
 <keyword> int </keyword>
-<identifier> i</identifier>
+<identifier> i </identifier>
 <symbol> , </symbol>
-<identifier> sum</identifier>
+<identifier> sum </identifier>
 <symbol> ; </symbol>
 <keyword> let </keyword>
-<identifier> length</identifier>
+<identifier> length </identifier>
 <symbol> = </symbol>
-<identifier> Keyboard</identifier>
+<identifier> Keyboard </identifier>
 <symbol> . </symbol>
-<identifier> readInt</identifier>
+<identifier> readInt </identifier>
 <symbol> ( </symbol>
-<identifier> "HOW MANY NUMBERS? "</identifier>
+<identifier> "HOW MANY NUMBERS? " </identifier>
 <symbol> ) </symbol>
 <symbol> ; </symbol>
 <keyword> let </keyword>
-<identifier> a</identifier>
+<identifier> a </identifier>
 <symbol> = </symbol>
-<identifier> Array</identifier>
+<identifier> Array </identifier>
 <symbol> . </symbol>
-<identifier> new</identifier>
-<identifier> (length</identifier>
+<identifier> new </identifier>
+<identifier> (length </identifier>
 <symbol> ) </symbol>
 <symbol> ; </symbol>
 <keyword> let </keyword>
-<identifier> i</identifier>
+<identifier> i </identifier>
 <symbol> = </symbol>
-<identifier> 0</identifier>
+<identifier> 0 </identifier>
 <symbol> ; </symbol>
 <keyword> while </keyword>
-<identifier> (i</identifier>
-<symbol> < </symbol>
-<identifier> length</identifier>
+<identifier> (i </identifier>
+<symbol> &lt; </symbol>
+<identifier> length </identifier>
 <symbol> ) </symbol>
 <symbol> { </symbol>
 <keyword> let </keyword>
-<identifier> a</identifier>
-<identifier> [i</identifier>
+<identifier> a </identifier>
+<identifier> [i </identifier>
 <symbol> ] </symbol>
 <symbol> = </symbol>
-<identifier> Keyboard</identifier>
+<identifier> Keyboard </identifier>
 <symbol> . </symbol>
-<identifier> readInt</identifier>
+<identifier> readInt </identifier>
 <symbol> ( </symbol>
-<identifier> "ENTER THE NEXT NUMBER: "</identifier>
+<identifier> "ENTER THE NEXT NUMBER: " </identifier>
 <symbol> ) </symbol>
 <symbol> ; </symbol>
 <keyword> let </keyword>
-<identifier> i</identifier>
+<identifier> i </identifier>
 <symbol> = </symbol>
-<identifier> i</identifier>
+<identifier> i </identifier>
 <symbol> + </symbol>
-<identifier> 1</identifier>
+<identifier> 1 </identifier>
 <symbol> ; </symbol>
 <symbol> } </symbol>
 <keyword> let </keyword>
-<identifier> i</identifier>
+<identifier> i </identifier>
 <symbol> = </symbol>
-<identifier> 0</identifier>
+<identifier> 0 </identifier>
 <symbol> ; </symbol>
 <keyword> let </keyword>
-<identifier> sum</identifier>
+<identifier> sum </identifier>
 <symbol> = </symbol>
-<identifier> 0</identifier>
+<identifier> 0 </identifier>
 <symbol> ; </symbol>
 <keyword> while </keyword>
-<identifier> (i</identifier>
-<symbol> < </symbol>
-<identifier> length</identifier>
+<identifier> (i </identifier>
+<symbol> &lt; </symbol>
+<identifier> length </identifier>
 <symbol> ) </symbol>
 <symbol> { </symbol>
 <keyword> let </keyword>
-<identifier> sum</identifier>
+<identifier> sum </identifier>
 <symbol> = </symbol>
-<identifier> sum</identifier>
+<identifier> sum </identifier>
 <symbol> + </symbol>
-<identifier> a</identifier>
-<identifier> [i</identifier>
+<identifier> a </identifier>
+<identifier> [i </identifier>
 <symbol> ] </symbol>
 <symbol> ; </symbol>
 <keyword> let </keyword>
-<identifier> i</identifier>
+<identifier> i </identifier>
 <symbol> = </symbol>
-<identifier> i</identifier>
+<identifier> i </identifier>
 <symbol> + </symbol>
-<identifier> 1</identifier>
+<identifier> 1 </identifier>
 <symbol> ; </symbol>
 <symbol> } </symbol>
 <keyword> do </keyword>
-<identifier> Output</identifier>
+<identifier> Output </identifier>
 <symbol> . </symbol>
-<identifier> printString</identifier>
+<identifier> printString </identifier>
 <symbol> ( </symbol>
-<identifier> "THE AVERAGE IS: "</identifier>
+<identifier> "THE AVERAGE IS: " </identifier>
 <symbol> ) </symbol>
 <symbol> ; </symbol>
 <keyword> do </keyword>
-<identifier> Output</identifier>
+<identifier> Output </identifier>
 <symbol> . </symbol>
-<identifier> printInt</identifier>
-<identifier> (sum</identifier>
+<identifier> printInt </identifier>
+<identifier> (sum </identifier>
 <symbol> / </symbol>
-<identifier> length</identifier>
+<identifier> length </identifier>
 <symbol> ) </symbol>
 <symbol> ; </symbol>
 <keyword> do </keyword>
-<identifier> Output</identifier>
+<identifier> Output </identifier>
 <symbol> . </symbol>
-<identifier> println</identifier>
+<identifier> println </identifier>
 <symbol> ( </symbol>
 <symbol> ) </symbol>
 <symbol> ; </symbol>

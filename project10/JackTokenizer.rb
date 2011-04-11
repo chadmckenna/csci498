@@ -67,9 +67,10 @@ class JackTokenizer
    		return "SYMBOL"
    	elsif @currentToken.is_a?(Integer)
    		return "INT_CONST"	
-   	elsif @currentToken=~ (/"(\S*\s*)"/)
+   	elsif @currentToken =~ /"(\S*\s*)"/
    		return "STRING_CONST"
    	else
+   	  puts @currentToken
    		return "IDENTIFIER"
    	end
   end

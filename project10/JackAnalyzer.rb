@@ -70,11 +70,16 @@ class JackAnalyzer
         #end
       elsif token_type.eql?('SYMBOL')
         symbol = tokenizer.symbol
+        if (symbol.eql?('<'))
+          symbol = '&lt;'
+        elsif (symbol.eql?('>'))
+          symbol = '&gt;'
+        end
         @output.write("<symbol> " + symbol + " </symbol>\n")
         # Do something in CompEngine
       elsif token_type.eql?('IDENTIFIER')
         identifier = tokenizer.identifier
-        @output.write("<identifier> " + identifier + "</identifier>\n")
+        @output.write("<identifier> " + identifier + " </identifier>\n")
         # Do something in CompEngine
       elsif token_type.eql?('INT_CONST')
         int_val = tokenizer.int_val
@@ -82,6 +87,8 @@ class JackAnalyzer
         # Do something in CompEngine
       elsif token_type.eql?('STRING_CONST')
         string_val = tokenizer.string_val
+        string_val.gsub("\"", "&quot;")
+        string_val.gsub("&", "&amp;")
         @output.write("<stringConstant> " + string_val + " </stringConstant>\n")
         # Do something in CompEngine
       else
