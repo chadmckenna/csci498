@@ -30,9 +30,6 @@ class JackTokenizer
   		@currentToken += @readFile[@currentLine][@charPosition].chr
    		if(@currentToken.eql?("\""))
    			until (@readFile[@currentLine][@charPosition+1].chr.eql?("\""))
-   				#if(@readFile[@currentLine][@charPosition+1].chr.eql?(" "))
-   				#	@charPosition += 1
-   				#end
    				@charPosition += 1
    				@currentToken += @readFile[@currentLine][@charPosition].chr
    			end
@@ -58,7 +55,6 @@ class JackTokenizer
   	end 
   	#@charPosition += 1
   	puts @currentToken
-  	
   end
   
   def token_type
@@ -101,7 +97,7 @@ class JackTokenizer
   
   def string_val
   	if token_type.eql?("STRING_CONST")
-  		return @currentToken[1..(@currentToken-2)]
+  		return @currentToken[1..(@currentToken.length-2)]
   	end
   end
 end
