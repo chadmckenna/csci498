@@ -28,11 +28,11 @@ class JackTokenizer
   	@hasMore = true
    	while @hasMore
   		@currentToken += @readFile[@currentLine][@charPosition].chr
-   		if(@currentToken.eql?("\""))
+   		if(@currentToken.eql?("."))
+   			@hasMore = false
+   		end
+  		if(@currentToken.eql?("\""))
    			until (@readFile[@currentLine][@charPosition+1].chr.eql?("\""))
-   				#if(@readFile[@currentLine][@charPosition+1].chr.eql?(" "))
-   				#	@charPosition += 1
-   				#end
    				@charPosition += 1
    				@currentToken += @readFile[@currentLine][@charPosition].chr
    			end
@@ -57,27 +57,26 @@ class JackTokenizer
 	  	@charPosition+=1
   	end 
   	#@charPosition += 1
-  	puts @currentToken
-  	
+  	#puts @currentToken
   end
   
   def token_type
- 	if KEYWORDS.include?(@currentToken)
+ 	if KEYWORDS.include?(@currentToken.upcase)
  		return "KEYWORD"
  	elsif SYMBOLS.include?(@currentToken)
  		return "SYMBOL"
  	elsif @currentToken.is_a?(Integer)
- 		return "INT_CONST"
- 	#elsif @currentToken is a identifier
- 	# => return "IDENTIFIER"	
- 	#elsif @currentToken is_a?(String)
- 	#	return "STRING_CONST"
+ 		return "INT_CONST"	
+ 	elsif @currentToken=~ (/"(\S*\s*)"/)
+ 		return "STRING_CONST"
+ 	else
+ 		return "IDENTIFIER"
  	end
   end
   
   def key_word
     if token_type.eql?("KEYWORD")
-    	return @currentToken
+    	return @currentToken.upcase
     end
   end
   
@@ -101,7 +100,7 @@ class JackTokenizer
   
   def string_val
   	if token_type.eql?("STRING_CONST")
-  		return @currentToken[1..(@currentToken-2)]
+  		return @currentToken[1..(@currentToken.length-2)]
   	end
   end
 end
