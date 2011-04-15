@@ -65,7 +65,7 @@ class CompilationEngine
   end
   
   def compile_class
-    @output.write('<class>/n')
+    @output.write('<class>' + "\n")
     
     compile_next_token
     
@@ -85,10 +85,10 @@ class CompilationEngine
 	
 	compile_next_token
 	
-	#if !@tokenizer.symbol.token_type.eql?("{")
-	#	puts"expected {"
-	#	return
-	#end
+	if !@tokenizer.symbol.eql?("{")
+		puts"expected {"
+		return
+	end
 	
 	@output.write(@tokenizer.print_token)
 	
@@ -108,11 +108,11 @@ class CompilationEngine
 	end
 	@output.write(@tokenizer.print_token)
 	
-	@output.write("</class>")
+	@output.write("</class>" + "\n")
   end
   
   def compile_class_var_dec
-    @output.write("<classVarDec>")
+    @output.write("<classVarDec>" + "\n")
     if !(@tokenizer.key_word.eql?("STATIC") or @tokenizer.key_word.eql?("FIELD"))
     	puts "expected staic or field"
     	return
@@ -140,11 +140,11 @@ class CompilationEngine
 	#check for ;
 	@output.write(@tokenizer.print_token)
 	compile_next_token
-	@output.write("</classVarDec>")
+	@output.write("</classVarDec>" + "\n")
   end
   
   def compile_subroutine
-  	@output.write("<subroutineDec>")
+  	@output.write("<subroutineDec>" + "\n")
 	#error check for constructor, function, or method
   	@output.write(@tokenizer.print_token)
   	compile_next_token
@@ -161,25 +161,25 @@ class CompilationEngine
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
-  	@output.write("<parameterList>")
+  	@output.write("<parameterList>" + "\n")
   	compile_parameter_list
-  	@output.write("</parameterList>")
+  	@output.write("</parameterList>" + "\n")
   	
   	#error check for ")"
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
-  	@output.write("<subroutineBody>")
+  	@output.write("<subroutineBody>" + "\n")
   	
   	#error check for "{"
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
-  	while @tokenizer.key_word.eql?("VAR")
+  	while @tokenizer.key_word.eql?("VAR" + "\n")
   		compile_var_dec
   	end
   	
-  	while (@tokenizer.key_word.eql?("LET") or @tokenizer.key_word.eql?("DO") or @tokenizer.key_word.eql?("IF") or @tokenizer.key_word.eql?("WHILE") or @tokenizer.key_word.eql?("RETURN"))
+  	while (@tokenizer.key_word.eql?("LET" + "\n") or @tokenizer.key_word.eql?("DO") or @tokenizer.key_word.eql?("IF") or @tokenizer.key_word.eql?("WHILE") or @tokenizer.key_word.eql?("RETURN"))
   		compile_statements  		
   	end
   	
@@ -187,11 +187,29 @@ class CompilationEngine
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
-  	@output.write("</subroutineBody>")
-  	@output.write("</subroutineDec")
+  	@output.write("</subroutineBody>" + "\n")
+  	@output.write("</subroutineDec>" + "\n")
   end
   
   def compile_parameter_list
+  	#error check for parameter type
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	#error check for parameter name
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	while @tokenizer.symbol.eql?(",")
+  		@output.write(@tokenizer.print_token)
+  		compile_next_token
+  		
+  		#error check for parameter type
+  		@output.write(@tokenizer.print_token)
+  		compile_next_token
+  
+  		#error check for paramater name
+  		@output.write(@tokenizer.print_token)
+  		compile_next_token		
+  	end
   end
   
   def compile_var_dec
