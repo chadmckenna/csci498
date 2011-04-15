@@ -72,10 +72,9 @@ class CompilationEngine
     if !@tokenizer.key_word.eql?("CLASS")
     	puts "expected keyword class"
     	return    	
-
-	 end
-	
-	  compile_next_token
+	end
+	@output.write(@tokenizer.print_token)
+	compile_next_token
 	
   	if !@tokenizer.token_type.eql?("IDENTIFIER")
   		puts"expected class identifier"
