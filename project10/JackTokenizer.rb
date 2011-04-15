@@ -25,6 +25,10 @@ class JackTokenizer
   end
   
   def advance
+  	if !has_more_tokens?
+  		puts "end"
+  		return false
+  	end
    	@currentToken = ""
   	@hasMore = true
    	while @hasMore
