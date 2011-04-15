@@ -72,49 +72,49 @@ class CompilationEngine
     if !@tokenizer.key_word.eql?("CLASS")
     	puts "expected keyword class"
     	return    	
-	end
+	  end
 	
-	compile_next_token
+	  compile_next_token
 	
-	if !@tokenizer.token_type.eql?("IDENTIFIER")
-		puts"expected class identifier"
-		return
-	end
+  	if !@tokenizer.token_type.eql?("IDENTIFIER")
+  		puts"expected class identifier"
+  		return
+  	end
 	
-	@output.write(@tokenizer.print_token)
+  	@output.write(@tokenizer.print_token)
 	
-	compile_next_token
+  	compile_next_token
 	
-	#if !@tokenizer.symbol.token_type.eql?("{")
-	#	puts"expected {"
-	#	return
-	#end
+  	#if !@tokenizer.symbol.token_type.eql?("{")
+  	#	puts"expected {"
+  	#	return
+  	#end
 	
-	@output.write(@tokenizer.print_token)
+  	@output.write(@tokenizer.print_token)
 	
-	compile_next_token
+  	compile_next_token
 	
-	while (@tokenizer.key_word.eql?("STATIC") or @tokenizer.key_word.eql?("FIELD"))
-		compile_class_var_dec
-	end
+  	while (@tokenizer.key_word.eql?("STATIC") or @tokenizer.key_word.eql?("FIELD"))
+  		compile_class_var_dec
+  	end
 	
-	while (@tokenizer.key_word.eql?("CONSTRUCTOR") or @tokenizer.key_word.eql?("FUNCTION") or @tokenizer.key_word.eql?("METHOD"))
-		compile_subroutine
-	end
+  	while (@tokenizer.key_word.eql?("CONSTRUCTOR") or @tokenizer.key_word.eql?("FUNCTION") or @tokenizer.key_word.eql?("METHOD"))
+  		compile_subroutine
+  	end
 
-	if !(@tokenizer.symbol.eql("}"))
-		puts"expected }"
-		return
-	end
-	@output.write(@tokenizer.print_token)
+  	if !(@tokenizer.symbol.eql("}"))
+  		puts"expected }"
+  		return
+  	end
+  	@output.write(@tokenizer.print_token)
 	
-	@output.write("</class>")
+  	@output.write("</class>")
   end
   
   def compile_class_var_dec
     @output.write("<classVarDec>")
     if !(@tokenizer.key_word.eql?("STATIC") or @tokenizer.key_word.eql?("FIELD"))
-    	puts "expected staic or field"
+    	puts "expected static or field"
     	return
     end
     
@@ -169,11 +169,25 @@ class CompilationEngine
   end
   
   def compile_do
+    @output.write("<doStatement>")
+    compile_next_token
+    @output.write("</doStatement>")
   end
   
   def compile_let
     @output.write("<letStatement>")
-    
+    compile_next_token
+    # Keyword
+    @output.write(@tokenizer.print_token)
+    compile_next_token
+    # Identifier
+    @output.write(@tokenizer.print_token)
+    compile_next_token
+    # Symbol
+    @output.write(@tokenizer.print_token)
+    compile_next_token
+    # Will need extra implementation here, but this is ok for expressionless
+    compile_expression
     @output.write("</letStatement>")
   end
   
@@ -187,9 +201,16 @@ class CompilationEngine
   end
   
   def compile_expression
+    @output.write("<expression>")
+    compile_term
+    @output.write("</expression>")
   end
   
   def compile_term
+    @output.write("<term>")
+    compile_next_token
+    @output.write(@tokenizer.print_token)
+    @output.write("</term>")
   end
   
   def compile_expression_list
