@@ -224,6 +224,24 @@ class CompilationEngine
   end
   
   def compile_statements
+    @output.write("<statements>")
+      if @tokenizer.key_word.eql?("LET") 
+        compile_next_token
+        compile_let
+      elsif @tokenizer.key_word.eql?("DO") 
+        compile_next_token
+        compile_do
+      elsif @tokenizer.key_word.eql?("IF")
+        compile_next_token
+        compile_if
+      elsif @tokenizer.key_word.eql?("WHILE") 
+        compile_next_token
+        compile_while
+      elsif@tokenizer.key_word.eql?("RETURN")
+        compile_next_token
+        compile_return
+      end
+    @output.write("</statements>")
   end
   
   def compile_do
