@@ -11,7 +11,7 @@ class CompilationEngine
   def compile_next_token
   	if(@tokenizer.has_more_tokens?)
     	@tokenizer.advance
-	end
+	  end
 #    token_type = @tokenizer.token_type
 #  if token_type.eql?('KEYWORD')
 #    key_word = @tokenizer.key_word
