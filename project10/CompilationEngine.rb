@@ -106,7 +106,7 @@ class CompilationEngine
   		compile_subroutine
   	end
 
-  	if !(@tokenizer.symbol.eql("}"))
+  	if !(@tokenizer.symbol.eql?("}"))
   		puts"expected }"
   		return
   	end
@@ -134,7 +134,7 @@ class CompilationEngine
 	@output.write(@tokenizer.print_token)
 	compile_next_token
 	
-	while tokenizer.symbol.eql?(",")
+	while @tokenizer.symbol.eql?(",")
 		@output.write(@tokenizer.print_token)
 		compile_next_token
 		#check for additional variables/identifiers
@@ -184,9 +184,7 @@ class CompilationEngine
   		compile_var_dec
   	end
   	
-  	while (@tokenizer.key_word.eql?("LET") or @tokenizer.key_word.eql?("DO") or @tokenizer.key_word.eql?("IF") or @tokenizer.key_word.eql?("WHILE") or @tokenizer.key_word.eql?("RETURN"))
-  		compile_statements  		
-  	end
+  	compile_statements
   	
   	#error check for "}"
   	@output.write(@tokenizer.print_token)
@@ -206,7 +204,7 @@ class CompilationEngine
   	#error check for parameter name
   	@output.write(@tokenizer.print_token)
   	compile_next_token
-  	puts "here" + @tokenizer.currentToken
+  	#puts "here" + @tokenizer.current_token
   	while @tokenizer.symbol.eql?(",")
   		@output.write(@tokenizer.print_token)
   		compile_next_token
@@ -252,36 +250,37 @@ class CompilationEngine
   end
   
   def compile_statements
-    @output.write("<statements>")
-      if @tokenizer.key_word.eql?("LET") 
-        compile_next_token
-        compile_let
-      elsif @tokenizer.key_word.eql?("DO") 
-        compile_next_token
-        compile_do
-      elsif @tokenizer.key_word.eql?("IF")
-        compile_next_token
-        compile_if
-      elsif @tokenizer.key_word.eql?("WHILE") 
-        compile_next_token
-        compile_while
-      elsif@tokenizer.key_word.eql?("RETURN")
-        compile_next_token
-        compile_return
+    @output.write("<statements>\n")
+      while (@tokenizer.key_word.eql?("LET") or @tokenizer.key_word.eql?("DO") or @tokenizer.key_word.eql?("IF") or @tokenizer.key_word.eql?("WHILE") or @tokenizer.key_word.eql?("RETURN"))
+        compile_statement
       end
-    @output.write("</statements>")
+    @output.write("</statements>\n")
+  end
+  
+  def compile_statement
+    if @tokenizer.key_word.eql?("LET") 
+      compile_let
+    elsif @tokenizer.key_word.eql?("DO") 
+      compile_do
+    elsif @tokenizer.key_word.eql?("IF")
+      compile_if
+    elsif @tokenizer.key_word.eql?("WHILE") 
+      compile_while
+    elsif@tokenizer.key_word.eql?("RETURN")
+      compile_return
+    end
+    compile_next_token
   end
   
   def compile_do
     @output.write("<doStatement>\n")
-    compile_next_token
     # Keyword
     @output.write(@tokenizer.print_token)
     compile_next_token
     # Identifier
     @output.write(@tokenizer.print_token)
     compile_next_token
-    if (@tokenizer.key_word.eql?('.'))
+    if (@tokenizer.symbol.eql?('.'))
       # Symbol '.'
       @output.write(@tokenizer.print_token)
       compile_next_token
@@ -289,7 +288,7 @@ class CompilationEngine
       @output.write(@tokenizer.print_token)
       compile_next_token
       # Symbol '('
-      @output.write(@tokenzier.print_token)
+      @output.write(@tokenizer.print_token)
     else
       # Symbol '('
       @output.write(@tokenizer.print_token)
@@ -309,7 +308,6 @@ class CompilationEngine
   
   def compile_let
     @output.write("<letStatement>\n")
-    compile_next_token
     # Keyword
     @output.write(@tokenizer.print_token)
     compile_next_token
@@ -321,6 +319,9 @@ class CompilationEngine
     compile_next_token
     # Will need extra implementation here, but this is ok for expressionless
     compile_expression
+    compile_next_token
+    @output.write(@tokenizer.print_token)
+    #compile_next_token
     @output.write("</letStatement>\n")
   end
   
@@ -354,7 +355,7 @@ class CompilationEngine
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
-  	if !@tokenizer.symbol.eql(";")
+  	if !@tokenizer.symbol.eql?(";")
   		compile_expression
   	end
   	
@@ -362,7 +363,7 @@ class CompilationEngine
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
-  	@output.write("</returnStatement" + "\n")  	
+  	@output.write("</returnStatement>" + "\n")  	
   	
   end
   
@@ -412,8 +413,8 @@ class CompilationEngine
   
   def compile_term
     @output.write("<term>\n")
-    compile_next_token
     @output.write(@tokenizer.print_token)
+    #compile_next_token
     @output.write("</term>\n")
   end
   
