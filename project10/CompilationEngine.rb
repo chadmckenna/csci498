@@ -75,16 +75,16 @@ class CompilationEngine
 	end
 	@output.write(@tokenizer.print_token)
 	compile_next_token
-	
+
   	if !@tokenizer.token_type.eql?("IDENTIFIER")
   		puts"expected class identifier"
   		return
   	end
-	
+
   	@output.write(@tokenizer.print_token)
-	
+
   	compile_next_token
-	
+
   	#if !@tokenizer.symbol.token_type.eql?("{")
   	#	puts"expected {"
   	#	return
@@ -93,15 +93,15 @@ class CompilationEngine
   		puts"expected {"
   		return
   	end
-	
+
   	@output.write(@tokenizer.print_token)
-	
+
   	compile_next_token
-	
+
   	while (@tokenizer.key_word.eql?("STATIC") or @tokenizer.key_word.eql?("FIELD"))
   		compile_class_var_dec
   	end
-	
+
   	while (@tokenizer.key_word.eql?("CONSTRUCTOR") or @tokenizer.key_word.eql?("FUNCTION") or @tokenizer.key_word.eql?("METHOD"))
   		compile_subroutine
   	end
@@ -111,7 +111,7 @@ class CompilationEngine
   		return
   	end
   	@output.write(@tokenizer.print_token)
-	
+
 	  @output.write("</class>" + "\n")
   end
   
@@ -128,12 +128,12 @@ class CompilationEngine
 
 	#check for identifier or keywords(int char boolean)
 	@output.write(@tokenizer.print_token)
-	
+
 	compile_next_token
 	#check for variable names(identifiers)
 	@output.write(@tokenizer.print_token)
 	compile_next_token
-	
+
 	while @tokenizer.symbol.eql?(",")
 		@output.write(@tokenizer.print_token)
 		compile_next_token
@@ -327,12 +327,12 @@ class CompilationEngine
   
   def compile_while
     @output.write("<whileStatement>\n")
-    compile_next_token
-    # Keyword
+    #while
     @output.write(@tokenizer.print_token)
     compile_next_token
     # Symbol '('
     @output.write(@tokenizer.print_token)
+    compile_next_token
     compile_expression
     compile_next_token
     # Symbol ')'
@@ -340,11 +340,11 @@ class CompilationEngine
     compile_next_token
     # Symbol '{'
     @output.write(@tokenizer.print_token)
-    compile_statements
     compile_next_token
+    compile_statements
     # Symbol '}'
     @output.write(@tokenizer.print_token)
-    
+    compile_next_token
     @output.write("</whileStatement>\n")
   end
   
