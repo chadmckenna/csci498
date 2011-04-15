@@ -97,9 +97,11 @@ class CompilationEngine
 	while (@tokenizer.key_word.eql?("STATIC") or @tokenizer.key_word.eql?("FIELD"))
 		compile_class_var_dec
 	end
+	
 	while (@tokenizer.key_word.eql?("CONSTRUCTOR") or @tokenizer.key_word.eql?("FUNCTION") or @tokenizer.key_word.eql?("METHOD"))
 		compile_subroutine
 	end
+
 	if !(@tokenizer.symbol.eql("}"))
 		puts"expected }"
 		return
@@ -202,6 +204,9 @@ class CompilationEngine
   end
   
   def compile_let
+    @output.write("<letStatement>")
+    
+    @output.write("</letStatement>")
   end
   
   def compile_while
