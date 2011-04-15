@@ -178,12 +178,13 @@ class CompilationEngine
   	#error check for "{"
   	@output.write(@tokenizer.print_token)
   	compile_next_token
-  	
-  	while @tokenizer.key_word.eql?("VAR" + "\n")
+  	puts @tokenizer.print_token + " ahah"
+  	while @tokenizer.key_word.eql?("VAR")
+  		puts "test"
   		compile_var_dec
   	end
   	
-  	while (@tokenizer.key_word.eql?("LET" + "\n") or @tokenizer.key_word.eql?("DO") or @tokenizer.key_word.eql?("IF") or @tokenizer.key_word.eql?("WHILE") or @tokenizer.key_word.eql?("RETURN"))
+  	while (@tokenizer.key_word.eql?("LET") or @tokenizer.key_word.eql?("DO") or @tokenizer.key_word.eql?("IF") or @tokenizer.key_word.eql?("WHILE") or @tokenizer.key_word.eql?("RETURN"))
   		compile_statements  		
   	end
   	
@@ -221,6 +222,33 @@ class CompilationEngine
   end
   
   def compile_var_dec
+  	@output.write("<varDec>" + "\n")
+  	
+  	#Var Keyword
+  	@output.write(@tokenizer.print_token)
+    compile_next_token
+    
+    #type
+    @output.write(@tokenizer.print_token)
+    compile_next_token
+  	
+    #name
+    @output.write(@tokenizer.print_token)
+    compile_next_token
+    
+    while @tokenizer.symbol.eql?(",")
+    	#type
+    	@output.write(@tokenizer.print_token)
+    	compile_next_token
+    	#name
+    	@output.write(@tokenizer.print_token)
+    	compile_next_token
+    end
+    #;
+    @output.write(@tokenizer.print_token)
+    compile_next_token
+    
+    @output.write("</varDec>" + "\n")
   end
   
   def compile_statements
