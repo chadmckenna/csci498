@@ -203,6 +203,35 @@ class CompilationEngine
   def compile_do
     @output.write("<doStatement>")
     compile_next_token
+    # Keyword
+    @output.write(@tokenizer.print_token)
+    compile_next_token
+    # Identifier
+    @output.write(@tokenizer.print_token)
+    compile_next_token
+    if (@tokenizer.key_word.eql?('.'))
+      # Symbol '.'
+      @output.write(@tokenizer.print_token)
+      compile_next_token
+      # Identifier
+      @output.write(@tokenizer.print_token)
+      compile_next_token
+      # Symbol '('
+      @output.write(@tokenzier.print_token)
+    else
+      # Symbol '('
+      @output.write(@tokenizer.print_token)
+    end
+    compile_next_token
+    
+    compile_expression_list
+    
+    # Symbol ')'
+    @output.write(@tokenizer.print_token)
+    compile_next_token
+    # Symbol ';'
+    @output.write(@tokenizer.print_token)
+    
     @output.write("</doStatement>")
   end
   
@@ -224,6 +253,26 @@ class CompilationEngine
   end
   
   def compile_while
+    @output.write("<whileStatement>")
+    compile_next_token
+    # Keyword
+    @output.write(@tokenizer.print_token)
+    compile_next_token
+    # Symbol '('
+    @output.write(@tokenizer.print_token)
+    compile_expression
+    compile_next_token
+    # Symbol ')'
+    @output.write(@tokenizer.print_token)
+    compile_next_token
+    # Symbol '{'
+    @output.write(@tokenizer.print_token)
+    compile_statments
+    compile_next_token
+    # Symbol '}'
+    @output.write(@tokenizer.print_token)
+    
+    @output.write("</whileStatement>")
   end
   
   def compile_return
@@ -246,6 +295,12 @@ class CompilationEngine
   end
   
   def compile_expression_list
+    @output.write("<expressionList>")
+    while !@tokenizer.symbol.eql?(')')
+      compile_expression
+      compile_next_token
+    end
+    @output.write("</expressionList>")
   end
 
 end
