@@ -14,7 +14,7 @@ class JackTokenizer
       @readFile.push(line.lstrip)
     end
     @readFile.delete('')
-    puts @readFile
+    #puts @readFile
     @currentLine = 0
     @currentToken = ""
     @charPosition = 0
@@ -25,6 +25,10 @@ class JackTokenizer
   end
   
   def advance
+  	if !has_more_tokens?
+  		puts "end"
+  		return false
+  	end
    	@currentToken = ""
   	@hasMore = true
    	while @hasMore
@@ -111,4 +115,27 @@ class JackTokenizer
   		return @currentToken[1..(@currentToken.length-2)]
   	end
   end
+  
+  def print_token
+  	if token_type == "KEYWORD"
+  		return "<keyword>" + key_word + "</keyword>"
+  	elsif token_type == "SYMBOL"
+  		if @currentToken == "<"
+  			return "<symbol> &lt; </symbol>"
+        elsif @currentToken == ">"
+        	return "<symbol> &gt; </symbol>"
+        elsif @currentToken == "&"
+        	return "<symbol> &amp; </symbol>"
+        else
+        	return "<symbol>" + symbol + "</symbol>"
+        end
+    elsif token_type == "INT_CONST"
+    	return "<integerConstant>" + int_val + "</integerConstant>"
+    elsif token_type == "STRING_CONST"
+    	return "<stringConstant>" + string_val + "</stringConstant>"
+    elsif token_type == "IDENTIFIER"
+    	return "<identifier>" + identifier + "</identifier>"
+	end
+  end
+  
 end
