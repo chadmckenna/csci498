@@ -340,7 +340,7 @@ class CompilationEngine
     compile_next_token
     # Symbol '{'
     @output.write(@tokenizer.print_token)
-    compile_statments
+    compile_statements
     compile_next_token
     # Symbol '}'
     @output.write(@tokenizer.print_token)
@@ -357,11 +357,11 @@ class CompilationEngine
   	
   	if !@tokenizer.symbol.eql?(";")
   		compile_expression
+  		compile_next_token
   	end
   	
   	#error check for ";"
   	@output.write(@tokenizer.print_token)
-  	compile_next_token
   	
   	@output.write("</returnStatement>" + "\n")  	
   	
