@@ -193,11 +193,15 @@ class CompilationEngine
   
   def compile_parameter_list
   	#error check for parameter type
+  	if !(@tokenizer.key_word.eql?("VOID") or @tokenizer.key_word.eql?("INT") or @tokenizer.key_word.eql?("CHAR") or @tokenizer.key_word.eql?("BOOLEAN"))
+  		return
+  	end
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	#error check for parameter name
   	@output.write(@tokenizer.print_token)
   	compile_next_token
+  	puts "here" + @tokenizer.currentToken
   	while @tokenizer.symbol.eql?(",")
   		@output.write(@tokenizer.print_token)
   		compile_next_token

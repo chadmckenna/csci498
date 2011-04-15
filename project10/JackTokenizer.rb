@@ -114,7 +114,7 @@ class JackTokenizer
   
   def print_token
   	if token_type == "KEYWORD"
-  		return "<keyword>" + key_word + "</keyword>" + "\n"
+  		return "<keyword>" + key_word.downcase + "</keyword>" + "\n"
   	elsif token_type == "SYMBOL"
   		if @currentToken == "<"
   			return "<symbol> &lt; </symbol>" + "\n"
@@ -123,14 +123,14 @@ class JackTokenizer
         elsif @currentToken == "&"
         	return "<symbol> &amp; </symbol>" + "\n"
         else
-        	return "<symbol>" + symbol + "</symbol>" + "\n"
+        	return "<symbol>" + symbol.downcase + "</symbol>" + "\n"
         end
     elsif token_type == "INT_CONST"
-    	return "<integerConstant>" + int_val + "</integerConstant>" + "\n"
+    	return "<integerConstant>" + int_val.downcase + "</integerConstant>" + "\n"
     elsif token_type == "STRING_CONST"
-    	return "<stringConstant>" + string_val + "</stringConstant>" + "\n"
+    	return "<stringConstant>" + string_val.downcase + "</stringConstant>" + "\n"
     elsif token_type == "IDENTIFIER"
-    	return "<identifier>" + identifier + "</identifier>" + "\n"
+    	return "<identifier>" + identifier.downcase + "</identifier>" + "\n"
 	end
   end
   
