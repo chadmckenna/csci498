@@ -73,7 +73,7 @@ class CompilationEngine
     	puts "expected keyword class"
     	return    	
 	end
-	
+	@output.write(@tokenizer.print_token)
 	compile_next_token
 	
 	if !@tokenizer.token_type.eql?("IDENTIFIER")
@@ -235,9 +235,60 @@ class CompilationEngine
   end
   
   def compile_return
+  	@output.write("<returnStatement>" + "\n")
+  	
+  	#error check for return
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	if !@tokenizer.symbol.eql(";")
+  		compile_expression
+  	end
+  	
+  	#error check for ";"
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	@output.write("</returnStatement" + "\n")  	
+  	
   end
   
   def compile_if
+  	@output.write("<ifStatement>" + "\n")
+  	
+  	#error check for if
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	#error check for "("
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	compile_expression
+  	
+  	#error check for ")"
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	#error check for "{"
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	compile_statements
+  	
+  	#error check for "}"
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	if @tokenizer.key_word.eql?("ELSE")
+  		@output.write(@tokenizer.print_token)
+  		compile_next_token
+  		compile_statements
+  		
+  		@output.write(@tokenizer.print_token)
+  		compile_next_token
+  	end
+  	@output.write("</ifStatement>" + "\n")
   end
   
   def compile_expression
