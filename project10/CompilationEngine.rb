@@ -344,7 +344,7 @@ class CompilationEngine
     compile_statements
     # Symbol '}'
     @output.write(@tokenizer.print_token)
-    compile_next_token
+    #compile_next_token
     @output.write("</whileStatement>\n")
   end
   
