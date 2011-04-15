@@ -4,7 +4,7 @@ require 'CompilationEngine.rb'
 class JackAnalyzer
   def initialize(file)
     @input = File.open(file, 'r')
-    @output = File.new(file.sub(/.jack/, "") + "T.mine.xml", "w")
+    @output = File.new(file.sub(/.jack/, "") + ".mine.xml", "w")
     #write_input
     tokenize
   end
@@ -16,7 +16,7 @@ class JackAnalyzer
   def tokenize
     # Tokenize code goes here
     tokenizer = JackTokenizer.new(@input)
-    comp_engine = CompilationEngine.new(tokenizer)
+    comp_engine = CompilationEngine.new(tokenizer, @output)
     #compiler = CompilationEngine.new(@output)
     comp_engine.compile
     
@@ -36,7 +36,7 @@ else
     dir = Dir.open(ARGV[0])
     Dir.foreach(dir.path) do |file|
       if file =~ /.jack$/
-        JackAnalyzer.new(ARGV[0]+file)
+        JackAnalyzer.new(ARGV[0]+ file)
       end
     end
   else

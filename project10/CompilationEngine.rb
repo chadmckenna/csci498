@@ -1,12 +1,11 @@
 class CompilationEngine
-  def initialize(tokenizer)
+  def initialize(tokenizer, output)
     @tokenizer = tokenizer
+    @output = output
   end
   
   def compile
-    while (@tokenizer.has_more_tokens?)
-      compile_next_token
-    end
+    compile_class
   end
   
   def compile_next_token
@@ -66,11 +65,11 @@ class CompilationEngine
   end
   
   def compile_class
-    @output.write('<class>\n')
+    @output.write('<class>/n')
     
     compile_next_token
     
-    if !@tokenizer.key_word.eql?("class")
+    if !@tokenizer.key_word.eql?("CLASS")
     	puts "expected keyword class"
     	return    	
 	end
@@ -86,10 +85,10 @@ class CompilationEngine
 	
 	compile_next_token
 	
-	if !@tokenizer.symbol.token_type.eql?("{")
-		puts"expected {"
-		return
-	end
+	#if !@tokenizer.symbol.token_type.eql?("{")
+	#	puts"expected {"
+	#	return
+	#end
 	
 	@output.write(@tokenizer.print_token)
 	
@@ -102,7 +101,7 @@ class CompilationEngine
 	while (@tokenizer.key_word.eql?("CONSTRUCTOR") or @tokenizer.key_word.eql?("FUNCTION") or @tokenizer.key_word.eql?("METHOD"))
 		compile_subroutine
 	end
-	
+
 	if !(@tokenizer.symbol.eql("}"))
 		puts"expected }"
 		return
@@ -113,10 +112,51 @@ class CompilationEngine
   end
   
   def compile_class_var_dec
+    @output.write("<classVarDec>")
+    if !(@tokenizer.key_word.eql?("STATIC") or @tokenizer.key_word.eql?("FIELD"))
+    	puts "expected staic or field"
+    	return
+    end
     
+    @output.write(@tokenizer.print_token)
+    
+    compile_next_token
+
+	#check for identifier or keywords(int char boolean)
+	@output.write(@tokenizer.print_token)
+	
+	compile_next_token
+	#check for variable names(identifiers)
+	@output.write(@tokenizer.print_token)
+	compile_next_token
+	
+	while tokenizer.symbol.eql?(",")
+		@output.write(@tokenizer.print_token)
+		compile_next_token
+		#check for additional variables/identifiers
+		@output.write(@tokenizer.print_token)
+		compile_next_token
+	end
+	#check for ;
+	@output.write(@tokenizer.print_token)
+	compile_next_token
+	@output.write("</classVarDec>")
   end
   
   def compile_subroutine
+  	@output.write("<subroutineDec>")
+  	
+  	#error check for constructor, function, or method
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	#error check for return type
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	#error check for function identifier
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
   end
   
   def compile_parameter_list
@@ -154,4 +194,5 @@ class CompilationEngine
   
   def compile_expression_list
   end
+
 end
