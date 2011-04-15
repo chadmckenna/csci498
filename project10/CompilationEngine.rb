@@ -20,7 +20,7 @@ class CompilationEngine
         compile_class
       elsif key_word.eql?('METHOD') or key_word.eql?('FUNCTION') or key_word.eql?('CONSTRUCTOR')
         compile_subroutine
-      elsif (key_word.eql?('INT') or key_word.eql?('BOOLEAN') or key_word.eql?('BOOLEAN') or key_word.eql?('CHAR') or key_word.eql?('VOID') 
+      elsif (key_word.eql?('INT') or key_word.eql?('BOOLEAN') or key_word.eql?('CHAR') or key_word.eql?('VOID') 
         or key_word.eql?('TRUE') or key_word.eql?('FALSE') or key_word.eql?('NULL') or key_word.eql?('THIS'))
         @output.write("<keyword> " + key_word.downcase + " </keyword>\n")
       elsif key_word.eql?('VAR')
