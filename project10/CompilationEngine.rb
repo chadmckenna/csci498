@@ -379,6 +379,7 @@ class CompilationEngine
   	compile_next_token
   	
   	compile_expression
+  	compile_next_token
   	
   	#error check for ")"
   	@output.write(@tokenizer.print_token)
@@ -392,7 +393,7 @@ class CompilationEngine
   	
   	#error check for "}"
   	@output.write(@tokenizer.print_token)
-  	compile_next_token
+  	#compile_next_token
   	
   	if @tokenizer.key_word.eql?("ELSE")
   		@output.write(@tokenizer.print_token)
@@ -400,7 +401,7 @@ class CompilationEngine
   		compile_statements
   		
   		@output.write(@tokenizer.print_token)
-  		compile_next_token
+  		#compile_next_token
   	end
   	@output.write("</ifStatement>" + "\n")
   end
@@ -423,6 +424,11 @@ class CompilationEngine
     while !@tokenizer.symbol.eql?(')')
       compile_expression
       compile_next_token
+      # Symbol ','
+      if @tokenizer.symbol.eql?(",")
+        @output.write(@tokenizer.print_token)
+        compile_next_token
+      end
     end
     @output.write("</expressionList>\n")
   end
