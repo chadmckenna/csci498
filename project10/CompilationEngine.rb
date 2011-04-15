@@ -11,7 +11,7 @@ class CompilationEngine
   def compile_next_token
   	if(@tokenizer.has_more_tokens?)
     	@tokenizer.advance
-	  end
+	end
 #    token_type = @tokenizer.token_type
 #  if token_type.eql?('KEYWORD')
 #    key_word = @tokenizer.key_word
@@ -143,8 +143,7 @@ class CompilationEngine
   
   def compile_subroutine
   	@output.write("<subroutineDec>")
-  	
-  	#error check for constructor, function, or method
+	#error check for constructor, function, or method
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
@@ -155,6 +154,39 @@ class CompilationEngine
   	#error check for function identifier
   	@output.write(@tokenizer.print_token)
   	compile_next_token
+  	
+  	#error check for "("
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	@output.write("<parameterList>")
+  	compile_parameter_list
+  	@output.write("</parameterList>")
+  	
+  	#error check for ")"
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	@output.write("<subroutineBody>")
+  	
+  	#error check for "{"
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	while @tokenizer.key_word.eql?("VAR")
+  		compile_var_dec
+  	end
+  	
+  	while (@tokenizer.key_word.eql?("LET") or @tokenizer.key_word.eql?("DO") or @tokenizer.key_word.eql?("IF") or @tokenizer.key_word.eql?("WHILE") or @tokenizer.key_word.eql?("RETURN"))
+  		compile_statements  		
+  	end
+  	
+  	#error check for "}"
+  	@output.write(@tokenizer.print_token)
+  	compile_next_token
+  	
+  	@output.write("</subroutineBody>")
+  	@output.write("</subroutineDec")
   end
   
   def compile_parameter_list
