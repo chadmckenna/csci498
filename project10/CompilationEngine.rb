@@ -1,7 +1,6 @@
 class CompilationEngine
   def initialize(tokenizer)
     @tokenizer = tokenizer
-    @
   end
   
   def compile
@@ -15,7 +14,6 @@ class CompilationEngine
     token_type = @tokenizer.token_type
     if token_type.eql?('KEYWORD')
       key_word = @tokenizer.key_word
-      #@output.write("<keyword> " + key_word.downcase + " </keyword>\n")
       if key_word.eql?('CLASS')
         compile_class
       elsif key_word.eql?('METHOD') or key_word.eql?('FUNCTION') or key_word.eql?('CONSTRUCTOR')
@@ -65,7 +63,9 @@ class CompilationEngine
   end
   
   def compile_class
-    @output.write('<keyword> class </keyword>\n')
+    @output.write('<class>\n')
+      
+    @output.write('</class>\n')
   end
   
   def compile_class_var_dec
