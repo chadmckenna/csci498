@@ -25,10 +25,6 @@ class JackTokenizer
   end
   
   def advance
-  	if !has_more_tokens?
-  		puts "end"
-  		return false
-  	end
    	@currentToken = ""
   	@hasMore = true
    	while @hasMore
@@ -69,7 +65,7 @@ class JackTokenizer
 	  	@charPosition+=1
   	end 
   	#@charPosition += 1
-  	#puts @currentToken
+  	puts @currentToken
   end
   
   def token_type
@@ -118,23 +114,23 @@ class JackTokenizer
   
   def print_token
   	if token_type == "KEYWORD"
-  		return "<keyword>" + key_word + "</keyword>"
+  		return "<keyword>" + key_word.downcase + "</keyword>" + "\n"
   	elsif token_type == "SYMBOL"
   		if @currentToken == "<"
-  			return "<symbol> &lt; </symbol>"
+  			return "<symbol> &lt; </symbol>" + "\n"
         elsif @currentToken == ">"
-        	return "<symbol> &gt; </symbol>"
+        	return "<symbol> &gt; </symbol>" + "\n"
         elsif @currentToken == "&"
-        	return "<symbol> &amp; </symbol>"
+        	return "<symbol> &amp; </symbol>" + "\n"
         else
-        	return "<symbol>" + symbol + "</symbol>"
+        	return "<symbol>" + symbol.downcase + "</symbol>" + "\n"
         end
     elsif token_type == "INT_CONST"
-    	return "<integerConstant>" + int_val + "</integerConstant>"
+    	return "<integerConstant>" + int_val.downcase + "</integerConstant>" + "\n"
     elsif token_type == "STRING_CONST"
-    	return "<stringConstant>" + string_val + "</stringConstant>"
+    	return "<stringConstant>" + string_val.downcase + "</stringConstant>" + "\n"
     elsif token_type == "IDENTIFIER"
-    	return "<identifier>" + identifier + "</identifier>"
+    	return "<identifier>" + identifier.downcase + "</identifier>" + "\n"
 	end
   end
   
