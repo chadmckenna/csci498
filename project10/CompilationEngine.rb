@@ -315,6 +315,16 @@ class CompilationEngine
     @output.write(@tokenizer.print_token)
     compile_next_token
     # Symbol
+    if @tokenizer.symbol.eql?("[")
+    	#[
+    	@output.write(@tokenizer.print_token)
+    	compile_next_token
+    	compile_expression
+    	#]
+    	@output.write(@tokenizer.print_token)
+    	compile_next_token
+    end
+    #=
     @output.write(@tokenizer.print_token)
     compile_next_token
     # Will need extra implementation here, but this is ok for expressionless
@@ -409,6 +419,11 @@ class CompilationEngine
   def compile_expression
     @output.write("<expression>\n")
     compile_term
+    while (@tokenizer.symbol.eql?("+") or @tokenizer.symbol.eql?("-") or @tokenizer.symbol.eql?("*") or @tokenizer.symbol.eql?("/") or @tokenizer.symbol.eql?("&") or @tokenizer.symbol.eql?("|") or @tokenizer.symbol.eql?("<") or @tokenizer.symbol.eql?(">") or @tokenizer.symbol.eql?("="))
+    	@output.write(@tokenizer.print_token)
+    	compile_next_token
+    	compile_term
+    end
     @output.write("</expression>\n")
   end
   
