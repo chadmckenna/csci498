@@ -429,7 +429,21 @@ class CompilationEngine
   
   def compile_term
     @output.write("<term>\n")
-    @output.write(@tokenizer.print_token)
+    if @tokenizer.token_type.eql?("STRING_CONST") or @tokenizer.token_type.eql?("INT_CONST") or @tokenizer.token_type.eql?("KEYWORD")
+    	@output.write(@tokenizer.print_token
+    elsif @tokenizer.symbol.eql?("(")
+    	#(
+    	@output.write(@tokenizer.print_token)
+    	compile_next_token
+    	compile_expression
+    	#)
+    	@output.write(@tokenizer.print_token)
+    elsif @tokenizer.symbol.eql?("~") or @tokenizer.symbol.eql?("-")
+    	#~ or -
+    	@output.write(@tokenizer.print_token)
+    	compile_next_token
+    	compile_term
+    #more implementation needed
     #compile_next_token
     @output.write("</term>\n")
   end
