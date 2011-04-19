@@ -315,6 +315,16 @@ class CompilationEngine
     @output.write(@tokenizer.print_token)
     compile_next_token
     # Symbol
+    if @tokenizer.symbol.eql?("[")
+    	#[
+    	@output.write(@tokenizer.print_token)
+    	compile_next_token
+    	compile_expression
+    	#]
+    	@output.write(@tokenizer.print_token)
+    	compile_next_token
+    end
+    #=
     @output.write(@tokenizer.print_token)
     compile_next_token
     # Will need extra implementation here, but this is ok for expressionless
@@ -409,10 +419,10 @@ class CompilationEngine
   def compile_expression
     @output.write("<expression>\n")
     compile_term
-    while @tokenizer.token_type.eql?("SYMBOL")
-      @output.write(@tokenizer.print_token)
-      compile_next_token
-      compile_term
+    while (@tokenizer.symbol.eql?("+") or @tokenizer.symbol.eql?("-") or @tokenizer.symbol.eql?("*") or @tokenizer.symbol.eql?("/") or @tokenizer.symbol.eql?("&") or @tokenizer.symbol.eql?("|") or @tokenizer.symbol.eql?("<") or @tokenizer.symbol.eql?(">") or @tokenizer.symbol.eql?("="))
+    	@output.write(@tokenizer.print_token)
+    	compile_next_token
+    	compile_term
     end
     @output.write("</expression>\n")
   end
@@ -420,18 +430,36 @@ class CompilationEngine
   ############################################
   def compile_term
     @output.write("<term>\n")
-    @output.write(@tokenizer.print_token)
-    compile_next_token
-    while @tokenizer.token_type.eql?("SYMBOL")
-      if (@tokenizer.symbol.eql?('('))
-        compile_expression_list
-      else
-        @output.write(@tokenizer.print_token)
-        compile_next_token
-        @output.write(@tokenizer.print_token)
-      end
-      compile_next_token
-    end
+    
+    #@output.write(@tokenizer.print_token)
+    #compile_next_token
+    #while @tokenizer.token_type.eql?("SYMBOL")
+    #  if (@tokenizer.symbol.eql?('('))
+    #    compile_expression_list
+    #  else
+    #    @output.write(@tokenizer.print_token)
+    #    compile_next_token
+    #    @output.write(@tokenizer.print_token)
+    #  end
+    #  compile_next_token
+    #end
+    
+    if @tokenizer.token_type.eql?("STRING_CONST") or @tokenizer.token_type.eql?("INT_CONST") or @tokenizer.token_type.eql?("KEYWORD")
+    	@output.write(@tokenizer.print_token
+    elsif @tokenizer.symbol.eql?("(")
+    	#(
+    	@output.write(@tokenizer.print_token)
+    	compile_next_token
+    	compile_expression
+    	#)
+    	@output.write(@tokenizer.print_token)
+    elsif @tokenizer.symbol.eql?("~") or @tokenizer.symbol.eql?("-")
+    	#~ or -
+    	@output.write(@tokenizer.print_token)
+    	compile_next_token
+    	compile_term
+    #more implementation needed
+    #compile_next_token
     @output.write("</term>\n")
   end
   ##############################################
