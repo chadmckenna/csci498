@@ -429,11 +429,11 @@ class CompilationEngine
   
   ############################################
    def compile_term
-    @advance = false
+    advance = false
   	@output.write("<term>\n")
     if @tokenizer.token_type.eql?("STRING_CONST") or @tokenizer.token_type.eql?("INT_CONST") or @tokenizer.token_type.eql?("KEYWORD")
     	@output.write(@tokenizer.print_token)
-    	@advance = true
+    	advance = true
     elsif @tokenizer.symbol.eql?("(")
     	#(
     	@output.write(@tokenizer.print_token)
@@ -441,7 +441,7 @@ class CompilationEngine
     	compile_expression
     	#)
     	@output.write(@tokenizer.print_token)
-    	@advance = true
+    	advance = true
     elsif @tokenizer.symbol.eql?("~") or @tokenizer.symbol.eql?("-")
     	#~ or -
     	@output.write(@tokenizer.print_token)
@@ -457,7 +457,7 @@ class CompilationEngine
     		compile_expression
     		#]
     		@output.write(@tokenizer.print_token)
-    		@advance = true
+    		advance = true
       elsif @tokenizer.symbol.eql?("(")
       	#(
       	@output.write(@tokenizer.print_token)
@@ -466,7 +466,7 @@ class CompilationEngine
 		    compile_next_token
 		    #)
 		    @output.write(@tokenizer.print_token)
-		    @advance = true
+		    advance = true
 	    elsif @tokenizer.symbol.eql?(".")
     	  #.
     	  @output.write(@tokenizer.print_token)
@@ -480,10 +480,10 @@ class CompilationEngine
     	  compile_expression_list
     	  #)
     	  @output.write(@tokenizer.print_token)    	
-    	  @advance = true
+    	  advance = true
     	end
     end
-    if @advance
+    if advance
     	compile_next_token
     end
     #more implementation needed
