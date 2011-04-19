@@ -497,7 +497,7 @@ class CompilationEngine
       compile_expression
       #compile_next_token
       # Symbol ','
-      if @tokenizer.symbol.eql?(",")
+      while @tokenizer.symbol.eql?(",")
         @output.write(@tokenizer.print_token)
         compile_next_token
         compile_expression
