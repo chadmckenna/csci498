@@ -341,16 +341,15 @@ class CompilationEngine
     @output.write(@tokenizer.print_token)
     compile_next_token
     # Symbol '('
-    @output.write(@tokenizer.print_token + "hehe")
+    @output.write(@tokenizer.print_token)
     compile_next_token
     compile_expression
     #compile_next_token
     # Symbol ')'
-    @output.write(@tokenizer.print_token + "boo")
+    @output.write(@tokenizer.print_token)
     compile_next_token
     # Symbol '{'
-    
-    @output.write(@tokenizer.print_token + "blah")
+    @output.write(@tokenizer.print_token)
     compile_next_token
     compile_statements
     # Symbol '}'
@@ -430,10 +429,11 @@ class CompilationEngine
   
   ############################################
    def compile_term
+    @advance = false
   	@output.write("<term>\n")
     if @tokenizer.token_type.eql?("STRING_CONST") or @tokenizer.token_type.eql?("INT_CONST") or @tokenizer.token_type.eql?("KEYWORD")
     	@output.write(@tokenizer.print_token)
-    	compile_next_token
+    	@advance = true
     elsif @tokenizer.symbol.eql?("(")
     	#(
     	@output.write(@tokenizer.print_token)
@@ -441,7 +441,7 @@ class CompilationEngine
     	compile_expression
     	#)
     	@output.write(@tokenizer.print_token)
-    	compile_next_token
+    	@advance = true
     elsif @tokenizer.symbol.eql?("~") or @tokenizer.symbol.eql?("-")
     	#~ or -
     	@output.write(@tokenizer.print_token)
@@ -457,7 +457,7 @@ class CompilationEngine
     		compile_expression
     		#]
     		@output.write(@tokenizer.print_token)
-    		compile_next_token
+    		@advance = true
         elsif @tokenizer.symbol.eql?("(")
         	#(
         	@output.write(@tokenizer.print_token)
@@ -466,7 +466,7 @@ class CompilationEngine
 			compile_next_token
 			#)
 			@output.write(@tokenizer.print_token)
-			compile_next_token
+			@advance = true
 		 elsif @tokenizer.symbol.eql?(".")
 	    	#.
 	    	@output.write(@tokenizer.print_token)
@@ -480,8 +480,11 @@ class CompilationEngine
 	    	compile_expression_list
 	    	#)
 	    	@output.write(@tokenizer.print_token)    	
-	    	compile_next_token
+	    	@advance = true
     	end
+    end
+    if @advance
+    	compile_next_token
     end
     #more implementation needed
     #compile_next_token
@@ -499,7 +502,12 @@ class CompilationEngine
         compile_next_token
         compile_expression
       end
-    end
+    end#compile_expression
+   # while @tokenizer.symbol.eql?(",")
+    #	@output.write(@tokenizer.print_token)
+	#	compile_next_token
+    #	compile_expression
+   # end
     @output.write("</expressionList>\n")
   end
 
