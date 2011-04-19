@@ -493,12 +493,21 @@ class CompilationEngine
   
   def compile_expression_list
     @output.write("<expressionList>\n")
-	compile_expression
-    while @tokenizer.symbol.eql?(",")
-    	@output.write(@tokenizer.print_token)
-		compile_next_token
-    	compile_expression
-    end
+	while !@tokenizer.symbol.eql?(')')
+      compile_expression
+      #compile_next_token
+      # Symbol ','
+      if @tokenizer.symbol.eql?(",")
+        @output.write(@tokenizer.print_token)
+        compile_next_token
+        compile_expression
+      end
+    end#compile_expression
+   # while @tokenizer.symbol.eql?(",")
+    #	@output.write(@tokenizer.print_token)
+	#	compile_next_token
+    #	compile_expression
+   # end
     @output.write("</expressionList>\n")
   end
 
