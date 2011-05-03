@@ -37,7 +37,7 @@ class CompilationEngine
   	end
     #class identifier
   	@output.write(@tokenizer.print_token)
-
+	@class_name = @tokeinzer.identifier
   	compile_next_token
 
 	  if !@tokenizer.symbol.eql?("{")
@@ -117,25 +117,36 @@ class CompilationEngine
 	@output.write(@tokenizer.print_token)
 	vars.each do |var|
 		@symbol_table.define(var, @ident_type, @kind)
+	end
 	compile_next_token
 	@output.write("</classVarDec>" + "\n")
   end
   
   def compile_subroutine
+  	@is_constructor = false
+  	@is_method = false
+  	@num_locals = 0
+  	@symbol_table.start_subroutine()
   	@output.write("<subroutineDec>" + "\n")
-	#error check for constructor, function, or method
+	#constructor, function, or method
+  	@output.write(@tokenizer.print_token)
+  	if @tokenizer.key_word.eql?("CONSTRUCTOR")
+  		@is_constructor = true
+  	elsif @tokenizer.key_word.eql?("METHOD")
+  		@is_method = true
+  	end
+  	compile_next_token
+  	
+  	#return type
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
-  	#error check for return type
+  	#function identifier
   	@output.write(@tokenizer.print_token)
+  	@sub_name = @tokenizer.indentifier
   	compile_next_token
   	
-  	#error check for function identifier
-  	@output.write(@tokenizer.print_token)
-  	compile_next_token
-  	
-  	#error check for "("
+  	#"("
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
@@ -143,24 +154,31 @@ class CompilationEngine
   	compile_parameter_list
   	@output.write("</parameterList>" + "\n")
   	
-  	#error check for ")"
+  	#")"
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
   	@output.write("<subroutineBody>" + "\n")
   	
-  	#error check for "{"
+  	#"{"
   	@output.write(@tokenizer.print_token)
   	compile_next_token
-  	puts @tokenizer.print_token + " ahah"
   	while @tokenizer.key_word.eql?("VAR")
-  		puts "test"
   		compile_var_dec
   	end
   	
+  	@vm_writer.write_function(@class_name + "." + @sub_name, @num_locals)
+  	if is_constructor
+  		@vm_writer.write_push("constant", @num_fields)
+  		@vm_writer.write_call("Memory.alloc", 1)
+  		@vm_writer.write_pop("pointer", 0)
+  	elsif is_method
+  		@vm_writer.write_push("arguement", 0)
+  		@vm_writer.write_pop("pointer", 0)
+  	end
   	compile_statements
   	
-  	#error check for "}"
+  	#"}"
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
