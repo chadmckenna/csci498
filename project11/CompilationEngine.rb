@@ -187,31 +187,39 @@ class CompilationEngine
   end
   
   def compile_parameter_list
-  	#error check for parameter type
+  	#parameter type
   	if !(@tokenizer.key_word.eql?("VOID") or @tokenizer.key_word.eql?("INT") or @tokenizer.key_word.eql?("CHAR") or @tokenizer.key_word.eql?("BOOLEAN"))
   		return
   	end
   	@output.write(@tokenizer.print_token)
+  	@argument_type = @tokenizer.key_word
   	compile_next_token
-  	#error check for parameter name
+  	#parameter name
   	@output.write(@tokenizer.print_token)
+  	@argument = @tokenizer.identifier
+  	@symbol_table.define(@argument, @argument_type, "argument" )
   	compile_next_token
   	#puts "here" + @tokenizer.current_token
   	while @tokenizer.symbol.eql?(",")
   		@output.write(@tokenizer.print_token)
   		compile_next_token
   		
-  		#error check for parameter type
+  		#parameter type
   		@output.write(@tokenizer.print_token)
+  		@argument_type = @tokenizer.key_word
   		compile_next_token
   
-  		#error check for paramater name
+  		#paramater name
   		@output.write(@tokenizer.print_token)
+  		@argument = @tokenizer.identifier
+  		@symbol_table.define(@argument, @argument_type, "argument" )
   		compile_next_token		
   	end
   end
   
   def compile_var_dec
+  	@num_locals += 1
+  	vars = array.new
   	@output.write("<varDec>" + "\n")
   	
   	#Var Keyword
@@ -220,22 +228,33 @@ class CompilationEngine
     
     #type
     @output.write(@tokenizer.print_token)
+ 	 if @tokenizer.token_type.eql?("KEYWORD")
+    	@ident_type = @tokenizer.key_word
+	else
+		@ident_type = @tokenizer.identifier
+	end
     compile_next_token
   	
     #name
     @output.write(@tokenizer.print_token)
+	vars.push(@tokenizer.identifier)
     compile_next_token
     
     while @tokenizer.symbol.eql?(",")
-    	#type
+    	#,
     	@output.write(@tokenizer.print_token)
     	compile_next_token
     	#name
     	@output.write(@tokenizer.print_token)
+    	var.push(@tokenizer.identifier)
     	compile_next_token
+    	@num_locals += 1
     end
     #;
     @output.write(@tokenizer.print_token)
+    vars.each do |var|
+		@symbol_table.define(var, @ident_type, "local")
+	end
     compile_next_token
     
     @output.write("</varDec>" + "\n")
