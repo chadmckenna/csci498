@@ -32,7 +32,7 @@ class SymbolTable
 				end
 			end
 		end
-		return count				]
+		return count
 	end
 	
 	def kind_of(name)
