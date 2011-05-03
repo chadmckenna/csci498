@@ -1,10 +1,12 @@
 require 'JackTokenizer.rb'
 require 'CompilationEngine.rb'
+require 'VMWriter.rb'
 
 class JackAnalyzer
   def initialize(file)
     @input = File.open(file, 'r')
     @output = File.new(file.sub(/.jack/, "") + ".mine.xml", "w")
+    @vm_output = File.new(file.sub(/.jack/, "") + ".vm", "w")
     #write_input
     tokenize
   end
@@ -16,7 +18,8 @@ class JackAnalyzer
   def tokenize
     # Tokenize code goes here
     tokenizer = JackTokenizer.new(@input)
-    comp_engine = CompilationEngine.new(tokenizer, @output)
+    #vmWriter = VMWriter.new(@vmOutput)
+    comp_engine = CompilationEngine.new(tokenizer, @vm_output, @output)
     #compiler = CompilationEngine.new(@output)
     comp_engine.compile
     

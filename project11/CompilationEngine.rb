@@ -1,7 +1,11 @@
+require 'VMWriter'
+require 'SymbolTable.rb'
 class CompilationEngine
-  def initialize(tokenizer, output)
+  def initialize(tokenizer, vm_output, output)
     @tokenizer = tokenizer
     @output = output
+    @vm_writer = vmWriter(vm_output)
+    @symbol_table = SymbolTable.new
   end
   
   def compile
@@ -23,6 +27,7 @@ class CompilationEngine
     	puts "expected keyword class"
     	return    	
 	end
+	#class keyword
 	@output.write(@tokenizer.print_token)
 	compile_next_token
 
@@ -30,7 +35,7 @@ class CompilationEngine
   		puts"expected class identifier"
   		return
   	end
-
+    #class identifier
   	@output.write(@tokenizer.print_token)
 
   	compile_next_token
@@ -39,12 +44,15 @@ class CompilationEngine
   		puts"expected {"
   		return
   	end
-
+    #{
   	@output.write(@tokenizer.print_token)
 
   	compile_next_token
-
+    @num_fields = 0
   	while (@tokenizer.key_word.eql?("STATIC") or @tokenizer.key_word.eql?("FIELD"))
+  		if @tokenizer.key_word.eql?("FIELD")
+  			@num_fields += 1
+  		end
   		compile_class_var_dec
   	end
 
@@ -56,9 +64,10 @@ class CompilationEngine
   		puts"expected }"
   		return
   	end
+  	#}
   	@output.write(@tokenizer.print_token)
 
-	  @output.write("</class>" + "\n")
+	@output.write("</class>" + "\n")
   end
   
   def compile_class_var_dec
@@ -66,29 +75,48 @@ class CompilationEngine
     if !(@tokenizer.key_word.eql?("STATIC") or @tokenizer.key_word.eql?("FIELD"))
     	puts "expected static or field"
     	return
+    elsif @tokenizer.key_work.eql?("STATIC")
+    	@kind = "static"
+    else
+    	@kind = "field"
     end
     
+    #static or field
     @output.write(@tokenizer.print_token)
     
     compile_next_token
 
 	#check for identifier or keywords(int char boolean)
 	@output.write(@tokenizer.print_token)
-
+    if @tokenizer.token_type.eql?("KEYWORD")
+    	@ident_type = @tokenizer.key_word
+	else
+		@ident_type = @tokenizer.identifier
+	end
+	
 	compile_next_token
+	vars = array.new
 	#check for variable names(identifiers)
 	@output.write(@tokenizer.print_token)
+	vars.push(@tokenizer.identifier)
 	compile_next_token
 
 	while @tokenizer.symbol.eql?(",")
+		#,
 		@output.write(@tokenizer.print_token)
 		compile_next_token
 		#check for additional variables/identifiers
 		@output.write(@tokenizer.print_token)
+		vars.push(@tokenizer.identifier)
+		if @kind = "field"
+			@num_fields += 1
+		end
 		compile_next_token
 	end
 	#check for ;
 	@output.write(@tokenizer.print_token)
+	vars.each do |var|
+		@symbol_table.define(var, @ident_type, @kind)
 	compile_next_token
 	@output.write("</classVarDec>" + "\n")
   end
@@ -373,8 +401,7 @@ class CompilationEngine
     @output.write("</expression>\n")
   end
   
-  ############################################
-   def compile_term
+  def compile_term
     advance = false
   	@output.write("<term>\n")
     if @tokenizer.token_type.eql?("STRING_CONST") or @tokenizer.token_type.eql?("INT_CONST") or @tokenizer.token_type.eql?("KEYWORD")
