@@ -494,7 +494,7 @@ class CompilationEngine
   end
   
   def compile_expression
-  	OPERATORS = Hash["+", "add", "-", "sub", "&", "and", "|", "or", "<", "lt", ">", "gt", "=", "eql"]
+  	@OPERATORS = Hash["+" => "add", "-"=> "sub", "&"=> "and", "|"=> "or", "<"=> "lt", ">"=> "gt", "="=> "eql"]
     @output.write("<expression>\n")
     compile_term
     while (@tokenizer.symbol.eql?("+") or @tokenizer.symbol.eql?("-") or @tokenizer.symbol.eql?("*") or @tokenizer.symbol.eql?("/") or @tokenizer.symbol.eql?("&") or @tokenizer.symbol.eql?("|") or @tokenizer.symbol.eql?("<") or @tokenizer.symbol.eql?(">") or @tokenizer.symbol.eql?("="))
@@ -504,7 +504,7 @@ class CompilationEngine
     	compile_next_token
     	compile_term
     	if !(operator.eql?("*") or operator.eql?("/")
-    		@vm_writer.write_arithmetic(OPERATORS[operator]))
+    		@vm_writer.write_arithmetic(@OPERATORS[operator]))
     	elsif operator.eql?("*")
 	    	@vm_writer.write_call("Math.multiply", 2)
 	    elsif operator.eql?("/")
@@ -521,7 +521,7 @@ class CompilationEngine
     	@output.write(@tokenizer.print_token)
     	if @tokenizer.token_type.eql?("STRING_CONST")
     		string = @tokenizer.string_val
-    		@vm_writer.write_push("constant", string.lenth)
+    		@vm_writer.write_push("constant", string.length)
     		@vm_writer.write_call("String.new", 1)
     		string.each_char do |character|
     			@vm_writer.write_push("constant", character[0])
@@ -593,7 +593,7 @@ class CompilationEngine
     	  	if @symbol_table.has?(identifier)
     	  		@vm_writer.write_call(@symbol_table.type_of(identifier), +"." + sub_identifier, @num_expressions + 1)
 	  		else
-	  			@vm_writer.write_call(identifier + "." + sub_identifier, num_expressions)
+	  			@vm_writer.write_call(identifier + "." + sub_identifier, @num_expressions)
   			end
     	  	@output.write(@tokenizer.print_token)    	
     	  	advance = true
