@@ -495,7 +495,7 @@ class CompilationEngine
   end
   
   def compile_expression
-  	operators = Hash["+", "add", "-", "sub", "&", "and", "|", "or", "<", "lt", ">", "gt", "=", "eql"]
+  	@OPERATORS = Hash["+" => "add", "-"=> "sub", "&"=> "and", "|"=> "or", "<"=> "lt", ">"=> "gt", "="=> "eql"]
     @output.write("<expression>\n")
     compile_term
     while (@tokenizer.symbol.eql?("+") or @tokenizer.symbol.eql?("-") or @tokenizer.symbol.eql?("*") or @tokenizer.symbol.eql?("/") or @tokenizer.symbol.eql?("&") or @tokenizer.symbol.eql?("|") or @tokenizer.symbol.eql?("<") or @tokenizer.symbol.eql?(">") or @tokenizer.symbol.eql?("="))
@@ -504,8 +504,10 @@ class CompilationEngine
     	operator = @tokenizer.symbol
     	compile_next_token
     	compile_term
-    	if !(operator.eql?("*") or operator.eql?("/")
-    		@vm_writer.write_arithmetic(operators[operator]))
+    	
+    	if !(operator.eql?("*") or operator.eql?("/"))
+    		puts "here " + operator
+    		@vm_writer.write_arithmetic(@OPERATORS[operator])
     	elsif operator.eql?("*")
 	    	@vm_writer.write_call("Math.multiply", 2)
 	    elsif operator.eql?("/")
@@ -520,6 +522,26 @@ class CompilationEngine
   	@output.write("<term>\n")
     if @tokenizer.token_type.eql?("STRING_CONST") or @tokenizer.token_type.eql?("INT_CONST") or @tokenizer.token_type.eql?("KEYWORD")
     	@output.write(@tokenizer.print_token)
+    	if @tokenizer.token_type.eql?("STRING_CONST")
+    		string = @tokenizer.string_val
+    		@vm_writer.write_push("constant", string.length)
+    		@vm_writer.write_call("String.new", 1)
+    		string.each_char do |character|
+    			@vm_writer.write_push("constant", character[0])
+    			@vm_writer.write_call("String.appendChar", 2)
+    		end
+    	elsif @tokenizer.token_type.eql?("INT_CONTS")
+    		@vm_writer.write_push("constant", @tokenizer.int_val)
+    	elsif @tokenizer.token_type.eql?("KEYWORD")
+    		if @tokenizer.key_word.eql?("THIS")
+    			@vm_writer.write_push("pointer", 0)
+    		elsif @tokenizer.key_word.eql?("TRUE")
+    			@vm_writer.write_push("constant", 0)
+    			@vm_writer.write_arithmetic("not")
+    		else
+    			@vm_writer.write_push("constant", 0)
+    		end
+    	end
     	advance = true
     elsif @tokenizer.symbol.eql?("(")
     	#(
@@ -532,42 +554,65 @@ class CompilationEngine
     elsif @tokenizer.symbol.eql?("~") or @tokenizer.symbol.eql?("-")
     	#~ or -
     	@output.write(@tokenizer.print_token)
+    	if @tokenizer.symbol.eql?("~")
+    		@vm_writer.write_arithmetic("not")
+    	else
+    		@vm_writer.write_arithmetic("neg")
+    	end
     	compile_next_token
     	compile_term
-	  elsif @tokenizer.token_type.eql?("IDENTIFIER")
+	elsif @tokenizer.token_type.eql?("IDENTIFIER")
     	@output.write(@tokenizer.print_token)
+    	identifier = @tokenizer.identifier
     	compile_next_token
     	if @tokenizer.symbol.eql?("[")
     		#[
     		@output.write(@tokenizer.print_token)
     		compile_next_token
     		compile_expression
+    		@vm_writer.write_arithmetic("add")
+    		@vm_writer.write_pop("pointer", 1)
+    		@vm_writer.write_push("that", 0)
     		#]
     		@output.write(@tokenizer.print_token)
     		advance = true
-      elsif @tokenizer.symbol.eql?("(")
-      	#(
-      	@output.write(@tokenizer.print_token)
-  		  compile_next_token
-		    compile_expression_list
-		    compile_next_token
-		    #)
-		    @output.write(@tokenizer.print_token)
-		    advance = true
-	    elsif @tokenizer.symbol.eql?(".")
-    	  #.
-    	  @output.write(@tokenizer.print_token)
-    	  compile_next_token
-    	  #identifier
-    	  @output.write(@tokenizer.print_token)
-    	  compile_next_token
-    	  #(
-    	  @output.write(@tokenizer.print_token)
-    	  compile_next_token
-    	  compile_expression_list
-    	  #)
-    	  @output.write(@tokenizer.print_token)    	
-    	  advance = true
+		elsif @tokenizer.symbol.eql?(".")
+    		#.
+    		@output.write(@tokenizer.print_token)
+    		compile_next_token
+    	  	#identifier
+    	  	@output.write(@tokenizer.print_token)
+    	  	sub_identifier = @tokenizer.identifier
+    	  	compile_next_token
+    	  	#(
+    	  	@output.write(@tokenizer.print_token)
+    	  	if @symbol_table.has?(identifier)
+    	  		@vm_writer.write_push(@symbol_table.kind_of(identifier), @symbol_table.index_of(identifier))
+	  		end
+	  		@num_expressions = 0
+    	  	compile_next_token
+    	  	compile_expression_list
+    	  	#)
+    	  	if @symbol_table.has?(identifier)
+    	  		@vm_writer.write_call(@symbol_table.type_of(identifier), +"." + sub_identifier, @num_expressions + 1)
+	  		else
+	  			@vm_writer.write_call(identifier + "." + sub_identifier, @num_expressions)
+  			end
+    	  	@output.write(@tokenizer.print_token)    	
+    	  	advance = true
+    		
+		elsif @tokenizer.symbol.eql?("(")
+      		#(
+      		@output.write(@tokenizer.print_token)
+			compile_next_token
+  			@vm_writer.write_push("pointer", 0)
+			compile_expression_list
+			@num_expressions += 1
+			compile_next_token
+			#)
+			@output.write(@tokenizer.print_token)
+			@vm_writer.write_call("@class_name" + "." + identifier, @num_expressions)
+			advance = true		
     	end
     end
     if advance
@@ -590,12 +635,6 @@ class CompilationEngine
         compile_expression
       end
     end
-  #compile_expression
-   # while @tokenizer.symbol.eql?(",")
-    #	@output.write(@tokenizer.print_token)
-	#	compile_next_token
-    #	compile_expression
-   # end
     @output.write("</expressionList>\n")
   end
 
