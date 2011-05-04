@@ -494,12 +494,22 @@ class CompilationEngine
   end
   
   def compile_expression
+  	OPERATORS = Hash["+", "add", "-", "sub", "&", "and", "|", "or", "<", "lt", ">", "gt", "=", "eql"]
     @output.write("<expression>\n")
     compile_term
     while (@tokenizer.symbol.eql?("+") or @tokenizer.symbol.eql?("-") or @tokenizer.symbol.eql?("*") or @tokenizer.symbol.eql?("/") or @tokenizer.symbol.eql?("&") or @tokenizer.symbol.eql?("|") or @tokenizer.symbol.eql?("<") or @tokenizer.symbol.eql?(">") or @tokenizer.symbol.eql?("="))
+    	#symbol
     	@output.write(@tokenizer.print_token)
+    	operator = @tokenizer.symbol
     	compile_next_token
     	compile_term
+    	if !(operator.eql?("*") or operator.eql?("/")
+    		@vm_writer.write_arithmetic(OPERATORS[operator]))
+    	elsif operator.eql?("*")
+	    	@vm_writer.write_call("Math.multiply", 2)
+	    elsif operator.eql?("/")
+	    	@vm_writer.write_call("Math.divide", 2)
+	    end
     end
     @output.write("</expression>\n")
   end
