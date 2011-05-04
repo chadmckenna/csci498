@@ -4,7 +4,7 @@ class VMWriter
 	end
 	
 	def write_push(segment, index)
-		@ouput.write("push" + segment + " " + index + "\n"))
+		@ouput.write("push" + segment + " " + index + "\n")
 	end
 	
 	def write_pop(segment, index)

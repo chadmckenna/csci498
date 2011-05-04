@@ -1,10 +1,10 @@
-require 'VMWriter'
+require 'VMWriter.rb'
 require 'SymbolTable.rb'
 class CompilationEngine
   def initialize(tokenizer, vm_output, output)
     @tokenizer = tokenizer
     @output = output
-    @vm_writer = vmWriter(vm_output)
+    @vm_writer = VMWriter.new(vm_output)
     @symbol_table = SymbolTable.new
     @label_num = 0
   end
@@ -38,7 +38,7 @@ class CompilationEngine
   	end
     #class identifier
   	@output.write(@tokenizer.print_token)
-	@class_name = @tokeinzer.identifier
+	@class_name = @tokenizer.identifier
   	compile_next_token
 
 	  if !@tokenizer.symbol.eql?("{")
@@ -109,7 +109,7 @@ class CompilationEngine
 		#check for additional variables/identifiers
 		@output.write(@tokenizer.print_token)
 		vars.push(@tokenizer.identifier)
-		if @kind = "field"
+		if @kind == "field"
 			@num_fields += 1
 		end
 		compile_next_token
