@@ -58,4 +58,15 @@ class SymbolTable
 			return @class_table[name]["index"]
 		end
 	end
+	
+	def has?(name)
+		if @sub_table.has_key?("name")
+			return true
+		elsif @class_table.has_key?("name")
+			return true
+		else
+			return false;
+		end
+	end
+
 end

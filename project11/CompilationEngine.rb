@@ -6,6 +6,7 @@ class CompilationEngine
     @output = output
     @vm_writer = vmWriter(vm_output)
     @symbol_table = SymbolTable.new
+    @label_num = 0
   end
   
   def compile
@@ -284,12 +285,15 @@ class CompilationEngine
   end
   
   def compile_do
+  	identifier_one = ""
+  	identifier_two = ""
     @output.write("<doStatement>\n")
-    # Keyword
+    # Keyword do
     @output.write(@tokenizer.print_token)
     compile_next_token
     # Identifier
     @output.write(@tokenizer.print_token)
+    identifier_one = @tokenizer.identifier    
     compile_next_token
     if (@tokenizer.symbol.eql?('.'))
       # Symbol '.'
@@ -297,6 +301,7 @@ class CompilationEngine
       compile_next_token
       # Identifier
       @output.write(@tokenizer.print_token)
+      identifier_two = @tokenizer.identifier
       compile_next_token
       # Symbol '('
       @output.write(@tokenizer.print_token)
@@ -305,12 +310,30 @@ class CompilationEngine
       @output.write(@tokenizer.print_token)
     end
     compile_next_token
-    
+ 	if identifier_two.eql?("")
+ 		@vm_writer.write_push("pointer", 0)
+ 	else
+ 		@vm_writer.write_push(@symbol_table.kind_of(identifier_one), @symbol_table.index_of(identifier_one))
+ 	end
     compile_expression_list
     
     # Symbol ')'
     @output.write(@tokenizer.print_token)
     compile_next_token
+    
+    if(identifier_two.eql?(""))
+    	@num_expressions += 1
+    	call_name = @class_name + "." + indentifier_one
+    else
+    	if @symbol_table.has?("@identifier_one")
+    		@num_expressions += 1
+    		call_name = @symbol_table.type_of(indentifier_one) + "." + @identifier_two
+    	else
+    		call_name = indentifier_one + "." + identifier_two
+    	end
+    end
+    @vm_writer.write_call(call_name, @num_expressions)	
+    @vm_writer.write_pop("temp", 0)
     # Symbol ';'
     @output.write(@tokenizer.print_token)
     
@@ -318,28 +341,46 @@ class CompilationEngine
   end
   
   def compile_let
+  	is_array = false
     @output.write("<letStatement>\n")
-    # Keyword
+    # Keyword let
     @output.write(@tokenizer.print_token)
     compile_next_token
     # Identifier
     @output.write(@tokenizer.print_token)
+    var = @tokenizer.identifier
     compile_next_token
     # Symbol
     if @tokenizer.symbol.eql?("[")
+    	is_array = true
     	#[
     	@output.write(@tokenizer.print_token)
+    	kind = @symbol_table.kind_of(var)
+    	@vm_writer.write_push(kind, @symbolTable.index_of(var))
     	compile_next_token
     	compile_expression
     	#]
     	@output.write(@tokenizer.print_token)
+    	@vm_writer.write_arithemtic("add")
+    	segment = "that"
+    	index = 0
     	compile_next_token
+    else
+    	kind = @symbol_table.kind_of(var)
+    	segment = kind
+    	index = @symbol_table.index_of(var)
     end
     #=
     @output.write(@tokenizer.print_token)
     compile_next_token
     # Will need extra implementation here, but this is ok for expressionless
     compile_expression
+    if is_array
+    	@vm_writer.write_pop("temp", 0)
+    	@vm_writer.write_pop("pointer", 1)
+    	@vm_writer.write_push("temp", 0)
+    end
+    @vm_writer.write_pop(segment, index)
     #compile_next_token
     @output.write(@tokenizer.print_token)
     #compile_next_token
@@ -347,14 +388,22 @@ class CompilationEngine
   end
   
   def compile_while
+  	@label_num += 1
+  	label_one = "WHILE" + @label_num
+  	@label_num += 1
+  	label_two = "WHILE" + @label_num
+  	
     @output.write("<whileStatement>\n")
     #while
     @output.write(@tokenizer.print_token)
     compile_next_token
     # Symbol '('
     @output.write(@tokenizer.print_token)
+    @vm_writer.write_label(label_one)
     compile_next_token
     compile_expression
+    @vm_writer.write_arthmetic("not")
+    @vm_writer.write_label(label_two)
     #compile_next_token
     # Symbol ')'
     @output.write(@tokenizer.print_token)
@@ -363,8 +412,10 @@ class CompilationEngine
     @output.write(@tokenizer.print_token)
     compile_next_token
     compile_statements
+    @vm_writer.write_goto(label_one)
     # Symbol '}'
     @output.write(@tokenizer.print_token)
+    @vm_writer.write_goto(label_two)
     #compile_next_token
     @output.write("</whileStatement>\n")
   end
@@ -379,50 +430,65 @@ class CompilationEngine
   	if !@tokenizer.symbol.eql?(";")
   		compile_expression
   		#compile_next_token
-  	end
+  	else
+  		@vm_writer.write_push("constant", 0)
+	end
   	
   	#error check for ";"
   	@output.write(@tokenizer.print_token)
-  	
+  	@vm_writer.write_return
   	@output.write("</returnStatement>" + "\n")  	
   	
   end
   
   def compile_if
+  	if_true = "IF-TRUE" + @label_num
+  	if_false = "IF-FAlSE" + @label_num
+  	if_end = "IF-END" + @label_num
+  	@label_num += 1
   	@output.write("<ifStatement>" + "\n")
   	
-  	#error check for if
+  	#if
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
-  	#error check for "("
+  	#"("
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
   	compile_expression
   	#compile_next_token
   	
-  	#error check for ")"
+  	#")"
   	@output.write(@tokenizer.print_token)
+  	@vm_writer.write_if(if_true)
+  	@vm_writer.write_goto(if_false)
+  	@vm_writer.write_label(if_true)
   	compile_next_token
   	
-  	#error check for "{"
+  	#"{"
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
   	compile_statements
   	
-  	#error check for "}"
+  	#"}"
   	@output.write(@tokenizer.print_token)
   	#compile_next_token
   	
   	if @tokenizer.key_word.eql?("ELSE")
+  		@vm_writer.write_goto(if_end)
+  		@vm_writer.write_label(if_false)
+  		#else
   		@output.write(@tokenizer.print_token)
   		compile_next_token
   		compile_statements
   		
   		@output.write(@tokenizer.print_token)
   		#compile_next_token
+  		@vm_writer.write_label(if_end)
+  	else
+  		@vm_writer.write_label(if_false)
   	end
   	@output.write("</ifStatement>" + "\n")
   end
