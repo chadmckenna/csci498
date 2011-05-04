@@ -311,11 +311,11 @@ class CompilationEngine
       @output.write(@tokenizer.print_token)
     end
     compile_next_token
- 	if identifier_two.eql?("")
- 		@vm_writer.write_push("pointer", 0)
- 	else
- 		@vm_writer.write_push(@symbol_table.kind_of(identifier_one), @symbol_table.index_of(identifier_one))
- 	end
+ 	  if identifier_two.eql?("")
+ 		  @vm_writer.write_push("pointer", 0)
+ 	  else
+ 		  @vm_writer.write_push(@symbol_table.kind_of(identifier_one), @symbol_table.index_of(identifier_one))
+ 	  end
     compile_expression_list
     
     # Symbol ')'

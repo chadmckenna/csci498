@@ -36,33 +36,33 @@ class SymbolTable
 	end
 	
 	def kind_of(name)
-		if @sub_table.has_key?("name")
+		if @sub_table.has_key?(name)
 			return @sub_table[name]["kind"]
-		elsif @class_table.has_key?("name")
+		elsif @class_table.has_key?(name)
 			return @class_table[name]["kind"]
 		end	
 	end
 	
 	def type_of(name)
-		if @sub_table.has_key?("name")
+		if @sub_table.has_key?(name)
 			return @sub_table[name]["type"]
-		elsif @class_table.has_key?("name")
+		elsif @class_table.has_key?(name)
 			return @class_table[name]["type"]
 		end
 	end
 	
 	def index_of(name)
-		if @sub_table.has_key?("name")
+		if @sub_table.has_key?(name)
 			return @sub_table[name]["index"]
-		elsif @class_table.has_key?("name")
+		elsif @class_table.has_key?(name)
 			return @class_table[name]["index"]
 		end
 	end
 	
 	def has?(name)
-		if @sub_table.has_key?("name")
+		if @sub_table.has_key?(name)
 			return true
-		elsif @class_table.has_key?("name")
+		elsif @class_table.has_key?(name)
 			return true
 		else
 			return false;
