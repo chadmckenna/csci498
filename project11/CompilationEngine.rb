@@ -286,6 +286,7 @@ class CompilationEngine
   end
   
   def compile_do
+  	@num_expressions  =0
   	identifier_one = ""
   	identifier_two = ""
     @output.write("<doStatement>\n")
@@ -313,8 +314,10 @@ class CompilationEngine
     compile_next_token
  	if identifier_two.eql?("")
  		@vm_writer.write_push("pointer", 0)
- 	else
+ 		#@num_expressions += 1
+ 	elsif @symbol_table.has?("identifier_one")
  		@vm_writer.write_push(@symbol_table.kind_of(identifier_one), @symbol_table.index_of(identifier_one))
+ 		#@num_expressions += 1
  	end
     compile_expression_list
     
@@ -520,6 +523,7 @@ class CompilationEngine
   def compile_term
     advance = false
   	@output.write("<term>\n")
+  	puts @tokenizer.token_type
     if @tokenizer.token_type.eql?("STRING_CONST") or @tokenizer.token_type.eql?("INT_CONST") or @tokenizer.token_type.eql?("KEYWORD")
     	@output.write(@tokenizer.print_token)
     	if @tokenizer.token_type.eql?("STRING_CONST")
@@ -530,7 +534,7 @@ class CompilationEngine
     			@vm_writer.write_push("constant", character[0])
     			@vm_writer.write_call("String.appendChar", 2)
     		end
-    	elsif @tokenizer.token_type.eql?("INT_CONTS")
+    	elsif @tokenizer.token_type.eql?("INT_CONST")
     		@vm_writer.write_push("constant", @tokenizer.int_val)
     	elsif @tokenizer.token_type.eql?("KEYWORD")
     		if @tokenizer.key_word.eql?("THIS")
@@ -624,15 +628,18 @@ class CompilationEngine
   end
   
   def compile_expression_list
+  	@num_expressions = 0
     @output.write("<expressionList>\n")
 	  while !@tokenizer.symbol.eql?(')')
       compile_expression
+      @num_expressions += 1
       #compile_next_token
       # Symbol ','
       while @tokenizer.symbol.eql?(",")
         @output.write(@tokenizer.print_token)
         compile_next_token
         compile_expression
+        @num_expressions += 1
       end
     end
     @output.write("</expressionList>\n")
