@@ -87,40 +87,41 @@ class CompilationEngine
     
     compile_next_token
 
-	#check for identifier or keywords(int char boolean)
-	@output.write(@tokenizer.print_token)
+	  #check for identifier or keywords(int char boolean)
+	  @output.write(@tokenizer.print_token)
+    
     if @tokenizer.token_type.eql?("KEYWORD")
     	@ident_type = @tokenizer.key_word
-	else
-		@ident_type = @tokenizer.identifier
-	end
+	  else
+  		@ident_type = @tokenizer.identifier
+  	end
 	
-	compile_next_token
-	vars = array.new
-	#check for variable names(identifiers)
-	@output.write(@tokenizer.print_token)
-	vars.push(@tokenizer.identifier)
-	compile_next_token
+  	compile_next_token
+  	vars = array.new
+  	#check for variable names(identifiers)
+  	@output.write(@tokenizer.print_token)
+  	vars.push(@tokenizer.identifier)
+  	compile_next_token
 
-	while @tokenizer.symbol.eql?(",")
-		#,
-		@output.write(@tokenizer.print_token)
-		compile_next_token
-		#check for additional variables/identifiers
-		@output.write(@tokenizer.print_token)
-		vars.push(@tokenizer.identifier)
-		if @kind == "field"
-			@num_fields += 1
-		end
-		compile_next_token
-	end
-	#check for ;
-	@output.write(@tokenizer.print_token)
-	vars.each do |var|
-		@symbol_table.define(var, @ident_type, @kind)
-	end
-	compile_next_token
-	@output.write("</classVarDec>" + "\n")
+  	while @tokenizer.symbol.eql?(",")
+  		#,
+  		@output.write(@tokenizer.print_token)
+  		compile_next_token
+  		#check for additional variables/identifiers
+  		@output.write(@tokenizer.print_token)
+  		vars.push(@tokenizer.identifier)
+  		if @kind == "field"
+  			@num_fields += 1
+  		end
+  		compile_next_token
+  	end
+  	#check for ;
+  	@output.write(@tokenizer.print_token)
+  	vars.each do |var|
+  		@symbol_table.define(var, @ident_type, @kind)
+  	end
+  	compile_next_token
+  	@output.write("</classVarDec>" + "\n")
   end
   
   def compile_subroutine
@@ -494,7 +495,7 @@ class CompilationEngine
   end
   
   def compile_expression
-  	OPERATORS = Hash["+", "add", "-", "sub", "&", "and", "|", "or", "<", "lt", ">", "gt", "=", "eql"]
+  	operators = Hash["+", "add", "-", "sub", "&", "and", "|", "or", "<", "lt", ">", "gt", "=", "eql"]
     @output.write("<expression>\n")
     compile_term
     while (@tokenizer.symbol.eql?("+") or @tokenizer.symbol.eql?("-") or @tokenizer.symbol.eql?("*") or @tokenizer.symbol.eql?("/") or @tokenizer.symbol.eql?("&") or @tokenizer.symbol.eql?("|") or @tokenizer.symbol.eql?("<") or @tokenizer.symbol.eql?(">") or @tokenizer.symbol.eql?("="))
@@ -504,7 +505,7 @@ class CompilationEngine
     	compile_next_token
     	compile_term
     	if !(operator.eql?("*") or operator.eql?("/")
-    		@vm_writer.write_arithmetic(OPERATORS[operator]))
+    		@vm_writer.write_arithmetic(operators[operator]))
     	elsif operator.eql?("*")
 	    	@vm_writer.write_call("Math.multiply", 2)
 	    elsif operator.eql?("/")

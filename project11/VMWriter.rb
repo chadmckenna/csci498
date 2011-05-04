@@ -12,7 +12,7 @@ class VMWriter
 	end
 	
 	def write_arithmetic(command)
-		@output.write(command + "\n")
+		@output.write(command.to_s + "\n")
 	end
 	
 	def write_label(label)
