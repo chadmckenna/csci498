@@ -169,11 +169,11 @@ class CompilationEngine
   	end
   	
   	@vm_writer.write_function(@class_name + "." + @sub_name, @num_locals)
-  	if is_constructor
+  	if @is_constructor
   		@vm_writer.write_push("constant", @num_fields)
   		@vm_writer.write_call("Memory.alloc", 1)
   		@vm_writer.write_pop("pointer", 0)
-  	elsif is_method
+  	elsif @is_method
   		@vm_writer.write_push("arguement", 0)
   		@vm_writer.write_pop("pointer", 0)
   	end
@@ -238,7 +238,7 @@ class CompilationEngine
   	
     #name
     @output.write(@tokenizer.print_token)
-	vars.push(@tokenizer.identifier)
+	  vars.push(@tokenizer.identifier)
     compile_next_token
     
     while @tokenizer.symbol.eql?(",")
@@ -247,7 +247,7 @@ class CompilationEngine
     	compile_next_token
     	#name
     	@output.write(@tokenizer.print_token)
-    	var.push(@tokenizer.identifier)
+    	vars.push(@tokenizer.identifier)
     	compile_next_token
     	@num_locals += 1
     end
@@ -329,7 +329,7 @@ class CompilationEngine
     		@num_expressions += 1
     		call_name = @symbol_table.type_of(indentifier_one) + "." + @identifier_two
     	else
-    		call_name = indentifier_one + "." + identifier_two
+    		call_name = identifier_one + "." + identifier_two
     	end
     end
     @vm_writer.write_call(call_name, @num_expressions)	
@@ -356,12 +356,12 @@ class CompilationEngine
     	#[
     	@output.write(@tokenizer.print_token)
     	kind = @symbol_table.kind_of(var)
-    	@vm_writer.write_push(kind, @symbolTable.index_of(var))
+    	@vm_writer.write_push(kind, @symbol_table.index_of(var))
     	compile_next_token
     	compile_expression
     	#]
     	@output.write(@tokenizer.print_token)
-    	@vm_writer.write_arithemtic("add")
+    	@vm_writer.write_arithmetic("add")
     	segment = "that"
     	index = 0
     	compile_next_token
@@ -389,9 +389,9 @@ class CompilationEngine
   
   def compile_while
   	@label_num += 1
-  	label_one = "WHILE" + @label_num
+  	label_one = "WHILE" + @label_num.to_s
   	@label_num += 1
-  	label_two = "WHILE" + @label_num
+  	label_two = "WHILE" + @label_num.to_s
   	
     @output.write("<whileStatement>\n")
     #while
@@ -402,7 +402,7 @@ class CompilationEngine
     @vm_writer.write_label(label_one)
     compile_next_token
     compile_expression
-    @vm_writer.write_arthmetic("not")
+    @vm_writer.write_arithmetic("not")
     @vm_writer.write_label(label_two)
     #compile_next_token
     # Symbol ')'
