@@ -503,8 +503,9 @@ class CompilationEngine
     	operator = @tokenizer.symbol
     	compile_next_token
     	compile_term
-    	if !(operator.eql?("*") or operator.eql?("/")
-    		@vm_writer.write_arithmetic(@OPERATORS[operator]))
+    	if !(operator.eql?("*") or operator.eql?("/"))
+    		puts "here " + operator
+    		@vm_writer.write_arithmetic(@OPERATORS[operator])
     	elsif operator.eql?("*")
 	    	@vm_writer.write_call("Math.multiply", 2)
 	    elsif operator.eql?("/")
