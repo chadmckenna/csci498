@@ -125,6 +125,8 @@ class CompilationEngine
   end
   
   def compile_subroutine
+  	@while_label = 0
+  	@if_label = 0
   	@is_constructor = false
   	@is_method = false
   	@num_locals = 0
@@ -392,11 +394,9 @@ class CompilationEngine
   end
   
   def compile_while
-  	@label_num += 1
   	label_one = "WHILE" + @label_num.to_s
+  	label_two = "WHILE_END" + @label_num.to_s
   	@label_num += 1
-  	label_two = "WHILE" + @label_num.to_s
-  	
     @output.write("<whileStatement>\n")
     #while
     @output.write(@tokenizer.print_token)
@@ -407,7 +407,7 @@ class CompilationEngine
     compile_next_token
     compile_expression
     @vm_writer.write_arithmetic("not")
-    @vm_writer.write_label(label_two)
+    @vm_writer.write_if(label_two)
     #compile_next_token
     # Symbol ')'
     @output.write(@tokenizer.print_token)
@@ -416,10 +416,11 @@ class CompilationEngine
     @output.write(@tokenizer.print_token)
     compile_next_token
     compile_statements
-    @vm_writer.write_goto(label_one)
+    #@vm_writer.write_goto(label_one)
     # Symbol '}'
     @output.write(@tokenizer.print_token)
-    @vm_writer.write_goto(label_two)
+    @vm_writer.write_goto(label_one)
+    @vm_writer.write_label(label_two)
     #compile_next_token
     @output.write("</whileStatement>\n")
   end
