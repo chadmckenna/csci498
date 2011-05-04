@@ -25,6 +25,7 @@ class JackAnalyzer
     
     @input.close
     @output.close
+    @vm_output.close
   end
   
 end

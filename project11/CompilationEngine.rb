@@ -27,10 +27,10 @@ class CompilationEngine
     if !@tokenizer.key_word.eql?("CLASS")
     	puts "expected keyword class"
     	return    	
-	end
-	#class keyword
-	@output.write(@tokenizer.print_token)
-	compile_next_token
+	  end
+	  #class keyword
+	  @output.write(@tokenizer.print_token)
+	  compile_next_token
 
   	if !@tokenizer.token_type.eql?("IDENTIFIER")
   		puts"expected class identifier"
@@ -38,7 +38,7 @@ class CompilationEngine
   	end
     #class identifier
   	@output.write(@tokenizer.print_token)
-	@class_name = @tokenizer.identifier
+	  @class_name = @tokenizer.identifier
   	compile_next_token
 
 	  if !@tokenizer.symbol.eql?("{")
@@ -68,7 +68,7 @@ class CompilationEngine
   	#}
   	@output.write(@tokenizer.print_token)
 
-	@output.write("</class>" + "\n")
+	  @output.write("</class>" + "\n")
   end
   
   def compile_class_var_dec
@@ -144,7 +144,7 @@ class CompilationEngine
   	
   	#function identifier
   	@output.write(@tokenizer.print_token)
-  	@sub_name = @tokenizer.indentifier
+  	@sub_name = @tokenizer.identifier
   	compile_next_token
   	
   	#"("
@@ -220,7 +220,7 @@ class CompilationEngine
   
   def compile_var_dec
   	@num_locals += 1
-  	vars = array.new
+  	vars = Array.new
   	@output.write("<varDec>" + "\n")
   	
   	#Var Keyword
