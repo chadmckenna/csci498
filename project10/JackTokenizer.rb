@@ -8,8 +8,8 @@ class JackTokenizer
   	@readFile = Array.new
     file.each_line do |line| 
       unless line.to_s.index(/((\/\*[^*]*\*\s*\S*)|(\s*[*]+\s*\S*))|(\s*\/\/.*$)/).eql? nil
-	#puts line
-	line[line.to_s.index(/(\/\*[^*]*\*+(?:[^*\/][^*]*\*+)*\/)|(\s*\/\/.*$)/).to_i..line.to_s.length()-1] = ''
+	      #puts line
+	      line[line.to_s.index(/(\/\*[^*]*\*+(?:[^*\/][^*]*\*+)*\/)|(\s*\/\/.*$)/).to_i..line.to_s.length()-1] = ''
       end
       @readFile.push(line.lstrip)
     end
