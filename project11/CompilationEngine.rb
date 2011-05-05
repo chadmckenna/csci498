@@ -449,9 +449,9 @@ class CompilationEngine
   end
   
   def compile_if
-  	if_true = "IF-TRUE" + @label_num
-  	if_false = "IF-FAlSE" + @label_num
-  	if_end = "IF-END" + @label_num
+  	if_true = "IF-TRUE" + @label_num.to_s
+  	if_false = "IF-FAlSE" + @label_num.to_s
+  	if_end = "IF-END" + @label_num.to_s
   	@label_num += 1
   	@output.write("<ifStatement>" + "\n")
   	

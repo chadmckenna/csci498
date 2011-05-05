@@ -7,13 +7,14 @@ class JackTokenizer
   def initialize(file)
   	@readFile = Array.new
     file.each_line do |line|
-      unless line.to_s.index(/^((\/\*[^*]*\*\s*\S*)|(\s*[*]+\s*\S*))|(\s*\/\/.*$)/).eql? nil
-	      line[line.to_s.index(/(\/\*[^*]*\*+(?:[^*\/][^*]*\*+)*\/)|(\s*\/\/.*$)/).to_i..line.to_s.length()-1] = ''
+      line.strip
+      unless line.to_s.index(/\n*((\/\*[^*]*\*\s*\S*)|(\s*[*]+\s*\S*))|(\s*\/\/.*$)/).eql? nil
+        line[line.to_s.index(/(\/\*[^*]*\*+(?:[^*\/][^*]*\*+)*\/)|(\s*\/\/.*$)/).to_i..line.to_s.length()-1] = ''
       end
+      puts line
       @readFile.push(line.strip)
     end
     @readFile.delete('')
-    #puts @readFile
     @currentLine = 0
     @currentToken = ""
     @charPosition = 0
