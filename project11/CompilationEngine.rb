@@ -275,16 +275,21 @@ class CompilationEngine
   def compile_statement
     if @tokenizer.key_word.eql?("LET") 
       compile_let
+      compile_next_token
     elsif @tokenizer.key_word.eql?("DO") 
       compile_do
+      compile_next_token
     elsif @tokenizer.key_word.eql?("IF")
       compile_if
+      compile_next_token
     elsif @tokenizer.key_word.eql?("WHILE") 
       compile_while
+      compile_next_token
     elsif@tokenizer.key_word.eql?("RETURN")
       compile_return
+      compile_next_token
     end
-    compile_next_token
+    #compile_next_token
   end
   
   def compile_do
@@ -300,6 +305,7 @@ class CompilationEngine
     identifier_one = @tokenizer.identifier    
     compile_next_token
     if (@tokenizer.symbol.eql?('.'))
+      #compile_next_token
       # Symbol '.'
       @output.write(@tokenizer.print_token)
       compile_next_token
@@ -310,6 +316,7 @@ class CompilationEngine
       # Symbol '('
       @output.write(@tokenizer.print_token)
     else
+      #compile_next_token
       # Symbol '('
       @output.write(@tokenizer.print_token)
     end
@@ -485,9 +492,9 @@ class CompilationEngine
   	compile_statements
   	#"}"
   	@output.write(@tokenizer.print_token)
-    compile_next_token
-
+    #compile_next_token
     if @tokenizer.key_word.eql?("ELSE")
+      compile_next_token
   		@vm_writer.write_goto(if_end)
   		@vm_writer.write_label(if_false)
   		#else
@@ -501,7 +508,9 @@ class CompilationEngine
   		#compile_next_token
   		@vm_writer.write_label(if_end)
   	else
+  	  compile_next_token  	  
   		@vm_writer.write_label(if_false)
+  		#compile_next_token
   	end
   	@output.write("</ifStatement>" + "\n")
   end
