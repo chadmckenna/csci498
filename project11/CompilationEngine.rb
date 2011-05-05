@@ -118,6 +118,9 @@ class CompilationEngine
   	#check for ;
   	@output.write(@tokenizer.print_token)
   	vars.each do |var|
+  		if @kind.eql?("field")
+  			@kind = "this"
+  		end
   		@symbol_table.define(var, @ident_type, @kind)
   	end
   	compile_next_token
@@ -136,6 +139,7 @@ class CompilationEngine
   		@is_constructor = true
   	elsif @tokenizer.key_word.eql?("METHOD")
   		@is_method = true
+  		@symbol_table.define("this", @class_name, "argument")
   	end
   	compile_next_token
   	

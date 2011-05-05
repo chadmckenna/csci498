@@ -9,10 +9,13 @@ class SymbolTable
 	end
 	
 	def define(name, ident_type, ident_kind)
+		
 		var_index = var_count(ident_kind)
 		if(ident_kind.eql?("static") or ident_kind.eql?("this"))
+			puts var_count(ident_kind).to_s + " dexvar " + name + " class"
 			@class_table[name] = Hash["kind" => ident_kind, "type" => ident_type, "index" => var_index]
 		else
+			puts var_count(ident_kind).to_s + " dexvar " + name + " sub"
 			@sub_table[name] = Hash["kind" => ident_kind, "type" => ident_type, "index" => var_index]
 		end
 	end
