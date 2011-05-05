@@ -491,9 +491,9 @@ class CompilationEngine
   	compile_statements
   	#"}"
   	@output.write(@tokenizer.print_token)
-    #compile_next_token
+    compile_next_token
     if @tokenizer.key_word.eql?("ELSE")
-      compile_next_token
+      #compile_next_token
   		@vm_writer.write_goto(if_end)
   		@vm_writer.write_label(if_false)
   		#else
@@ -508,7 +508,7 @@ class CompilationEngine
   		#compile_next_token
   		@vm_writer.write_label(if_end)
   	else
-  	  compile_next_token  	  
+  	  #compile_next_token  	  
   		@vm_writer.write_label(if_false)
   		#compile_next_token
   	end
