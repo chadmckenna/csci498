@@ -351,14 +351,19 @@ class CompilationEngine
     if(identifier_two.eql?(""))
     	@num_expressions += 1
     	call_name = @class_name + "." + identifier_one
+    	puts call_name + ' 11'
     else
-    	if @symbol_table.has?("@identifier_one")
+    	if @symbol_table.has?(identifier_one)
     		@num_expressions += 1
-    		call_name = @symbol_table.type_of(identifier_one) + "." + @identifier_two
+    		call_name = @symbol_table.type_of(identifier_one) + "." + identifier_two
+    		puts call_name + " 222"
     	else
     		call_name = identifier_one + "." + identifier_two
+    		puts call_name + "333"
     	end
     end
+    #@vm_writer.write_push("TEST", 9)
+    puts call_name
     @vm_writer.write_call(call_name, @num_expressions)	
     @vm_writer.write_pop("temp", 0)
     # Symbol ';'
@@ -634,8 +639,10 @@ class CompilationEngine
     	  	compile_expression_list
     	  	#)
     	  	if @symbol_table.has?(identifier)
+    	  		#@vm_writer.write_push("TEST", 8)
     	  		@vm_writer.write_call(@symbol_table.type_of(identifier), +"." + sub_identifier, @num_expressions + 1)
 	  		else
+	  			#@vm_writer.write_push("TEST", 9)
 	  			@vm_writer.write_call(identifier + "." + sub_identifier, @num_expressions)
   			end
     	  	@output.write(@tokenizer.print_token)    	
@@ -651,6 +658,7 @@ class CompilationEngine
 			compile_next_token
 			#)
 			@output.write(@tokenizer.print_token)
+			#@vm_writer.write_push("TEST", 10)
 			@vm_writer.write_call("@class_name" + "." + identifier, @num_expressions)
 			advance = true		
 		else
