@@ -152,6 +152,7 @@ class CompilationEngine
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
+  	
   	@output.write("<parameterList>" + "\n")
   	compile_parameter_list
   	@output.write("</parameterList>" + "\n")
@@ -203,7 +204,7 @@ class CompilationEngine
   	compile_next_token
   	#puts "here" + @tokenizer.current_token
   	while @tokenizer.symbol.eql?(",")
-  		@output.write(@tokenizer.print_token)
+  	  @output.write(@tokenizer.print_token)
   		compile_next_token
   		
   		#parameter type
@@ -217,6 +218,7 @@ class CompilationEngine
   		@symbol_table.define(@argument, @argument_type, "argument" )
   		compile_next_token		
   	end
+  	#compile_next_token
   end
   
   def compile_var_dec
