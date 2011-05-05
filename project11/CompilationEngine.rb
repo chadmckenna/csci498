@@ -118,6 +118,9 @@ class CompilationEngine
   	#check for ;
   	@output.write(@tokenizer.print_token)
   	vars.each do |var|
+  		if @kind.eql?("field")
+  			@kind = "this"
+  		end
   		@symbol_table.define(var, @ident_type, @kind)
   	end
   	compile_next_token
@@ -125,7 +128,6 @@ class CompilationEngine
   end
   
   def compile_subroutine
-    puts "NAGGERs"
   	@is_constructor = false
   	@is_method = false
   	@num_locals = 0
@@ -137,6 +139,7 @@ class CompilationEngine
   		@is_constructor = true
   	elsif @tokenizer.key_word.eql?("METHOD")
   		@is_method = true
+  		@symbol_table.define("this", @class_name, "argument")
   	end
   	compile_next_token
   	
@@ -177,7 +180,7 @@ class CompilationEngine
   		@vm_writer.write_call("Memory.alloc", 1)
   		@vm_writer.write_pop("pointer", 0)
   	elsif @is_method
-  		@vm_writer.write_push("arguement", 0)
+  		@vm_writer.write_push("argument", 0)
   		@vm_writer.write_pop("pointer", 0)
   	end
   	compile_statements
