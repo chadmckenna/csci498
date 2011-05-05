@@ -279,7 +279,10 @@ class CompilationEngine
       compile_next_token
     elsif @tokenizer.key_word.eql?("IF")
       compile_if
-      compile_next_token
+      if @tokenizer.symbol.eql?('}') and @tokenizer.key_word.eql? nil
+        compile_next_token
+      end
+      #compile_next_token
     elsif @tokenizer.key_word.eql?("WHILE") 
       compile_while
       compile_next_token
@@ -291,7 +294,7 @@ class CompilationEngine
   end
   
   def compile_do
-  	@num_expressions  =0
+  	@num_expressions  = 0
   	identifier_one = ""
   	identifier_two = ""
     @output.write("<doStatement>\n")
@@ -510,7 +513,6 @@ class CompilationEngine
   	else
   	  #compile_next_token  	  
   		@vm_writer.write_label(if_false)
-  		#compile_next_token
   	end
   	@output.write("</ifStatement>" + "\n")
   end
