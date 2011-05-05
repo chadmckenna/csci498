@@ -287,9 +287,9 @@ class CompilationEngine
       compile_if
       #puts "Keyword-" + @tokenizer.key_word.to_s
       #puts "Symbol-" + @tokenizer.symbol.to_s
-      if @tokenizer.symbol.eql? nil and @tokenizer.key_word.eql? "RETURN"
-        compile_next_token
-      end
+      #if @tokenizer.symbol.eql? nil and @tokenizer.key_word.eql? "RETURN"
+        #compile_next_token
+      #end
       if @tokenizer.symbol.eql?('}') and @tokenizer.key_word.eql? nil
         compile_next_token
       end
