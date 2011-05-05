@@ -76,7 +76,7 @@ class CompilationEngine
     if !(@tokenizer.key_word.eql?("STATIC") or @tokenizer.key_word.eql?("FIELD"))
     	puts "expected static or field"
     	return
-    elsif @tokenizer.key_work.eql?("STATIC")
+    elsif @tokenizer.key_word.eql?("STATIC")
     	@kind = "static"
     else
     	@kind = "field"
@@ -97,7 +97,7 @@ class CompilationEngine
   	end
 	
   	compile_next_token
-  	vars = array.new
+  	vars = Array.new
   	#check for variable names(identifiers)
   	@output.write(@tokenizer.print_token)
   	vars.push(@tokenizer.identifier)
@@ -331,11 +331,11 @@ class CompilationEngine
     
     if(identifier_two.eql?(""))
     	@num_expressions += 1
-    	call_name = @class_name + "." + indentifier_one
+    	call_name = @class_name + "." + identifier_one
     else
     	if @symbol_table.has?("@identifier_one")
     		@num_expressions += 1
-    		call_name = @symbol_table.type_of(indentifier_one) + "." + @identifier_two
+    		call_name = @symbol_table.type_of(identifier_one) + "." + @identifier_two
     	else
     		call_name = identifier_one + "." + identifier_two
     	end
