@@ -564,13 +564,17 @@ class CompilationEngine
     elsif @tokenizer.symbol.eql?("~") or @tokenizer.symbol.eql?("-")
     	#~ or -
     	@output.write(@tokenizer.print_token)
-    	if @tokenizer.symbol.eql?("~")
-    		@vm_writer.write_arithmetic("not")
-    	else
-    		@vm_writer.write_arithmetic("neg")
-    	end
     	compile_next_token
     	compile_term
+    	if @tokenizer.symbol.eql?("~")
+    		#compile_term
+    		@vm_writer.write_arithmetic("not")
+    	else
+    		#compile_term
+    		@vm_writer.write_arithmetic("neg")
+    	end
+    	
+    	#compile_term
 	elsif @tokenizer.token_type.eql?("IDENTIFIER")
     	@output.write(@tokenizer.print_token)
     	identifier = @tokenizer.identifier
