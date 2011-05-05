@@ -356,19 +356,23 @@ class CompilationEngine
     compile_next_token
     # Identifier
     @output.write(@tokenizer.print_token)
+    
     var = @tokenizer.identifier
+    #puts "var" + var
     compile_next_token
     # Symbol
+     # Symbol
     if @tokenizer.symbol.eql?("[")
     	is_array = true
     	#[
     	@output.write(@tokenizer.print_token)
     	kind = @symbol_table.kind_of(var)
-    	@vm_writer.write_push(kind, @symbol_table.index_of(var))
+    	
     	compile_next_token
     	compile_expression
     	#]
     	@output.write(@tokenizer.print_token)
+    	@vm_writer.write_push(kind, @symbol_table.index_of(var))
     	@vm_writer.write_arithmetic("add")
     	segment = "that"
     	index = 0
@@ -510,9 +514,7 @@ class CompilationEngine
     	operator = @tokenizer.symbol
     	compile_next_token
     	compile_term
-    	
     	if !(operator.eql?("*") or operator.eql?("/"))
-    		puts "here " + operator
     		@vm_writer.write_arithmetic(@OPERATORS[operator])
     	elsif operator.eql?("*")
 	    	@vm_writer.write_call("Math.multiply", 2)
@@ -526,7 +528,6 @@ class CompilationEngine
   def compile_term
     advance = false
   	@output.write("<term>\n")
-  	puts @tokenizer.token_type
     if @tokenizer.token_type.eql?("STRING_CONST") or @tokenizer.token_type.eql?("INT_CONST") or @tokenizer.token_type.eql?("KEYWORD")
     	@output.write(@tokenizer.print_token)
     	if @tokenizer.token_type.eql?("STRING_CONST")
@@ -577,6 +578,8 @@ class CompilationEngine
     		@output.write(@tokenizer.print_token)
     		compile_next_token
     		compile_expression
+    		#puts @symbol_table.kind_of(identifier)+ " " + @symbol_table.index_of(identifier).to_s
+    		@vm_writer.write_push(@symbol_table.kind_of(identifier), @symbol_table.index_of(identifier))
     		@vm_writer.write_arithmetic("add")
     		@vm_writer.write_pop("pointer", 1)
     		@vm_writer.write_push("that", 0)
@@ -620,6 +623,8 @@ class CompilationEngine
 			@output.write(@tokenizer.print_token)
 			@vm_writer.write_call("@class_name" + "." + identifier, @num_expressions)
 			advance = true		
+		else
+			@vm_writer.write_push(@symbol_table.kind_of(identifier), @symbol_table.index_of(identifier))
     	end
     end
     if advance
