@@ -125,8 +125,6 @@ class CompilationEngine
   end
   
   def compile_subroutine
-  	@while_label = 0
-  	@if_label = 0
   	@is_constructor = false
   	@is_method = false
   	@num_locals = 0
@@ -446,7 +444,8 @@ class CompilationEngine
   	compile_next_token
   	
   	
-  	if !@tokenizer.symbol.eql?(";")
+  	if !(@tokenizer.symbol.eql?(";"))
+  		#@vm_writer.write_push("TEST", 9)
   		compile_expression
   		#compile_next_token
   	else
@@ -500,10 +499,11 @@ class CompilationEngine
   		#else
   		@output.write(@tokenizer.print_token)
   		compile_next_token
+  		#{
   		@output.write(@tokenizer.print_token)
   		compile_next_token
   		compile_statements
-
+		#}
   		@output.write(@tokenizer.print_token)
   		#compile_next_token
   		@vm_writer.write_label(if_end)
@@ -516,7 +516,7 @@ class CompilationEngine
   end
   
   def compile_expression
-  	@OPERATORS = Hash["+" => "add", "-"=> "sub", "&"=> "and", "|"=> "or", "<"=> "lt", ">"=> "gt", "="=> "eql"]
+  	@OPERATORS = Hash["+" => "add", "-"=> "sub", "&"=> "and", "|"=> "or", "<"=> "lt", ">"=> "gt", "="=> "eq"]
     @output.write("<expression>\n")
     compile_term
     while (@tokenizer.symbol.eql?("+") or @tokenizer.symbol.eql?("-") or @tokenizer.symbol.eql?("*") or @tokenizer.symbol.eql?("/") or @tokenizer.symbol.eql?("&") or @tokenizer.symbol.eql?("|") or @tokenizer.symbol.eql?("<") or @tokenizer.symbol.eql?(">") or @tokenizer.symbol.eql?("="))
@@ -572,10 +572,12 @@ class CompilationEngine
     	advance = true
     elsif @tokenizer.symbol.eql?("~") or @tokenizer.symbol.eql?("-")
     	#~ or -
+    	symbol = @tokenizer.symbol
     	@output.write(@tokenizer.print_token)
     	compile_next_token
     	compile_term
-    	if @tokenizer.symbol.eql?("~")
+    	puts @tokenizer.symbol
+    	if symbol.eql?("~")
     		#compile_term
     		@vm_writer.write_arithmetic("not")
     	else
