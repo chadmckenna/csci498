@@ -125,7 +125,6 @@ class CompilationEngine
   end
   
   def compile_subroutine
-    puts "NAGGERs"
   	@is_constructor = false
   	@is_method = false
   	@num_locals = 0
@@ -177,7 +176,7 @@ class CompilationEngine
   		@vm_writer.write_call("Memory.alloc", 1)
   		@vm_writer.write_pop("pointer", 0)
   	elsif @is_method
-  		@vm_writer.write_push("arguement", 0)
+  		@vm_writer.write_push("argument", 0)
   		@vm_writer.write_pop("pointer", 0)
   	end
   	compile_statements
