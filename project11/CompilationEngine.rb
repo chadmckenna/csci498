@@ -438,6 +438,7 @@ class CompilationEngine
   	@output.write(@tokenizer.print_token)
   	compile_next_token
   	
+  	
   	if !@tokenizer.symbol.eql?(";")
   		compile_expression
   		#compile_next_token
@@ -482,19 +483,20 @@ class CompilationEngine
   	compile_next_token
   	
   	compile_statements
-  	
   	#"}"
   	@output.write(@tokenizer.print_token)
-  	#compile_next_token
-  	
-  	if @tokenizer.key_word.eql?("ELSE")
+    compile_next_token
+
+    if @tokenizer.key_word.eql?("ELSE")
   		@vm_writer.write_goto(if_end)
   		@vm_writer.write_label(if_false)
   		#else
   		@output.write(@tokenizer.print_token)
   		compile_next_token
+  		@output.write(@tokenizer.print_token)
+  		compile_next_token
   		compile_statements
-  		
+
   		@output.write(@tokenizer.print_token)
   		#compile_next_token
   		@vm_writer.write_label(if_end)

@@ -29,15 +29,15 @@ class JackTokenizer
   	@hasMore = true
    	while @hasMore
   		@currentToken += @readFile[@currentLine][@charPosition].chr		
-		if(SYMBOLS.include?(@currentToken))
+		  if(SYMBOLS.include?(@currentToken))
    			@hasMore = false
    		end
-		if(@charPosition == @readFile[@currentLine].length-1)
-			@hasMore = false
-			@currentLine += 1
-			@charPosition = 0
-			break
-		end
+		  if(@charPosition == @readFile[@currentLine].length-1)
+  			@hasMore = false
+  			@currentLine += 1
+  			@charPosition = 0
+  			break
+  		end
   		if(@currentToken.eql?("\""))
    			until (@readFile[@currentLine][@charPosition+1].chr.eql?("\""))
    				@charPosition += 1
@@ -45,7 +45,7 @@ class JackTokenizer
    			end
    			@charPosition += 1
    			@currentToken += @readFile[@currentLine][@charPosition].chr
-			@hasMore = false 
+			  @hasMore = false 
   		elsif(@readFile[@currentLine][@charPosition+1].chr.eql?(" ")) then
    			until(!@readFile[@currentLine][@charPosition+1].chr.eql?(" "))
    				@charPosition += 1
@@ -57,11 +57,11 @@ class JackTokenizer
    		elsif(@readFile[@currentLine][@charPosition+1].chr.eql?("\""))
    			@hasMore = false
   		elsif(@readFile[@currentLine][@charPosition+1].chr.eql?("\n")) then
-			@currentLine += 1		
-			@charPosition = 0
-			break
-		end
-		#puts @readFile[@currentLine][@i].chr
+			  @currentLine += 1		
+			  @charPosition = 0
+			  break
+		  end
+		  #puts @readFile[@currentLine][@i].chr
 	  	@charPosition+=1
   	end 
   	#@charPosition += 1
