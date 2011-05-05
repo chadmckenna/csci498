@@ -287,8 +287,8 @@ class CompilationEngine
       compile_if
       #puts "Keyword-" + @tokenizer.key_word.to_s
       #puts "Symbol-" + @tokenizer.symbol.to_s
-      #if @tokenizer.symbol.eql? nil and @tokenizer.key_word.eql? "RETURN"
-        #compile_next_token
+      #if @tokenizer.symbol.eql? nil and @tokenizer.key_word.eql? "RETURN" and @attr
+      #  compile_next_token
       #end
       if @tokenizer.symbol.eql?('}') and @tokenizer.key_word.eql? nil
         compile_next_token
@@ -327,6 +327,7 @@ class CompilationEngine
       compile_next_token
       # Symbol '('
       @output.write(@tokenizer.print_token)
+      #compile_next_token
     else
       #compile_next_token
       # Symbol '('
@@ -337,7 +338,7 @@ class CompilationEngine
  	if identifier_two.eql?("")
  		@vm_writer.write_push("pointer", 0)
  		#@num_expressions += 1
- 	elsif @symbol_table.has?("identifier_one")
+ 	elsif @symbol_table.has?(identifier_one)
  		@vm_writer.write_push(@symbol_table.kind_of(identifier_one), @symbol_table.index_of(identifier_one))
  		#@num_expressions += 1
  	end
@@ -634,7 +635,7 @@ class CompilationEngine
     	  	compile_expression_list
     	  	#)
     	  	if @symbol_table.has?(identifier)
-    	  		@vm_writer.write_call(@symbol_table.type_of(identifier), +"." + sub_identifier, @num_expressions + 1)
+    	  		@vm_writer.write_call(@symbol_table.type_of(identifier) + "." + sub_identifier, @num_expressions + 1)
 	  		else
 	  			@vm_writer.write_call(identifier + "." + sub_identifier, @num_expressions)
   			end
