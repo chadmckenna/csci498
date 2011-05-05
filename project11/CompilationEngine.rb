@@ -125,6 +125,7 @@ class CompilationEngine
   end
   
   def compile_subroutine
+    puts "NAGGERs"
   	@is_constructor = false
   	@is_method = false
   	@num_locals = 0
@@ -281,6 +282,11 @@ class CompilationEngine
       compile_next_token
     elsif @tokenizer.key_word.eql?("IF")
       compile_if
+      #puts "Keyword-" + @tokenizer.key_word.to_s
+      #puts "Symbol-" + @tokenizer.symbol.to_s
+      if @tokenizer.symbol.eql? nil and @tokenizer.key_word.eql? "RETURN"
+        compile_next_token
+      end
       if @tokenizer.symbol.eql?('}') and @tokenizer.key_word.eql? nil
         compile_next_token
       end
