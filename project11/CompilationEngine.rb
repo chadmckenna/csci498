@@ -191,7 +191,8 @@ class CompilationEngine
   
   def compile_parameter_list
   	#parameter type
-  	if !(@tokenizer.key_word.eql?("VOID") or @tokenizer.key_word.eql?("INT") or @tokenizer.key_word.eql?("CHAR") or @tokenizer.key_word.eql?("BOOLEAN"))
+  	if !(@tokenizer.key_word.eql?("VOID") or @tokenizer.key_word.eql?("INT") or @tokenizer.key_word.eql?("CHAR") or @tokenizer.key_word.eql?("BOOLEAN") or @tokenizer.token_type.eql?("IDENTIFIER"))
+
   		return
   	end
   	@output.write(@tokenizer.print_token)
@@ -202,7 +203,6 @@ class CompilationEngine
   	@argument = @tokenizer.identifier
   	@symbol_table.define(@argument, @argument_type, "argument" )
   	compile_next_token
-  	#puts "here" + @tokenizer.current_token
   	while @tokenizer.symbol.eql?(",")
   	  @output.write(@tokenizer.print_token)
   		compile_next_token
