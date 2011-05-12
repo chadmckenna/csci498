@@ -80,22 +80,31 @@ class String {
     /** Sets this String to hold a representation of the given
      *  number. */
     method void setInt(int number) {
-		var int lastDigit, lastChar;
-		let lastDigit = number - ((number/10) * 10);
-		
-		let lastChar = charAt(length);
-		if (number < 10) {
-			let lastChar = lastChar + 32;
-			let thisString[length] = lastChar;
-			//do Memory.poke(thisString, lastChar);
-		} else {
-			//do Output.printChar(lastChar);
-			//do appendChar(lastChar);
-			do setInt(number/10);
+		var int rem;
+		let length = 0;
+		if (number < 0) {
+			do appendChar(45);
+			let number = -number;
 		}
-		let length = length + 1;
-		return;
+		if (number = 0) {
+			do appendChar(48);
+			return;
+		}
+		do setInt2(number);
+		
+		return; 	
     }
+
+    method void setInt2(int number){
+    	var int remainder;
+    	if (number = 0){
+    		return;
+    	}
+    	let remainder = number - ((number / 10) * 10);
+    	do setInt2(number / 10);
+    	do appendChar(remainder + 48);
+    	return;
+	}
 
     /** Returns the new line character. */
     function char newLine() {
