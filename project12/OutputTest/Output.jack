@@ -18,6 +18,7 @@ class Output {
 
     /** Initializes the screen and locate cursor on the top left. */
     function void init() {
+		do Output.initMap();
 		let curs_i = 0;
 		let curs_j = 0;
 		return;

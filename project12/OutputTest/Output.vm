@@ -1,4 +1,6 @@
 function Output.init 0
+call Output.initMap 0
+pop temp 0
 push constant 0
 pop static 0
 push constant 0
