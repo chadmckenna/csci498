@@ -24,7 +24,7 @@ class Main {
         do Output.printString("new,appendChar: ");
         do Output.printString(s);                // new,appendChar: abcde
         do Output.println();
-    
+    	
         let i = String.new(6);
         do i.setInt(12345);
         do Output.printString("setInt: ");
@@ -75,7 +75,7 @@ class Main {
         do Output.printString("newLine: ");
         do Output.printInt(String.newLine());    // newLine: 128
         do Output.println();
-        
+
         do i.dispose();
         do s.dispose();
 
