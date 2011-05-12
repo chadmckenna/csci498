@@ -7,8 +7,15 @@ pop this 0
 push argument 0
 pop argument 0
 push argument 0
-call Memory.alloc 1
+push constant 0
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 0
+call Array.new 1
 pop this 2
+label IF_FALSE0
 push pointer 0
 return
 function String.dispose 0
@@ -27,10 +34,11 @@ return
 function String.charAt 0
 push argument 0
 pop pointer 0
-push this 2
 push argument 1
+push this 2
 add
-call Memory.peek 1
+pop pointer 1
+push that 0
 return
 function String.setCharAt 0
 push argument 0
@@ -84,12 +92,24 @@ push pointer 0
 push local 1
 call String.charAt 2
 pop local 2
+push local 2
+push constant 45
+eq
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
 push local 0
 push constant 10
 call Math.multiply 2
 push local 2
 add
 pop local 0
+label IF_FALSE0
+push local 1
+push constant 1
+add
+pop local 1
 goto WHILE_EXP0
 label WHILE_END0
 push local 0
@@ -115,10 +135,18 @@ lt
 if-goto IF_TRUE0
 goto IF_FALSE0
 label IF_TRUE0
-push this 2
 push local 1
-call Memory.poke 2
+push constant 32
+add
+pop local 1
+push this 0
+push this 2
+add
+push local 1
 pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
 goto IF_END0
 label IF_FALSE0
 push pointer 0
@@ -127,11 +155,11 @@ push constant 10
 call Math.divide 2
 call String.setInt 2
 pop temp 0
-push pointer 0
-push local 1
-call String.appendChar 2
-pop temp 0
 label IF_END0
+push this 0
+push constant 1
+add
+pop this 0
 push constant 0
 return
 function String.newLine 0

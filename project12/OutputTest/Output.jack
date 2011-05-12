@@ -11,12 +11,16 @@
  * wide (including 2 space pixels).
  */
 class Output {
-
+	static int curs_i, curs_j;
+	
     // character map for printing on the left of a screen word
     static Array charMaps; 
 
     /** Initializes the screen and locate cursor on the top left. */
     function void init() {
+		let curs_i = 0;
+		let curs_j = 0;
+		return;
     }
 
     // Initalizes the character map array
@@ -171,28 +175,93 @@ class Output {
     /** Moves the cursor to the j’th column of the i’th row,
      *  and erases the character that was there. */
     function void moveCursor(int i, int j) {
+		var int x1, x2, y1, y2;
+		let x1 = i * 11;
+		let y1 = j * 8;
+		let x2 = x1 + 11;
+		let y2 = y1 + 8;
+		let curs_i = i;
+		let curs_j = j;
+		do Screen.setColor(false);
+		do Screen.drawRectangle(x1, y1, x2, y2);
+		do Screen.setColor(true);
+		return;
     }
 
     /** Prints c on the cursor location and advances the cursor one
      *  column forward. */
     function void printChar(char c) {
+		var int i, j, pos, shift;
+		var Array map;
+		if (c = 128) {
+			let curs_i = curs_i + 1;
+			let curs_j = 0;
+			if (curs_i = 24) {
+				let curs_i = 0;
+			}
+			return;
+		}
+		if (c = 129) {
+			do Output.backSpace();
+			return;
+		}
+		
+		let pos = Math.multiply(curs_i, 352) + Math.divide(curs_j, 2);
+		let i = 0;
+		let map = Output.getMap(c);
+		if ((curs_j & 1) = 1) {
+			let j = 255;
+			let shift = 256;
+		} else {
+			let j = ~255;
+			let shift = 1;
+		}
+		
+		while (i < 11) {
+			do Memory.poke(16384 + pos, (j & Memory.peek(16384 + pos)) | (Math.multiply(map[i], shift)));
+			let pos = pos + 32;
+			let i = i + 1;
+		}
+		
+		do Output.moveCursor(curs_i, curs_j + 1);
+		
+		return;
     }
 
     /** Prints s starting from the cursor location, and advances the
      *  cursor appropriately. */
     function void printString(String s) {
+		var int i, length;
+		var char c;
+		let length = s.length();
+		let i = 0;
+		while (i < length) {
+			let c = s.charAt(i);
+			do Output.printChar(c);
+			let i = i + 1;
+		}
+		return;
     }
 
     /** Prints i starting from the cursor location, and advances the
      *  cursor appropriately. */
     function void printInt(int i) {
+		var String string;
+		do string.setInt(i);
+		do Output.printString(string);
+		return;
     }
 
     /** Advances the cursor to the beginning of the next line. */
     function void println() {
+		let curs_i = curs_i + 1;
+		let curs_j = 0;
+		return;
     }
 
     /** Takes the cursor one column back. */
     function void backSpace() {
+		do Output.moveCursor(curs_i, curs_j - 1);
+		return;
     }
 }

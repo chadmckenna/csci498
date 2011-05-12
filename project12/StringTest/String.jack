@@ -16,7 +16,9 @@ class String {
     constructor String new(int maxLength) {
 		let length = 0;
 		let maxLength = maxLength;
-		let thisString = Memory.alloc(maxLength);
+		if (maxLength > 0) {
+			let thisString = Array.new(maxLength);
+		}
 		return this;
     }
 
@@ -33,7 +35,8 @@ class String {
 
     /** Returns the character at location j. */
     method char charAt(int j) {
-		return Memory.peek(thisString + j);
+		//return Memory.peek(thisString + j);
+		return thisString[j];
     }
 
     /** Sets the j'th character of this string to be c. */
@@ -62,10 +65,15 @@ class String {
 		var int v, i, d;
 		let v = 0;
 		let i = 0;
+		
 		while (i < length) {
 			let d = charAt(i);
-			let v = v * 10 + d;
+			if (~(d = 45)) {
+				let v = v * 10 + d;
+			}
+			let i = i + 1;
 		}
+		
 		return v;
     }
 
@@ -73,16 +81,19 @@ class String {
      *  number. */
     method void setInt(int number) {
 		var int lastDigit, lastChar;
-		// Modulo : x - ((x/y) * y)
 		let lastDigit = number - ((number/10) * 10);
-		//var int lastChar;
+		
 		let lastChar = charAt(length);
 		if (number < 10) {
-			do Memory.poke(thisString, lastChar);
+			let lastChar = lastChar + 32;
+			let thisString[length] = lastChar;
+			//do Memory.poke(thisString, lastChar);
 		} else {
+			//do Output.printChar(lastChar);
+			//do appendChar(lastChar);
 			do setInt(number/10);
-			do appendChar(lastChar);
 		}
+		let length = length + 1;
 		return;
     }
 
